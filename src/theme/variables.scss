@@ -38,8 +38,18 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  pollo:       #FBFE00,
+  disable:       #5B5B57,
+  twitter: (
+            base: #55acee,
+            contrast: #ffffff
+        )
 );
+
+// Para cambiar el color de "ion-header"
+
+$toolbar-background: #008080;
 
 
 // App iOS Variables

@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true"
+    (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">
+    </ion-searchbar>
+    <ion-buttons end  *ngIf="!isSearchbarOpened">
+      <button ion-button icon-only (click)="goToPerfil()">
+        {{ usuario }}
+        <ion-icon ios="ios-contact" md="md-contact"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only *ngIf="!isSearchbarOpened" (click)="isSearchbarOpened=true">
+        <ion-icon ios="ios-search" md="md-search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="isSearchbarOpened">
+    <button ion-item *ngFor="let item of items" (click)="showDetail(item)">
+      {{ item }}
+    </button>
+  </ion-list>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>Bienvenido de nuevo, {{ usuario }}!</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <h3 class="titulo">Películas vistas:</h3>
+            <a href="" class="alinearDerecha">ver todo</a>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-4>
+                  <ion-thumbnail item-start>
+                    <img [src]="peli1">
+                  </ion-thumbnail>
+                </ion-col>
+                <ion-col col-4>
+                  <ion-thumbnail item-start>
+                    <img [src]="peli2">
+                  </ion-thumbnail>
+                </ion-col>
+                <ion-col col-4>
+                  <ion-thumbnail item-start>
+                    <img [src]="peli3">
+                  </ion-thumbnail>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo1 }}</h2>
+                </ion-col>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo2 }}</h2>
+                </ion-col>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo3 }}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <h3 class="titulo2">Series siguiendo:</h3>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-4>
+                  <ion-thumbnail item-start class="slide-image">
+                    <img [src]="serie1">
+                  </ion-thumbnail>
+                </ion-col>
+                <ion-col col-4>
+                  <ion-thumbnail item-start>
+                    <img [src]="serie2" class="slide-image">
+                  </ion-thumbnail>
+                </ion-col>
+              </ion-row>
+            
+              <ion-row>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo4 }}</h2>
+                </ion-col>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo5 }}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

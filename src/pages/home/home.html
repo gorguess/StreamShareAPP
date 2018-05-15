@@ -1,17 +1,86 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content>
+  <div class="contenedor">
+  <!-- Creamos una "tarjeta" en la que vendrá diseñado nuestro formulario de inicio de sesión -->
+  <ion-card>
+    <!-- Cabecera -->
+    <ion-card-header>
+      <p class="header">Sign Up</p>
+    </ion-card-header>
+    <!-- Contenido de nuestro formulario -->
+    <ion-card-content>
+      <ion-list>
+        <!-- Creamos nuestra etiqueta para nuestro formulario, asignándole un nombre de grupo (ID) y una llamada 
+        a una función de carga mientras comprueba las credenciales (loginLoading)-->
+        <form [formGroup]="formularioUsuario" (ngSubmit)="loginLoading()" novalidate>
+          <ion-item>
+            <ion-label floating>Email address</ion-label>
+            <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido 
+            de éste-->
+            <ion-input type="text" name="email" formControlName="email"></ion-input>
+          </ion-item>
+          <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->
+          <ion-item *ngIf="formularioUsuario.get('email').errors && formularioUsuario.get('email').dirty">
+            <p color="danger" ion-text *ngIf="formularioUsuario.get('email').hasError('required')" class="error">
+              Email is required.
+            </p>
+            <p color="danger" ion-text *ngIf="formularioUsuario.get('email').hasError('pattern')">
+              It is not an email
+            </p>
+          </ion-item>
+        
+          <ion-item>
+            <ion-label floating>Password</ion-label>
+            <!-- Creamos el input para la contraseña -->
+            <ion-input type="password" name="pass" formControlName="pass"></ion-input>
+          </ion-item>
+           <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->
+          <ion-item *ngIf="formularioUsuario.get('pass').errors && formularioUsuario.get('pass').dirty">
+            <p color="danger" ion-text *ngIf="formularioUsuario.get('pass').hasError('pattern')" class="error">
+              It is not a strong password.
+            </p>
+          </ion-item>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+          <br>
+          <!-- Checkbox para recordar las credenciales, creando una cookie permanente en el dispositivo -->
+          <ion-item>
+            <ion-label>Remember me</ion-label>
+            <ion-checkbox color="primary" checked="false"></ion-checkbox>
+          </ion-item>
+
+          <br>
+          <!-- Creamos el botón de inicio de sesión, que permanecerá desactivado, hasta que los campos del formulario
+          estén correctamente rellenos superando el control de errores -->
+          <ion-grid padding-top>
+            <ion-row justify-content-center>
+              <div class="col-1" align-self-center>
+                <div>
+                  <button ion-button type="submit" [disabled]="!formularioUsuario.valid" (click)="goToInicio()">Submit</button>
+                </div>
+              </div>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid>
+            <ion-row justify-content-center padding-top>
+              <div align-self-center>
+                <div>Or</div>
+              </div>
+            </ion-row>
+            <ion-row justify-content-center padding-top>
+              <div align-self-center>
+                <div>
+                  <!-- <a (click)="goToRegistry()"> -->
+                  <a (click)="goToRegistro()">
+                    <strong>Sign Up Now!</strong>
+                  </a>
+                </div>
+              </div>
+            </ion-row>
+          </ion-grid>
+        </form>
+      
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  </div>
 </ion-content>
