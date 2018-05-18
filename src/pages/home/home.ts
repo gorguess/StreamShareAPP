@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingController } from 'ionic-angular';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
+
 import { RegistroPage } from '../registro/registro';
 import { InicioPage } from '../inicio/inicio';
 
@@ -13,11 +15,15 @@ import { InicioPage } from '../inicio/inicio';
 export class HomePage {
 
   formularioUsuario: FormGroup;
+  @ViewChild("emailad") emailAddress;
+  @ViewChild("password") currentPassword;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private fire: AngularFireAuth,
+    private alertCtrl: AlertController
   ) {
   }
 
@@ -37,8 +43,25 @@ export class HomePage {
     this.navCtrl.push(RegistroPage);
   }
 
+  alert(mensaje: string){
+    this.alertCtrl.create({
+      title: '¡Ha ocurrido un error!',
+      subTitle: mensaje,
+      buttons: ['OK']
+    }).present();
+  }
+
   goToInicio() {
-    this.navCtrl.push(InicioPage);
+    this.fire.auth.signInWithEmailAndPassword(this.emailAddress.value, this.currentPassword.value)
+    .then(data => {
+      this.loginLoading();
+    })
+    .catch ( error => {
+      this.alert(error.message);
+    })
+    console.log('would sign in with ', this.emailAddress.value, this.currentPassword.value);
+
+    
   }
 
   /**
@@ -51,13 +74,18 @@ export class HomePage {
   }
 
   loginLoading() {
+    this.ngOnInit();
     let loading = this.loadingCtrl.create({
       content: 'Please wait...',
-      duration: 3000,
+      duration: 2000,
       dismissOnPageChange: true
     });
 
     loading.present();
+    setTimeout(() => {
+      this.navCtrl.push(InicioPage);
+    },
+      2000);
   }
 
 }

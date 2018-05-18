@@ -1,5 +1,18 @@
 page-perfil {
     .center {
         text-align: center;
+        align-content: center!important;
+		align-items: center!important;
+    }
+    .bold {
+        font-weight: bolder;
+    }
+    .vertical-align-content > * {
+		display: flex!important;
+		align-content: center!important;
+		align-items: center!important;
+    }
+    ion-header {
+        height: 20%;
     }
 }

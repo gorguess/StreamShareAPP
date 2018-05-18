@@ -1,21 +1,46 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+    
+    <ion-grid *ngIf="!isSearchbarOpened">
+      <ion-row>
+        <ion-col col-4>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToPerfil()">
+              Películas
+            </button>
+          </ion-buttons>
+        </ion-col>
+    
+        <ion-col col-3>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToPerfil()">
+              Series
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-3>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToPerfil()">
+              {{ usuario }}
+              <ion-icon name="md-contact"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-1 offset-1>
+          <ion-buttons>
+            <button ion-button icon-only (click)="isSearchbarOpened=true">
+              <ion-icon name="search"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
     <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">
     </ion-searchbar>
-    <ion-buttons end *ngIf="!isSearchbarOpened">
-      <button ion-button icon-only (click)="goToPerfil()">
-        {{ usuario }}
-        <ion-icon name="md-contact"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-buttons end>
-      <button ion-button icon-only *ngIf="!isSearchbarOpened" (click)="isSearchbarOpened=true">
-        <ion-icon name="search"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -37,11 +62,69 @@
             </ion-thumbnail>
           </ion-col>
         </ion-row>
+        
         <ion-row>
           <ion-col col-12>
-            <h2 class="center">{{ usuario }}</h2>
+            <ion-grid class="center">
+              <ion-row>
+                <ion-col col-auto>
+                  <h2 class="bold">Name: </h2>
+                </ion-col>
+                <ion-col col-auto>
+                  <h2>{{ nombre }}</h2>
+                </ion-col>
+                <ion-col col-auto>
+                  <a (click)="nameType()">
+                    <ion-icon ios="ios-create" md="md-create"></ion-icon>
+                  </a>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-col>
         </ion-row>
+
+        <ion-row>
+          <ion-col col-12>
+            <ion-grid class="center">
+              <ion-row>
+                <ion-col col-auto>
+                  <h2 class="bold">Username: </h2>
+                </ion-col>
+                <ion-col col-auto>
+                  <h2>{{ usuario }}</h2>
+                </ion-col>
+                <ion-col col-auto>
+                  <a (click)="userType()">
+                    <ion-icon ios="ios-create" md="md-create"></ion-icon>
+                  </a>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-12 class="center">
+            <ion-buttons>
+              <button ion-button icon-only clear class="center" *ngIf="!descripcion" (click)="descriptionType()">
+                Type your description
+              </button>
+            </ion-buttons>
+          </ion-col>
+        </ion-row>
+
+        <ion-row  *ngIf="descripcion">
+          <ion-col col-12>
+            <ion-grid class="center">
+              <ion-row>
+                <ion-col col-auto>
+                  <h2 class="center">{{ contenidoDescripcion }}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+
       </ion-grid>
     </ion-card-content>
   </ion-card>

@@ -18,4 +18,9 @@ page-registro {
 	.contenedor {
 		margin-top: 20%;
 	}
+	.vertical-align-content > * {
+		display: flex!important;
+		align-content: center!important;
+		align-items: center!important;
+	}
 }

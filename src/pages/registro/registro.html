@@ -1,95 +1,117 @@
-<ion-content>
-  <div class="contenedor">
-    <!-- Creamos una "tarjeta" en la que vendrá diseñado nuestro formulario de inicio de sesión -->
-    <ion-card>
-      <!-- Cabecera -->
-      <ion-card-header>
-        <p class="header">Registration</p>
-      </ion-card-header>
-      <!-- Contenido de nuestro formulario -->
-      <ion-card-content>
-        <ion-list>
-          <!-- Creamos nuestra etiqueta para nuestro formulario, asignándole un nombre de grupo (ID) y una llamada 
-        a una función de carga mientras comprueba las credenciales (loginLoading)-->
-          <form [formGroup]="formularioUsuario" (ngSubmit)="loginLoading()" novalidate>
-            <ion-item>
-              <ion-label floating>Name</ion-label>
-              <ion-input formControlName="name" type="text"></ion-input>
-            </ion-item>
-            <ion-item *ngIf="formularioUsuario.get('name').errors && formularioUsuario.get('name').dirty">
-              <p color="danger" ion-text *ngIf="formularioUsuario.get('name').hasError('required')">Your name is required</p>
-            </ion-item>
-            <ion-item>
-              <ion-label floating>Username</ion-label>
-              <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido 
-                        de éste-->
-              <ion-input type="text" name="user" formControlName="user"></ion-input>
-            </ion-item>
-            <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->
-            <ion-item *ngIf="formularioUsuario.get('user').errors && formularioUsuario.get('user').dirty">
-              <p color="danger" ion-text *ngIf="formularioUsuario.get('user').hasError('required')" class="error">
-                Username is required.
-              </p>
-            </ion-item>
-            <ion-item>
-              <ion-label floating>Email address</ion-label>
-              <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido 
-            de éste-->
-              <ion-input type="text" name="email" formControlName="email"></ion-input>
-            </ion-item>
-            <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->
-            <ion-item *ngIf="formularioUsuario.get('email').errors && formularioUsuario.get('email').dirty">
-              <p color="danger" ion-text *ngIf="formularioUsuario.get('email').hasError('required')" class="error">
-                Email is required.
-              </p>
-              <p color="danger" ion-text *ngIf="formularioUsuario.get('email').hasError('pattern')">
-                It is not an email
-              </p>
-            </ion-item>
+<ion-content class="vertical-align-content">
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+        <!-- Creamos una "tarjeta" en la que vendrá diseñado nuestro formulario de inicio de sesión -->
+        <ion-card>
+          <!-- Cabecera -->
+          <ion-card-header>
+            <p class="header">Registration</p>
+          </ion-card-header>
+          <!-- Contenido de nuestro formulario -->
+          <ion-card-content>
+            <ion-list>
+              <!-- Creamos nuestra etiqueta para nuestro formulario, asignándole un nombre de grupo (ID) y una llamada 
+            a una función de carga mientras comprueba las credenciales (loginLoading)-->
+              <form [formGroup]="formularioUsuario" (ngSubmit)="loginLoading()" novalidate>
+                <ion-item>
+                  <ion-label floating>Name</ion-label>
+                  <ion-input formControlName="name" #name type="text" #name></ion-input>
+                </ion-item>
+                <ion-item *ngIf="formularioUsuario.get('name').errors && formularioUsuario.get('name').dirty">
+                  <p color="danger" ion-text *ngIf="formularioUsuario.get('name').hasError('required')">Your name is required</p>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Username</ion-label>
+                  <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido 
+                            de éste-->
+                  <ion-input type="text" #userame formControlName="user"></ion-input>
+                </ion-item>
+                <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->
+                <ion-item *ngIf="formularioUsuario.get('user').errors && formularioUsuario.get('user').dirty">
+                  <p color="danger" ion-text *ngIf="formularioUsuario.get('user').hasError('required')" class="error">
+                    Username is required.
+                  </p>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Email address</ion-label>
+                  <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido 
+                de éste-->
+                  <ion-input type="text" #emailad formControlName="email"></ion-input>
+                </ion-item>
+                <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->
+                <ion-item *ngIf="formularioUsuario.get('email').errors && formularioUsuario.get('email').dirty">
+                  <p color="danger" ion-text *ngIf="formularioUsuario.get('email').hasError('required')" class="error">
+                    Email is required.
+                  </p>
+                  <p color="danger" ion-text *ngIf="formularioUsuario.get('email').hasError('pattern')">
+                    It is not an email
+                  </p>
+                </ion-item>
 
-            <ion-item>
-              <ion-label floating>Password</ion-label>
-              <!-- Creamos el input para la contraseña -->
-              <ion-input type="password" name="pass" formControlName="pass"></ion-input>
-            </ion-item>
-            <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->
-            <ion-item *ngIf="formularioUsuario.get('pass').errors && formularioUsuario.get('pass').dirty">
-              <p color="danger" ion-text *ngIf="formularioUsuario.get('pass').hasError('pattern')" class="error">
-                It is not a strong password.
-              </p>
-            </ion-item>
+                <ion-item>
+                  <ion-label floating>Password</ion-label>
+                  <!-- Creamos el input para la contraseña -->
+                  <ion-input type="password" name="pass" formControlName="pass"></ion-input>
+                </ion-item>
+                <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->
+                <ion-item *ngIf="formularioUsuario.get('pass').errors && formularioUsuario.get('pass').dirty">
+                  <p color="danger" ion-text *ngIf="formularioUsuario.get('pass').hasError('pattern')" class="error">
+                    It is not a strong password.
+                  </p>
+                </ion-item>
 
-            <ion-item>
-              <ion-label floating>Confirm password</ion-label>
-              <!-- Creamos el input para la contraseña -->
-              <ion-input type="password" name="pass2" formControlName="pass2"></ion-input>
-            </ion-item>
-            <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->
-            <ion-item *ngIf="(formularioUsuario.get('pass2').hasError('equalTo') || formularioUsuario.get('pass2').hasError('required')) && formularioUsuario.get('pass2').touched">
-              <p color="danger" ion-text *ngIf="formularioUsuario.get('pass2').hasError('required') && formularioUsuario.get('pass2').touched" class="error">
-                It is not a strong password.
-              </p>
-              <p color="danger" ion-text *ngIf="formularioUsuario.get('pass2').hasError('equalTo') && formularioUsuario.get('pass2').touched" class="error">
-                Passwords do not match
-              </p>
-            </ion-item>
+                <ion-item>
+                  <ion-label floating>Confirm password</ion-label>
+                  <!-- Creamos el input para la contraseña -->
+                  <ion-input type="password" #password formControlName="pass2"></ion-input>
+                </ion-item>
+                <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->
+                <ion-item *ngIf="(formularioUsuario.get('pass2').hasError('equalTo') || formularioUsuario.get('pass2').hasError('required')) && formularioUsuario.get('pass2').touched">
+                  <p color="danger" ion-text *ngIf="formularioUsuario.get('pass2').hasError('required') && formularioUsuario.get('pass2').touched" class="error">
+                    It is not a strong password.
+                  </p>
+                  <p color="danger" ion-text *ngIf="formularioUsuario.get('pass2').hasError('equalTo') && formularioUsuario.get('pass2').touched" class="error">
+                    Passwords do not match
+                  </p>
+                </ion-item>
 
-            <br>
-            <!-- Creamos el botón de registro, que permanecerá desactivado, hasta que los campos del formulario
-          estén correctamente rellenos superando el control de errores -->
-            <ion-grid padding-top>
-              <ion-row justify-content-center>
-                <div class="col-1" align-self-center>
-                  <div>
-                    <button ion-button type="submit" [disabled]="!formularioUsuario.valid">Sign Up</button>
-                  </div>
-                </div>
-              </ion-row>
-            </ion-grid>
-          </form>
+                <br>
+                <!-- Creamos el botón de registro, que permanecerá desactivado, hasta que los campos del formulario
+              estén correctamente rellenos superando el control de errores -->
+                <ion-grid padding-top>
+                  <ion-row justify-content-center>
+                    <div class="col-1" align-self-center>
+                      <div>
+                        <button ion-button type="submit" [disabled]="!formularioUsuario.valid" (click)="saveData()">Sign Up</button>
+                      </div>
+                    </div>
+                  </ion-row>
+                </ion-grid>
 
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-  </div>
+                <ion-grid>
+                  <ion-row justify-content-center padding-top>
+                    <div align-self-center>
+                      <div>Or</div>
+                    </div>
+                  </ion-row>
+                  <ion-row justify-content-center padding-top>
+                    <div align-self-center>
+                      <div>
+                        <!-- <a (click)="goToRegistry()"> -->
+                        <a (click)="gotoHome()">
+                          <strong>Go to Login Page!</strong>
+                        </a>
+                      </div>
+                    </div>
+                  </ion-row>
+                </ion-grid>
+              </form>
+
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

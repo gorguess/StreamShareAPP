@@ -15,7 +15,9 @@ page-home{
 	.signUp {
 		text-align: center;
 	}
-	.contenedor {
-		margin-top: 20%;
+	.vertical-align-content > * {
+		display: flex!important;
+		align-content: center!important;
+		align-items: center!important;
 	}
 }
