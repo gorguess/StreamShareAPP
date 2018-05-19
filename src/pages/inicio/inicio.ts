@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, MenuController } from 'ionic-angular';
 import { PerfilPage } from '../perfil/perfil';
+import { PeliculasPage } from '../peliculas/peliculas';
 
 
 @IonicPage()
@@ -98,6 +99,10 @@ export class InicioPage {
 
   goToPerfil() {
     this.navCtrl.push(PerfilPage);
+  }
+
+  goToPeliculas() {
+    this.navCtrl.push(PeliculasPage);
   }
 
 }

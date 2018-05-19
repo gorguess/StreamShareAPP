@@ -1,22 +1,54 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true"
-    (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">
+  <ion-navbar hideBackButton="true">
+
+    <ion-grid *ngIf="!isSearchbarOpened">
+      <ion-row>
+        <ion-col col-auto>
+          <ion-buttons>
+            <button ion-button icon-only>
+              Home
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-auto>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToPeliculas()">
+              Films
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-auto>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToSeries()">
+              Series
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-auto>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToPerfil()">
+              {{ usuario }}
+              <ion-icon name="md-contact"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-1>
+          <ion-buttons>
+            <button ion-button icon-only (click)="isSearchbarOpened=true">
+              <ion-icon name="search"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
+    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">
     </ion-searchbar>
-    <ion-buttons end  *ngIf="!isSearchbarOpened">
-      <button ion-button icon-only (click)="goToPerfil()">
-        {{ usuario }}
-        <ion-icon ios="ios-contact" md="md-contact"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-buttons end>
-      <button ion-button icon-only *ngIf="!isSearchbarOpened" (click)="isSearchbarOpened=true">
-        <ion-icon ios="ios-search" md="md-search"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -31,7 +63,11 @@
     <ion-card-header>
       <ion-grid>
         <ion-row>
-          <ion-col col-12>Bienvenido de nuevo, {{ usuario }}!</ion-col>
+          <ion-col col-12>
+            <h1 class="titulo">
+               Welcome, {{ usuario }}!
+            </h1>
+          </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-header>
@@ -40,8 +76,8 @@
       <ion-grid>
         <ion-row>
           <ion-col col-12>
-            <h3 class="titulo">Películas vistas:</h3>
-            <a href="" class="alinearDerecha">ver todo</a>
+            <h3 class="titulo">Movies seen:</h3>
+            <a href="" class="alinearDerecha">see all</a>
             <ion-grid>
               <ion-row>
                 <ion-col col-4>
@@ -74,7 +110,7 @@
               </ion-row>
             </ion-grid>
 
-            <h3 class="titulo2">Series siguiendo:</h3>
+            <h3 class="titulo2">Series seen:</h3>
             <ion-grid>
               <ion-row>
                 <ion-col col-4>

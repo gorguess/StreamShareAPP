@@ -1,34 +1,42 @@
 <ion-header>
-  <ion-navbar>
-    
+  <ion-navbar hideBackButton="true">
+
     <ion-grid *ngIf="!isSearchbarOpened">
       <ion-row>
-        <ion-col col-4>
+        <ion-col col-auto>
           <ion-buttons>
-            <button ion-button icon-only (click)="goToPerfil()">
-              Películas
+            <button ion-button icon-only (click)="goToInicio()">
+              Home
             </button>
           </ion-buttons>
         </ion-col>
-    
-        <ion-col col-3>
+
+        <ion-col col-auto>
           <ion-buttons>
-            <button ion-button icon-only (click)="goToPerfil()">
+            <button ion-button icon-only (click)="goToPeliculas()">
+              Films
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-auto>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToSeries()">
               Series
             </button>
           </ion-buttons>
         </ion-col>
 
-        <ion-col col-3>
+        <ion-col col-auto>
           <ion-buttons>
-            <button ion-button icon-only (click)="goToPerfil()">
+            <button ion-button icon-only>
               {{ usuario }}
               <ion-icon name="md-contact"></ion-icon>
             </button>
           </ion-buttons>
         </ion-col>
 
-        <ion-col col-1 offset-1>
+        <ion-col col-1>
           <ion-buttons>
             <button ion-button icon-only (click)="isSearchbarOpened=true">
               <ion-icon name="search"></ion-icon>

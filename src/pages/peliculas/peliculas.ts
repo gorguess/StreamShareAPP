@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the PeliculasPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Subject } from 'rxjs';
+import { PerfilPage } from '../perfil/perfil';
+import { InicioPage } from '../inicio/inicio';
 
 @IonicPage()
 @Component({
@@ -15,11 +11,26 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PeliculasPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  usuario;
+
+  public isSearchbarOpened = false;
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams
+  ) {
+    this.usuario = 'Gorguess'
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PeliculasPage');
+  }
+
+  goToPerfil() {
+    this.navCtrl.push(PerfilPage);
+  }
+
+  goToInicio() {
+    this.navCtrl.push(InicioPage);
   }
 
 }

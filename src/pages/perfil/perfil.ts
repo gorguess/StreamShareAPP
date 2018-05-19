@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { ChatPage } from '../chat/chat';
 import { Subject } from 'rxjs';
 import { MbscEventcalendarOptions } from '@mobiscroll/angular';
+import { PeliculasPage } from '../peliculas/peliculas';
+import { InicioPage } from '../inicio/inicio';
 
 let now = new Date();
 
@@ -20,6 +22,7 @@ export class PerfilPage {
   descripcion = false;
   contenidoDescripcion = [];
 
+  public isSearchbarOpened = false;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -47,6 +50,13 @@ export class PerfilPage {
     }
   };
 
+  goToPeliculas() {
+    this.navCtrl.push(PeliculasPage);
+  }
+
+  goToInicio() {
+    this.navCtrl.push(InicioPage);
+  }
 
   listado() {
     this.items = [

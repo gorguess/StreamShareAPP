@@ -4,11 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { HomePage } from '../pages/home/home';
-import { InicioPage } from '../pages/inicio/inicio';
-import { RegistroPage } from '../pages/registro/registro';
-import { ChatPage } from '../pages/chat/chat';
-import { PerfilPage } from '../pages/perfil/perfil';
+import { PeliculasPage } from '../pages/peliculas/peliculas';
 
 
 var config = {
@@ -24,7 +20,7 @@ var config = {
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = PerfilPage;
+  rootPage: any = PeliculasPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
