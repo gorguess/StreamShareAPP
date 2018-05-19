@@ -1,4 +1,10 @@
 page-perfil {
+    ion-content{
+		background: url("../assets/imgs/fondo.jpg");
+		background-attachment: fixed;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
     .center {
         text-align: center;
         align-content: center!important;
@@ -11,8 +17,5 @@ page-perfil {
 		display: flex!important;
 		align-content: center!important;
 		align-items: center!important;
-    }
-    ion-header {
-        height: 20%;
     }
 }

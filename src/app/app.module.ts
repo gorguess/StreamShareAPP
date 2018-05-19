@@ -1,9 +1,12 @@
+import { FormsModule } from '@angular/forms';
+import { MbscModule } from '@mobiscroll/angular';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { CalendarModule } from 'ionic3-calendar';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -17,6 +20,8 @@ import { MenuPage } from '../pages/menu/menu';
 import { PeliculasPage } from '../pages/peliculas/peliculas';
 import { PerfilPage } from '../pages/perfil/perfil';
 import { ChatPage } from '../pages/chat/chat';
+import { AddEventPage } from '../pages/add-event/add-event';
+import { EditEventPage } from '../pages/edit-event/edit-event';
 
 const firebaseAuth = {
   apiKey: "AIzaSyDk2H5Yzy8mp8Q6OOwDQ8gptAFYYbP7x5Y",
@@ -36,14 +41,19 @@ const firebaseAuth = {
     MenuPage,
     PeliculasPage,
     PerfilPage,
-    ChatPage  
+    ChatPage,
+    AddEventPage,
+    EditEventPage
   ],
-  imports: [
+  imports: [ 
+    FormsModule, 
+    MbscModule,
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseAuth),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    CalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -54,7 +64,9 @@ const firebaseAuth = {
     MenuPage,
     PeliculasPage,
     PerfilPage,
-    ChatPage
+    ChatPage,
+    AddEventPage,
+    EditEventPage
   ],
   providers: [
     StatusBar,

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
+import { Subject } from 'rxjs';
+import { MbscEventcalendarOptions } from '@mobiscroll/angular';
+
+let now = new Date();
 
 @IonicPage()
 @Component({
@@ -9,6 +13,7 @@ import { ChatPage } from '../chat/chat';
 })
 export class PerfilPage {
 
+  items;
   usuario;
   nombre;
   perfilImg;
@@ -24,6 +29,80 @@ export class PerfilPage {
     this.usuario = "Gorguess";
     this.perfilImg = "assets/imgs/profile.png";
   }
+
+  events: Array<any> = [{
+    d: new Date(now.getFullYear(), now.getMonth(), 7, 14, 0),
+    text: 'New Chapter of Prison Break',
+    color: '#6e7f29'
+  }];
+  
+  eventSettings: MbscEventcalendarOptions = {
+    theme: 'material',
+    lang: 'en',
+    display: 'inline',
+    layout: 'liquid',
+    view: {
+      calendar: { type: 'month' },
+      eventList: { type: 'month' }
+    }
+  };
+
+
+  listado() {
+    this.items = [
+      'Amsterdam',
+      'Bogota',
+      'Buenos Aires',
+      'Cairo',
+      'Dhaka',
+      'Edinburgh',
+      'Geneva',
+      'Genoa',
+      'Glasglow',
+      'Hanoi',
+      'Hong Kong',
+      'Islamabad',
+      'Istanbul',
+      'Jakarta',
+      'Kiel',
+      'Kyoto',
+      'Le Havre',
+      'Lebanon',
+      'Lhasa',
+      'Lima',
+      'London',
+      'Los Angeles',
+      'Madrid',
+      'Manila',
+      'New York',
+      'Olympia',
+      'Oslo',
+      'Panama City',
+      'Peking',
+      'Philadelphia',
+      'San Francisco',
+      'Seoul',
+      'Taipeh',
+      'Tel Aviv',
+      'Tokio',
+      'Uelzen',
+      'Washington'
+    ];
+  }
+
+  getItems(ev) {
+    var val = ev.target.value;
+
+    if (val && val.trim() != '') {
+      this.listado();
+      this.items = this.items.filter((item) => {
+        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    } else {
+      return;
+    }
+  }
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PerfilPage');
