@@ -7,6 +7,7 @@ import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { StreamingMedia } from '@ionic-native/streaming-media';
+import { Ionic2RatingModule } from 'ionic2-rating';
 // import { CalendarModule } from 'ionic3-calendar';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -55,7 +56,8 @@ const firebaseAuth = {
     HttpModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseAuth),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    Ionic2RatingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
