@@ -147,7 +147,7 @@
         </ion-buttons>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="event">
+    <ion-row *ngIf="event" col-12>
       <mbsc-form [options]="formSettings">
         <div class="mbsc-form-group">
           <ion-item>
@@ -155,24 +155,25 @@
             <ion-input [(ngModel)]="eventText">Title</ion-input>
           </ion-item>
           <ion-item>
-            <ion-label color="primary" style="background: black !important;">Title of the event</ion-label>
-            <ion-datetime #fecha displayFormat="MM/DD/YYYY" style="background: black !important;"></ion-datetime>
-            <!-- <mbsc-input id="startDate" placeholder="Please select...">Date</mbsc-input> -->
+            <mbsc-datetime #fecha id="startDate" placeholder="Please select the date...">Date</mbsc-datetime>
             <div [(ngModel)]="eventDate" mbsc-range [mbsc-options]="rangeSettings" #mbscRange="mobiscroll"></div>
           </ion-item>
-        </div>
-        <!-- <div class="mbsc-form-group">
-          <ion-item>
-            <ion-label color="primary">Title of the event</ion-label>
-            <ion-datetime id="startDate" displayFormat="MM/DD/YYYY"></ion-datetime>
-            <mbsc-input id="startDate" placeholder="Please select...">Date</mbsc-input>
-            <div [(ngModel)]="eventDate" mbsc-range [mbsc-options]="rangeSettings" #mbscRange="mobiscroll"></div>
-          </ion-item>
-        </div> -->
-        <div class="mbsc-form-group mbsc-btn-group-block">
-          <mbsc-button (click)="addEvent()">Add Event</mbsc-button>
         </div>
       </mbsc-form>
+      <ion-col col-auto offset-2>
+        <ion-buttons>
+          <button ion-button outline (click)="addEvent()">
+            Add Event
+          </button>
+        </ion-buttons>
+      </ion-col>
+      <ion-col col-auto>
+        <ion-buttons>
+          <button ion-button outline (click)="addEvent()">
+            Cancel
+          </button>
+        </ion-buttons>
+      </ion-col>
     </ion-row>
   </ion-card>
 </ion-content>

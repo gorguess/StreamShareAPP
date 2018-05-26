@@ -80,13 +80,17 @@ export class PerfilPage {
 
   addEvent() {
     this.events.push({
-      start: new Date(this.fecha.value.year, this.fecha.value.month-1, this.fecha.value.day, 14, 30),
+      start: new Date(this.fecha.element.value),
       text: this.eventText || 'New Event',
     });
     this.eventText = '';
-    this.eventCal.instance.setVal(new Date(this.fecha.value.year, this.fecha.value.month-1, this.fecha.value.day, 14, 30));
+    this.eventCal.instance.setVal(new Date(this.fecha.element.value));
+    this.event = false;
   };
 
+  closeEvent(){
+    this.event = false;
+  }
 
   goToPeliculas() {
     this.navCtrl.push(PeliculasPage);

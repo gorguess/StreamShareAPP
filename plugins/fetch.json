@@ -71,7 +71,7 @@
   "com.moust.cordova.videoplayer": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-video-player"
+      "id": "cordova-plugin-video-player@^1.0.1"
     },
     "is_top_level": true,
     "variables": {}
@@ -79,7 +79,7 @@
   "com.hutchind.cordova.plugins.streamingmedia": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-streaming-media"
+      "id": "cordova-plugin-streaming-media@^1.0.2"
     },
     "is_top_level": true,
     "variables": {}
