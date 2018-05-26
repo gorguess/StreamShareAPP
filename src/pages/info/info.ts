@@ -25,6 +25,7 @@ export class InfoPage {
     this.usuario = 'Gorguess';
   }
 
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfoPage');
   }
@@ -45,7 +46,7 @@ export class InfoPage {
     let options: StreamingVideoOptions = {
       successCallback: () => { console.log('Video played') },
       errorCallback: (e) => { console.log('Error streaming') },
-      orientation: 'landscape'
+      orientation: 'portrait'
     };
     this.streamingMedia.playVideo('https://www.youtube.com/watch?v=U6VMFwS2mPk', options);
   }

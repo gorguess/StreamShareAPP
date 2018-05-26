@@ -37,7 +37,7 @@
         "angularfire2": "^5.0.0-rc.9",
         "com.hutchind.cordova.plugins.streamingmedia": "~0.1.4",
         "com.moust.cordova.videoplayer": "~1.0.1",
-        "cordova-android": "6.1.1",
+        "cordova-android": "^7.0.0",
         "cordova-browser": "5.0.3",
         "cordova-ios": "4.5.4",
         "cordova-plugin-camera": "^4.0.2",
@@ -68,7 +68,9 @@
         "plugins": {
             "cordova-plugin-googlemaps": {
                 "API_KEY_FOR_ANDROID": "AIzaSyDSgYUvjwdr3j6SD02WonwOBMfjteDj028",
-                "API_KEY_FOR_IOS": "AIzaSyD25LhGagZhsIcMPc0XwzLOCuTlyNDGeG8"
+                "API_KEY_FOR_IOS": "AIzaSyD25LhGagZhsIcMPc0XwzLOCuTlyNDGeG8",
+                "LOCATION_WHEN_IN_USE_DESCRIPTION": "This app wants to get your location while this app runs only.",
+                "LOCATION_ALWAYS_USAGE_DESCRIPTION": "This app wants to get your location always, even this app runs in background."
             },
             "cordova-plugin-whitelist": {},
             "cordova-plugin-device": {},
@@ -76,7 +78,8 @@
             "cordova-plugin-ionic-webview": {},
             "cordova-plugin-ionic-keyboard": {},
             "com.moust.cordova.videoplayer": {},
-            "com.hutchind.cordova.plugins.streamingmedia": {}
+            "com.hutchind.cordova.plugins.streamingmedia": {},
+            "cordova-plugin-camera": {}
         },
         "platforms": [
             "ios",
