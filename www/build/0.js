@@ -1,14 +1,14 @@
 webpackJsonp([0],{
 
-/***/ 715:
+/***/ 720:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegistroPageModule", function() { return RegistroPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VerTodoPageModule", function() { return VerTodoPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__registro__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ver_todo__ = __webpack_require__(721);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,23 +18,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var RegistroPageModule = (function () {
-    function RegistroPageModule() {
+var VerTodoPageModule = (function () {
+    function VerTodoPageModule() {
     }
-    RegistroPageModule = __decorate([
+    VerTodoPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["J" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__registro__["a" /* RegistroPage */],
+                __WEBPACK_IMPORTED_MODULE_2__ver_todo__["a" /* VerTodoPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__registro__["a" /* RegistroPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__ver_todo__["a" /* VerTodoPage */]),
             ],
         })
-    ], RegistroPageModule);
-    return RegistroPageModule;
+    ], VerTodoPageModule);
+    return VerTodoPageModule;
 }());
 
-//# sourceMappingURL=registro.module.js.map
+//# sourceMappingURL=ver-todo.module.js.map
 
 /***/ })
 

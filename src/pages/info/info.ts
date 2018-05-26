@@ -131,39 +131,39 @@ export class InfoPage implements ControlValueAccessor {
     }
   }
 
-  // get value(): any {
-  //   return this.innerValue;
-  // }
+  get value(): any {
+    return this.innerValue;
+  }
 
-  // set value(value: any) {
-  //   if (value !== this.innerValue) {
-  //     this.innerValue = value;
-  //     this.onChangeCallback(value);
-  //   }
-  // }
+  set value(value: any) {
+    if (value !== this.innerValue) {
+      this.innerValue = value;
+      this.onChangeCallback(value);
+    }
+  }
 
-  // writeValue(value: any) {
-  //   if (value !== this.innerValue) {
-  //     this.innerValue = value;
-  //   }
-  // }
+  writeValue(value: any) {
+    if (value !== this.innerValue) {
+      this.innerValue = value;
+    }
+  }
 
-  // registerOnChange(fn: any) {
-  //   this.onChangeCallback = fn;
-  // }
+  registerOnChange(fn: any) {
+    this.onChangeCallback = fn;
+  }
 
-  // registerOnTouched(fn: any) {
-  // }
+  registerOnTouched(fn: any) {
+  }
 
-  // onKeyDown(event: any) {
-  //   if (/(37|38|39|40)/.test(event.which)) {
-  //     event.preventDefault();
-  //     event.stopPropagation();
+  onKeyDown(event: any) {
+    if (/(37|38|39|40)/.test(event.which)) {
+      event.preventDefault();
+      event.stopPropagation();
 
-  //     let newValue = this.value + ((event.which == 38 || event.which == 39) ? 1 : -1);
-  //     return this.rate(newValue);
-  //   }
-  // }
+      let newValue = this.value + ((event.which == 38 || event.which == 39) ? 1 : -1);
+      return this.rate(newValue);
+    }
+  }
 
   rate(value: number) {
     if (this.readOnly || value < 0 || value > this.max) {
@@ -177,20 +177,20 @@ export class InfoPage implements ControlValueAccessor {
     this.value = value;
   }
 
-  // private isTrueProperty(val: any): boolean {
-  //   if (typeof val === 'string') {
-  //     val = val.toLowerCase().trim();
-  //     return (val === 'true' || val === 'on');
-  //   }
-  //   return !!val;
-  // }
+  private isTrueProperty(val: any): boolean {
+    if (typeof val === 'string') {
+      val = val.toLowerCase().trim();
+      return (val === 'true' || val === 'on');
+    }
+    return !!val;
+  }
 
-  // private getNumberPropertyValue(val: any): number {
-  //   if (typeof val === 'string') {
-  //     return parseInt(val.trim());
-  //   }
-  //   return val;
-  // }
+  private getNumberPropertyValue(val: any): number {
+    if (typeof val === 'string') {
+      return parseInt(val.trim());
+    }
+    return val;
+  }
 
   constructor(
     public navCtrl: NavController, 

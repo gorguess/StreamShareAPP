@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, MenuController } from 'ionic-angular';
 import { PerfilPage } from '../perfil/perfil';
 import { PeliculasPage } from '../peliculas/peliculas';
+import { VerTodoPage } from '../ver-todo/ver-todo';
 
 
 @IonicPage()
@@ -22,6 +23,8 @@ export class InicioPage {
   titulo4;
   titulo5;
   usuario;
+  cont = 3;
+  seeAll: boolean = false;
 
   public isSearchbarOpened = false;
   constructor(
@@ -101,8 +104,20 @@ export class InicioPage {
     this.navCtrl.push(PerfilPage);
   }
 
+  goToSeeAll(contenido: string){
+    this.navCtrl.push(VerTodoPage, {
+      tipo: contenido
+    });
+  }
+
   goToPeliculas() {
     this.navCtrl.push(PeliculasPage);
+  }
+
+  ionViewDidLoad() {
+    if (this.cont > 3) {
+      this.seeAll = true;
+    }
   }
 
 }

@@ -6,7 +6,9 @@ import firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { PeliculasPage } from '../pages/peliculas/peliculas';
 import { HomePage } from '../pages/home/home';
+import { InicioPage } from '../pages/inicio/inicio';
 import { ChatPage } from '../pages/chat/chat';
+import { VerTodoPage } from '../pages/ver-todo/ver-todo';
 
 
 var config = {
@@ -22,7 +24,7 @@ var config = {
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = PeliculasPage;
+  rootPage: any = InicioPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {

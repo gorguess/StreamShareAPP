@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingController } from 'ionic-angular';
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
-
+import { LoginProvider } from '../../providers/login/login';
 import { RegistroPage } from '../registro/registro';
 import { InicioPage } from '../inicio/inicio';
 
@@ -15,6 +15,9 @@ import { InicioPage } from '../inicio/inicio';
 export class HomePage {
 
   formularioUsuario: FormGroup;
+  objetoUser: any;
+  objetoPass: any;
+  mensaje: any;
   @ViewChild("emailad") emailAddress;
   @ViewChild("password") currentPassword;
 
@@ -23,7 +26,8 @@ export class HomePage {
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
     private fire: AngularFireAuth,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    public comprobarLogin: LoginProvider
   ) {
   }
 
@@ -36,7 +40,14 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
+    this.comprobarLogin.getUsers().subscribe((datos) => {
+      this.objetoUser = datos["user"];
+      this.objetoPass = datos["pass"];
+      console.log(this.objetoUser);
+    },
+    (err) => {
+      console.log(err["message"]);
+    });
   }
 
   goToRegistro() {
