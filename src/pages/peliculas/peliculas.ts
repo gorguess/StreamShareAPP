@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, FabContainer,
+         ToastController, LoadingController} from 'ionic-angular';
 import { Subject } from 'rxjs';
 import { PerfilPage } from '../perfil/perfil';
 import { InicioPage } from '../inicio/inicio';
+import { InfoPage } from '../info/info';
 
 @IonicPage()
 @Component({
@@ -12,13 +14,37 @@ import { InicioPage } from '../inicio/inicio';
 export class PeliculasPage {
 
   usuario;
+  peli1;
+  peli2;
+  titulo1;
+  titulo2;
+  structure: any = { lower: 1990, upper: 2018 };
+  filter = false;
+  genre: any = 'Genre: All';
+  videoLanguage: any = 'Video Language: All';
+  subtitleLanguage: any = 'Subtitle Language: All';
+  iconoIOS1;
+  iconoAndroid1;
+  iconoIOS;
+  iconoAndroid;
+  mensaje;
 
   public isSearchbarOpened = false;
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController, 
+    public navParams: NavParams,
+    public toastCtrl: ToastController
   ) {
-    this.usuario = 'Gorguess'
+    this.usuario = 'Gorguess';
+    this.peli1 = "assets/imgs/peli1.jpg";
+    this.peli2 = "assets/imgs/peli2.jpg";
+    this.titulo1 = 'Deadpool';
+    this.titulo2 = 'Avengers 2';
+    this.iconoIOS1 = 'ios-arrow-dropdown';
+    this.iconoAndroid1 = 'md-arrow-dropdown';
+    this.iconoIOS = 'ios-arrow-dropdown';
+    this.iconoAndroid = 'md-arrow-dropdown';
   }
 
   ionViewDidLoad() {
@@ -31,6 +57,83 @@ export class PeliculasPage {
 
   goToInicio() {
     this.navCtrl.push(InicioPage);
+  }
+
+  goToInfo(fotoPeli, titulo) {
+    this.navCtrl.push(InfoPage, {
+      foto: fotoPeli,
+      nombre: titulo
+    });
+  }
+
+  filterType() {
+    this.filter = true;
+  }
+
+  filterType2() {
+    this.filter = false;
+  }
+
+  loginLoading() {
+    this.filter = false;
+    let loading = this.loadingCtrl.create({
+      content: 'Years between ' + this.structure.lower + ' and ' + this.structure.upper+
+        '<br>' + this.genre + '<br>' + this.videoLanguage + '<br>' + this.subtitleLanguage,
+      duration: 5000,
+      dismissOnPageChange: true
+    });
+
+    loading.present();
+    setTimeout(() => {
+      
+    },
+      2000);
+  }
+
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 2000);
+  }
+
+  cambiarIconoSeen(fab) {
+    this.iconoIOS = 'ios-eye-off';
+    this.iconoAndroid = 'md-eye-off';
+    fab.close();
+    this.mensaje = 'This film has been added to "Seen Group"';
+    this.presentToast(this.mensaje);
+  }
+
+  cambiarIconoLike(fab: FabContainer) {
+    this.iconoIOS = 'ios-heart';
+    this.iconoAndroid = 'md-heart';
+    fab.close();
+    this.mensaje = 'This film has been added to "Favourite Group"';
+    this.presentToast(this.mensaje);
+  }
+  cambiarIconoRemove(fab: FabContainer) {
+    this.iconoIOS = 'ios-arrow-dropdown';
+    this.iconoAndroid = 'md-arrow-dropdown';
+    fab.close();
+    this.mensaje = 'This film has been removed of his old group';
+    this.presentToast(this.mensaje);
+  }
+
+  presentToast(mensaje: string) {
+    let toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 4000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 
 }

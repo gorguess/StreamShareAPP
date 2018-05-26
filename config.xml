@@ -87,7 +87,9 @@
     </plugin>
     <allow-navigation href="http://192.168.0.158:8100" />
     <allow-navigation href="http://192.168.0.158:8101" />
+    <plugin name="com.moust.cordova.videoplayer" spec="~1.0.1" />
+    <plugin name="com.hutchind.cordova.plugins.streamingmedia" spec="~0.1.4" />
     <engine name="ios" spec="4.5.4" />
-    <engine name="android" spec="^6.1.1" />
     <engine name="browser" spec="5.0.3" />
+    <engine name="android" spec="~6.1.1" />
 </widget>

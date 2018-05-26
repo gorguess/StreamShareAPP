@@ -6,7 +6,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { CalendarModule } from 'ionic3-calendar';
+import { StreamingMedia } from '@ionic-native/streaming-media';
+// import { CalendarModule } from 'ionic3-calendar';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -22,6 +23,7 @@ import { PerfilPage } from '../pages/perfil/perfil';
 import { ChatPage } from '../pages/chat/chat';
 import { AddEventPage } from '../pages/add-event/add-event';
 import { EditEventPage } from '../pages/edit-event/edit-event';
+import { InfoPage } from '../pages/info/info';
 
 const firebaseAuth = {
   apiKey: "AIzaSyDk2H5Yzy8mp8Q6OOwDQ8gptAFYYbP7x5Y",
@@ -43,7 +45,8 @@ const firebaseAuth = {
     PerfilPage,
     ChatPage,
     AddEventPage,
-    EditEventPage
+    EditEventPage,
+    InfoPage
   ],
   imports: [ 
     FormsModule, 
@@ -52,8 +55,7 @@ const firebaseAuth = {
     HttpModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseAuth),
-    AngularFireAuthModule,
-    CalendarModule
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -66,13 +68,15 @@ const firebaseAuth = {
     PerfilPage,
     ChatPage,
     AddEventPage,
-    EditEventPage
+    EditEventPage,
+    InfoPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Camera
+    Camera,
+    StreamingMedia    
   ]
 })
 export class AppModule {}

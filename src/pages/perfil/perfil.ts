@@ -1,10 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
 import { Subject } from 'rxjs';
-import { MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { PeliculasPage } from '../peliculas/peliculas';
 import { InicioPage } from '../inicio/inicio';
+import { IMobiscroll } from '@mobiscroll/angular/src/js/core/core';
+import {
+  mobiscroll,
+  MbscEventcalendarOptions,
+  MbscRangeOptions,
+  MbscFormOptions,
+  MbscRange,
+  MbscEventcalendar
+} from '@mobiscroll/angular';
 
 let now = new Date();
 
@@ -14,6 +22,14 @@ let now = new Date();
   templateUrl: 'perfil.html',
 })
 export class PerfilPage {
+  @ViewChild('mbscRange')
+  range: MbscRange;
+
+  @ViewChild('mbscEventCal')
+  eventCal: MbscEventcalendar;
+
+  @ViewChild('fecha')
+  fecha;
 
   items;
   usuario;
@@ -21,7 +37,16 @@ export class PerfilPage {
   perfilImg;
   descripcion = false;
   contenidoDescripcion = [];
+  
+  eventDate: Array<Date> = [now, new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 2)];
+  isBusy: string = 'busy';
+  eventText: string = '';
+  events: Array<any> = [{
+    d: new Date(),
+    text: 'New chapter of Mr Robot'
+  }];
 
+  public event = false;
   public isSearchbarOpened = false;
   constructor(
     public navCtrl: NavController, 
@@ -33,12 +58,11 @@ export class PerfilPage {
     this.perfilImg = "assets/imgs/profile.png";
   }
 
-  events: Array<any> = [{
-    d: new Date(now.getFullYear(), now.getMonth(), 7, 14, 0),
-    text: 'New Chapter of Prison Break',
-    color: '#6e7f29'
-  }];
-  
+
+  newEvent() {
+    this.event = true;
+  }
+
   eventSettings: MbscEventcalendarOptions = {
     theme: 'material',
     lang: 'en',
@@ -49,6 +73,20 @@ export class PerfilPage {
       eventList: { type: 'month' }
     }
   };
+
+  formSettings: MbscFormOptions = {
+    theme: 'ios'
+  };
+
+  addEvent() {
+    this.events.push({
+      start: new Date(this.fecha.value.year, this.fecha.value.month-1, this.fecha.value.day, 14, 30),
+      text: this.eventText || 'New Event',
+    });
+    this.eventText = '';
+    this.eventCal.instance.setVal(new Date(this.fecha.value.year, this.fecha.value.month-1, this.fecha.value.day, 14, 30));
+  };
+
 
   goToPeliculas() {
     this.navCtrl.push(PeliculasPage);
