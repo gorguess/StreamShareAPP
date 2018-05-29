@@ -22,4 +22,8 @@ export class LoginProvider {
       { 'name': register[0].name, 'surname': register[0].surname, 'nickname': register[0].nickname, 'email': register[0].email});
   }
 
+  getAllMovies() {
+    return this.http.get('http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api//getallmovies/:page?');
+  }
+
 }

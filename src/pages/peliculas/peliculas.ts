@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, FabContainer,
          ToastController, LoadingController} from 'ionic-angular';
 import { Subject } from 'rxjs';
+import { LoginProvider } from '../../providers/login/login';
 import { PerfilPage } from '../perfil/perfil';
 import { InicioPage } from '../inicio/inicio';
 import { InfoPage } from '../info/info';
@@ -35,7 +36,8 @@ export class PeliculasPage {
     public navCtrl: NavController,
     public loadingCtrl: LoadingController, 
     public navParams: NavParams,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public contenedorFilms: LoginProvider
   ) {
     this.peli1 = "assets/imgs/peli1.jpg";
     this.peli2 = "assets/imgs/peli2.jpg";
@@ -50,7 +52,11 @@ export class PeliculasPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PeliculasPage');
+    this.contenedorFilms.getAllMovies().subscribe((datos) => {
+      console.log('Peliculas: ', datos);
+    }, (err) => {
+      console.log(err["message"]);
+    });
   }
 
   goToPerfil() {

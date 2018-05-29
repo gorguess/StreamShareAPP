@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingController } from 'ionic-angular';
-import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { LoginProvider } from '../../providers/login/login';
 import { RegistroPage } from '../registro/registro';
 import { InicioPage } from '../inicio/inicio';
@@ -15,8 +14,6 @@ import { InicioPage } from '../inicio/inicio';
 export class HomePage {
 
   formularioUsuario: FormGroup;
-  objetoUser: any;
-  objetoPass: any;
   mensaje: any;
   @ViewChild("emailad") emailAddress;
   @ViewChild("password") currentPassword;
@@ -26,7 +23,6 @@ export class HomePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
-    private fire: AngularFireAuth,
     private alertCtrl: AlertController,
     public comprobarLogin: LoginProvider
   ) {
@@ -40,68 +36,29 @@ export class HomePage {
     });
   }
 
-  // ionViewDidLoad() {
-  //   this.comprobarLogin.getUsers().subscribe((datos) => {
-  //     this.objetoUser = datos["user"];
-  //     this.objetoPass = datos["pass"];
-  //     console.log(this.objetoUser);
-  //   },
-  //   (err) => {
-  //     console.log(err["message"]);
-  //   });
-  // }
-
   goToRegistro() {
     this.navCtrl.push(RegistroPage);
   }
 
-  alert(mensaje: string){
+  alert(){
     this.alertCtrl.create({
-      title: '¡Ha ocurrido un error!',
-      subTitle: mensaje,
+      title: 'There was a problem!',
+      subTitle: 'The email/username or password are not correct',
       buttons: ['OK']
     }).present();
   }
 
   goToInicio() {
-    // this.fire.auth.signInWithEmailAndPassword(this.emailAddress.value, this.currentPassword.value)
-    // .then(data => {
-    //   this.loginLoading();
-    // })
-    // .catch ( error => {
-    //   this.alert(error.message);
-    // })
-    // console.log('would sign in with ', this.emailAddress.value, this.currentPassword.value);
-    // console.log(this.currentPassword);
-    // console.log(this.emailAddress);
     this.login = [{ emailNick: this.emailAddress.value, password: this.currentPassword.value, gettoken:true }];
     this.comprobarLogin.loginUsers(this.login).subscribe((datos) => {
       var contenedor = datos["user"];
-      this.navCtrl.push(InicioPage, {
-        // birthday: contenedor["birthdate"],
-        // image: contenedor["image"],
-        // name: contenedor["name"],
-        // nickname: contenedor["nickname"],
-        // role: contenedor["role"],
-        // surname: contenedor["surname"],
-        data: contenedor
-      });
-      
+      this.loginLoading(contenedor);    
     }, (err) => {
-      console.log(err["message"]);
+      this.alert();
     });
   }
 
-  /**
-   * evento que se ejecuta al enviar la informacion, este solo cumple la funcion de mostrar un mensaje de informacion,
-   * resetea el formulario y sus validaciones y limpia el parametro datosUsuario para el nuevo ingreso de informacion.
-   */
-  saveData() {
-    console.log(this.formularioUsuario.value);
-    this.loginLoading();
-  }
-
-  loginLoading() {
+  loginLoading(contenido) {
     this.ngOnInit();
     let loading = this.loadingCtrl.create({
       content: 'Please wait...',
@@ -111,7 +68,15 @@ export class HomePage {
 
     loading.present();
     setTimeout(() => {
-      this.navCtrl.push(InicioPage);
+      this.navCtrl.push(InicioPage, {
+        // birthday: contenedor["birthdate"],
+        // image: contenedor["image"],
+        // name: contenedor["name"],
+        // nickname: contenedor["nickname"],
+        // role: contenedor["role"],
+        // surname: contenedor["surname"],
+        data: contenido
+      });
     },
       2000);
   }
