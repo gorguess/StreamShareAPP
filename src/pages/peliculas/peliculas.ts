@@ -13,7 +13,8 @@ import { InfoPage } from '../info/info';
 })
 export class PeliculasPage {
 
-  usuario;
+  nombreUsuario;
+  contenedor;
   peli1;
   peli2;
   titulo1;
@@ -36,7 +37,6 @@ export class PeliculasPage {
     public navParams: NavParams,
     public toastCtrl: ToastController
   ) {
-    this.usuario = 'Gorguess';
     this.peli1 = "assets/imgs/peli1.jpg";
     this.peli2 = "assets/imgs/peli2.jpg";
     this.titulo1 = 'Deadpool';
@@ -45,6 +45,8 @@ export class PeliculasPage {
     this.iconoAndroid1 = 'md-arrow-dropdown';
     this.iconoIOS = 'ios-arrow-dropdown';
     this.iconoAndroid = 'md-arrow-dropdown';
+    this.contenedor = navParams.data['data'];
+    this.nombreUsuario = this.contenedor['nickname'];
   }
 
   ionViewDidLoad() {
@@ -52,17 +54,22 @@ export class PeliculasPage {
   }
 
   goToPerfil() {
-    this.navCtrl.push(PerfilPage);
+    this.navCtrl.push(PerfilPage, {
+      data: this.contenedor
+    });
   }
 
   goToInicio() {
-    this.navCtrl.push(InicioPage);
+    this.navCtrl.push(InicioPage, {
+      data: this.contenedor
+    });
   }
 
   goToInfo(fotoPeli, titulo) {
     this.navCtrl.push(InfoPage, {
       foto: fotoPeli,
-      nombre: titulo
+      nombre: titulo,
+      data: this.contenedor
     });
   }
 

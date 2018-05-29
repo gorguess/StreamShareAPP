@@ -22,14 +22,16 @@ export class InicioPage {
   titulo3;
   titulo4;
   titulo5;
-  usuario;
-  cont = 3;
+  cont = 4;
   seeAll: boolean = false;
+  nombreUsuario;
+  contenedor;
 
   public isSearchbarOpened = false;
   constructor(
     public navCtrl: NavController, 
-    public modalCtrl: ModalController, 
+    public modalCtrl: ModalController,
+    public navParams: NavParams,
     public menuCtrl: MenuController
   ) {
     this.peli1 = "assets/imgs/peli1.jpg";
@@ -42,7 +44,8 @@ export class InicioPage {
     this.titulo3 = "Hasta el último Hombre";
     this.titulo4 = "Breaking Bad";
     this.titulo5 = "Prison Break";
-    this.usuario = "Gorguess";
+    this.contenedor = navParams.data['data'];
+    this.nombreUsuario = this.contenedor['nickname'];
   }
 
   listado() {
@@ -101,17 +104,22 @@ export class InicioPage {
   }
 
   goToPerfil() {
-    this.navCtrl.push(PerfilPage);
+    this.navCtrl.push(PerfilPage, {
+      data: this.contenedor
+    });
   }
 
   goToSeeAll(contenido: string){
     this.navCtrl.push(VerTodoPage, {
-      tipo: contenido
+      tipo: contenido,
+      data: this.contenedor
     });
   }
 
   goToPeliculas() {
-    this.navCtrl.push(PeliculasPage);
+    this.navCtrl.push(PeliculasPage, {
+      data: this.contenedor
+    });
   }
 
   ionViewDidLoad() {

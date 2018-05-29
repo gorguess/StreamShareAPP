@@ -1,11 +1,56 @@
 <ion-header>
+  <ion-navbar hideBackButton="true">
 
-  <ion-navbar>
-    <ion-title>verTodo</ion-title>
+    <ion-grid *ngIf="!isSearchbarOpened">
+      <ion-row>
+        <ion-col col-auto>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToInicio()">
+              Home
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-auto>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToPeliculas()">
+              Films
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-auto>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToSeries()">
+              Series
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-auto>
+          <ion-buttons>
+            <button ion-button icon-only (click)="goToPerfil()">
+              {{ usuario }}
+              <ion-icon name="md-contact"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col col-1>
+          <ion-buttons>
+            <button ion-button icon-only (click)="isSearchbarOpened=true">
+              <ion-icon name="search"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
+    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">
+    </ion-searchbar>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content padding>
 

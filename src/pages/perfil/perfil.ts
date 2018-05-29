@@ -32,8 +32,10 @@ export class PerfilPage {
   fecha;
 
   items;
-  usuario;
+  nombreUsuario;
+  contenedor;
   nombre;
+  apellido;
   perfilImg;
   descripcion = false;
   contenidoDescripcion = [];
@@ -53,11 +55,18 @@ export class PerfilPage {
     public navParams: NavParams,
     private alertCtrl: AlertController
   ) {
-    this.nombre = "Jorge Sánchez";
-    this.usuario = "Gorguess";
-    this.perfilImg = "assets/imgs/profile.png";
+    this.contenedor = navParams.data['data'];
+    this.nombreUsuario = this.contenedor['nickname'];
+    this.nombre = this.contenedor['name'];
+    this.apellido = this.contenedor['surname'];
+    this.perfilImg = this.contenedor['image'];
   }
 
+  ionViewDidLoad() {
+    if (!this.perfilImg) {
+      this.perfilImg = "assets/imgs/profileNull.png";
+    }
+  }
 
   newEvent() {
     this.event = true;
@@ -93,11 +102,15 @@ export class PerfilPage {
   }
 
   goToPeliculas() {
-    this.navCtrl.push(PeliculasPage);
+    this.navCtrl.push(PeliculasPage, {
+      data: this.contenedor
+    });
   }
 
   goToInicio() {
-    this.navCtrl.push(InicioPage);
+    this.navCtrl.push(InicioPage, {
+      data: this.contenedor
+    });
   }
 
   listado() {
@@ -155,10 +168,6 @@ export class PerfilPage {
     }
   }
 
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PerfilPage');
-  }
   goToChat() {
     this.navCtrl.push(ChatPage);
   }
@@ -243,9 +252,10 @@ export class PerfilPage {
         {
           text: 'Save',
           handler: data => {
-            this.usuario = [];
+            this.nombreUsuario = [];
             for (var key in data) {
-              this.usuario.push(data[key]);
+              this.nombreUsuario.push(data[key]);
+              this.contenedor['nickname'] = this.nombreUsuario;
             }
           }
         }

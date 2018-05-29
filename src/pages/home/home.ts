@@ -20,6 +20,7 @@ export class HomePage {
   mensaje: any;
   @ViewChild("emailad") emailAddress;
   @ViewChild("password") currentPassword;
+  login: Array <any>;
 
   constructor(
     public navCtrl: NavController,
@@ -35,20 +36,20 @@ export class HomePage {
 
     this.formularioUsuario = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
-      pass: new FormControl('', [Validators.pattern(/^[a-z0-9_-]{10,18}$/)])
+      pass: new FormControl('', [Validators.pattern(/^[a-z0-9_-]{5,18}$/)])
     });
   }
 
-  ionViewDidLoad() {
-    this.comprobarLogin.getUsers().subscribe((datos) => {
-      this.objetoUser = datos["user"];
-      this.objetoPass = datos["pass"];
-      console.log(this.objetoUser);
-    },
-    (err) => {
-      console.log(err["message"]);
-    });
-  }
+  // ionViewDidLoad() {
+  //   this.comprobarLogin.getUsers().subscribe((datos) => {
+  //     this.objetoUser = datos["user"];
+  //     this.objetoPass = datos["pass"];
+  //     console.log(this.objetoUser);
+  //   },
+  //   (err) => {
+  //     console.log(err["message"]);
+  //   });
+  // }
 
   goToRegistro() {
     this.navCtrl.push(RegistroPage);
@@ -63,16 +64,32 @@ export class HomePage {
   }
 
   goToInicio() {
-    this.fire.auth.signInWithEmailAndPassword(this.emailAddress.value, this.currentPassword.value)
-    .then(data => {
-      this.loginLoading();
-    })
-    .catch ( error => {
-      this.alert(error.message);
-    })
-    console.log('would sign in with ', this.emailAddress.value, this.currentPassword.value);
-
-    
+    // this.fire.auth.signInWithEmailAndPassword(this.emailAddress.value, this.currentPassword.value)
+    // .then(data => {
+    //   this.loginLoading();
+    // })
+    // .catch ( error => {
+    //   this.alert(error.message);
+    // })
+    // console.log('would sign in with ', this.emailAddress.value, this.currentPassword.value);
+    // console.log(this.currentPassword);
+    // console.log(this.emailAddress);
+    this.login = [{ emailNick: this.emailAddress.value, password: this.currentPassword.value, gettoken:true }];
+    this.comprobarLogin.loginUsers(this.login).subscribe((datos) => {
+      var contenedor = datos["user"];
+      this.navCtrl.push(InicioPage, {
+        // birthday: contenedor["birthdate"],
+        // image: contenedor["image"],
+        // name: contenedor["name"],
+        // nickname: contenedor["nickname"],
+        // role: contenedor["role"],
+        // surname: contenedor["surname"],
+        data: contenedor
+      });
+      
+    }, (err) => {
+      console.log(err["message"]);
+    });
   }
 
   /**

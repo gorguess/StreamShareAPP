@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { LoadingController } from 'ionic-angular';
+import { LoginProvider } from '../../providers/login/login';
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 
@@ -24,12 +25,14 @@ export class RegistroPage implements OnInit {
   emailForm: string = '';
   nombreForm: string = '';
   usuarioForm: string = '';
+  registro: Array<any>;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
-    private fire: AngularFireAuth
+    private fire: AngularFireAuth,
+    public comprobarLogin: LoginProvider
   ) {
   }
 
@@ -109,6 +112,24 @@ export class RegistroPage implements OnInit {
       this.gotoHome();
     },
       2000);
+  }
+
+  registerUsers() {
+    this.registro = [{ 
+      name: this.nombre.value, 
+      surname: this.nombre.value, 
+      nickname: this.nombre.value, 
+      email: this.emailAddress.value, 
+      birthdate: '28/10/1997', 
+      password: this.currentPassword.value,
+      user: null,
+      gettoken: true}];
+    this.comprobarLogin.registerUsers(this.registro).subscribe((datos) => {
+      // this.objetoUser = datos;
+      console.log('Datos: ', datos);
+    }, (err) => {
+      console.log(err["message"]);
+    });
   }
 
 }

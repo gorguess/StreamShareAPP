@@ -30,7 +30,7 @@
         <ion-col col-auto>
           <ion-buttons>
             <button ion-button icon-only>
-              {{ usuario }}
+              {{ nombreUsuario }}
               <ion-icon name="md-contact"></ion-icon>
             </button>
           </ion-buttons>
@@ -79,7 +79,7 @@
                   <h2 class="bold">Name: </h2>
                 </ion-col>
                 <ion-col col-auto>
-                  <h2>{{ nombre }}</h2>
+                  <h2>{{ nombre }} {{ apellido }}</h2>
                 </ion-col>
                 <ion-col col-auto>
                   <a (click)="nameType()">
@@ -99,7 +99,7 @@
                   <h2 class="bold">Username: </h2>
                 </ion-col>
                 <ion-col col-auto>
-                  <h2>{{ usuario }}</h2>
+                  <h2>{{ nombreUsuario }}</h2>
                 </ion-col>
                 <ion-col col-auto>
                   <a (click)="userType()">

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PerfilPage } from '../perfil/perfil';
 import { PeliculasPage } from '../peliculas/peliculas';
+import { InicioPage } from '../inicio/inicio';
 
 @IonicPage()
 @Component({
@@ -28,6 +29,18 @@ export class VerTodoPage {
     } else {
       console.log('Ha ocurrido un error');
     }
+  }
+
+  goToPerfil() {
+    this.navCtrl.push(PerfilPage);
+  }
+
+  goToPeliculas() {
+    this.navCtrl.push(PeliculasPage);
+  }
+
+  goToInicio() {
+    this.navCtrl.push(InicioPage);
   }
 
 }
