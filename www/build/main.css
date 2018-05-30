@@ -33547,6 +33547,10 @@ page-perfil .vertical-align-content > * {
   align-items: center !important;
 }
 
+page-perfil .background {
+  background: #008080;
+}
+
 page-registro ion-content {
   background: url("../assets/imgs/home.jpg");
   background-attachment: fixed;

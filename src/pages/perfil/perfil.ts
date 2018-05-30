@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ChatPage } from '../chat/chat';
 import { Subject } from 'rxjs';
 import { PeliculasPage } from '../peliculas/peliculas';
@@ -53,13 +54,62 @@ export class PerfilPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private camera: Camera
   ) {
     this.contenedor = navParams.data['data'];
     this.nombreUsuario = this.contenedor['nickname'];
     this.nombre = this.contenedor['name'];
     this.apellido = this.contenedor['surname'];
     this.perfilImg = this.contenedor['image'];
+  }
+
+  actionCamera(){
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      //la imagen va a estar codificada (base64)
+      this.perfilImg = 'data:image/png;base64,' + imageData;
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  accessGallery() {
+    this.camera.getPicture({
+      sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+      destinationType: this.camera.DestinationType.DATA_URL
+    }).then((imageData) => {
+      this.perfilImg = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  showMethods() {
+    let confirm = this.alertCtrl.create({
+      title: 'Choose one method',
+      message: "Do you want to choose the photo from your mobile's galery or you prefer take a photo?",
+      buttons: [
+        {
+          text: 'Galery',
+          handler: () => {
+            this.accessGallery();
+          }
+        },
+        {
+          text: 'Take a Photo',
+          handler: () => {
+            this.actionCamera();
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   ionViewDidLoad() {

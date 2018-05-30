@@ -33507,6 +33507,10 @@ page-peliculas .scroll-content {
   background-size: cover;
 }
 
+page-peliculas .has-refresher > .scroll-content {
+  border-top: 0px !important;
+}
+
 page-perfil ion-content {
   background: url("../assets/imgs/fondo.jpg");
   background-attachment: fixed;
@@ -33541,6 +33545,10 @@ page-perfil .vertical-align-content > * {
   -webkit-align-items: center !important;
   -ms-flex-align: center !important;
   align-items: center !important;
+}
+
+page-perfil .background {
+  background: #008080;
 }
 
 page-registro ion-content {
