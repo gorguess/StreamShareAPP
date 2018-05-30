@@ -124,6 +124,7 @@ export class RegistroPage implements OnInit {
       password: this.currentPassword.value,
       user: null,
       gettoken: true}];
+      console.log(this.registro);
     this.comprobarLogin.registerUsers(this.registro).subscribe((datos) => {
       // this.objetoUser = datos;
       console.log('Datos: ', datos);

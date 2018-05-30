@@ -6,11 +6,14 @@ import { LoginProvider } from '../../providers/login/login';
 import { PerfilPage } from '../perfil/perfil';
 import { InicioPage } from '../inicio/inicio';
 import { InfoPage } from '../info/info';
+import { MovieProvider } from '../../providers/movies/movie.provider'; 
+import { Movie } from '../../models/movie';
 
 @IonicPage()
 @Component({
   selector: 'page-peliculas',
   templateUrl: 'peliculas.html',
+  providers: [MovieProvider]
 })
 export class PeliculasPage {
 
@@ -30,6 +33,8 @@ export class PeliculasPage {
   iconoIOS;
   iconoAndroid;
   mensaje;
+  movie: Movie;
+  listMovie: Array<Movie>;
 
   public isSearchbarOpened = false;
   constructor(
@@ -37,7 +42,9 @@ export class PeliculasPage {
     public loadingCtrl: LoadingController, 
     public navParams: NavParams,
     public toastCtrl: ToastController,
-    public contenedorFilms: LoginProvider
+    public contenedorFilms: LoginProvider,
+    private _movieProvider: MovieProvider
+  
   ) {
     this.peli1 = "assets/imgs/peli1.jpg";
     this.peli2 = "assets/imgs/peli2.jpg";
@@ -49,15 +56,37 @@ export class PeliculasPage {
     this.iconoAndroid = 'md-arrow-dropdown';
     this.contenedor = navParams.data['data'];
     this.nombreUsuario = this.contenedor['nickname'];
+    this.movie = new Movie(
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      ''
+  );
   }
 
   ionViewDidLoad() {
-    this.contenedorFilms.getAllMovies().subscribe((datos) => {
-      console.log('Peliculas: ', datos);
-    }, (err) => {
-      console.log(err["message"]);
-    });
   }
+
+  ngOnInit(): void {
+    this._movieProvider.getAllMovies(localStorage.getItem('token')).subscribe(response => {
+        this.listMovie = [];
+        response.message.forEach(eleMovie => {
+            this.movie = eleMovie;
+            this.listMovie.push(this.movie);
+        });
+        console.log(this.listMovie)
+    },
+    error => {
+        console.log(error);
+    });
+}
 
   goToPerfil() {
     this.navCtrl.push(PerfilPage, {

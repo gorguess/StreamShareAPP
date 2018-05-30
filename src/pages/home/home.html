@@ -18,7 +18,7 @@
                 <ion-label floating>Email address</ion-label>
                 <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido 
                 de éste-->
-                <ion-input type="text" #emailad name="emailNick" formControlName="email"></ion-input>
+                <ion-input type="text" #emailad [(ngModel)]="userLogin.emailNick" name="emailNick" formControlName="email"></ion-input>
               </ion-item>
               <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->
               <ion-item *ngIf="formularioUsuario.get('email').errors && formularioUsuario.get('email').dirty">
@@ -33,7 +33,7 @@
               <ion-item>
                 <ion-label floating>Password</ion-label>
                 <!-- Creamos el input para la contraseña -->
-                <ion-input type="password" #password name="password" formControlName="pass"></ion-input>
+                <ion-input type="password" #password [(ngModel)]="userLogin.password" name="password" formControlName="pass"></ion-input>
               </ion-item>
               <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->
               <ion-item *ngIf="formularioUsuario.get('pass').errors && formularioUsuario.get('pass').dirty">

@@ -5,16 +5,23 @@ import { LoadingController } from 'ionic-angular';
 import { LoginProvider } from '../../providers/login/login';
 import { RegistroPage } from '../registro/registro';
 import { InicioPage } from '../inicio/inicio';
+import { UserLogin } from '../../models/userLogin';
 
 @IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
+  providers: [LoginProvider] 
 })
 export class HomePage {
 
+  errorDetails: string;
+  status: string;
+  token;
   formularioUsuario: FormGroup;
   mensaje: any;
+  userLogin: UserLogin;
+
   @ViewChild("emailad") emailAddress;
   @ViewChild("password") currentPassword;
   login: Array <any>;
@@ -24,8 +31,9 @@ export class HomePage {
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    public comprobarLogin: LoginProvider
+    private comprobarLogin: LoginProvider
   ) {
+    this.userLogin = new UserLogin('', '', '', '');
   }
 
   ngOnInit() {
@@ -49,14 +57,57 @@ export class HomePage {
   }
 
   goToInicio() {
-    this.login = [{ emailNick: this.emailAddress.value, password: this.currentPassword.value, gettoken:true }];
-    this.comprobarLogin.loginUsers(this.login).subscribe((datos) => {
+    this.login = [{ emailNick: this.emailAddress.value, password: this.currentPassword.value, gettoken: null}];
+    this.comprobarLogin.loginUsers(this.login).subscribe(datos => {
       var contenedor = datos["user"];
-      this.loginLoading(contenedor);    
-    }, (err) => {
+      //Modificacion LOGIN Persistencia del usuario y recogida del token Parte I
+      localStorage.setItem('user', JSON.stringify(contenedor));
+      this.getToken(contenedor, this.login);
+   
+    }, err => {
       this.alert();
     });
   }
+
+  //Recogemos las estadisticas en cuanto a seguimientos del usuario y la guardamos en LocalStorage para su uso
+  getCounter(contenedor) {
+    this.comprobarLogin.getCounter(localStorage.getItem('token')).subscribe(response => {
+        localStorage.setItem('stats', JSON.stringify(response));
+        this.status = 'Success';
+        this.errorDetails = 'Login successful, enjoy!!';
+        this.loginLoading(contenedor); 
+    },
+    error => {
+        console.log(error);
+    });
+}
+
+//Generamos el token del usuario para que pueda ser usado.
+getToken(contenedor, login) {
+    login[0].gettoken = true;
+    console.log(login);
+    this.comprobarLogin.loginUsers(this.login).subscribe(response => {
+        console.log(response);
+        this.token = response["token"];
+
+        if (this.token.length <= 0) {
+            this.status = 'error';
+            this.errorDetails = 'Error al generar el token';
+
+        } else {
+            localStorage.setItem('token', this.token);
+            this.getCounter(contenedor);
+        }
+    },
+    error => {
+            let errorMessage = <any>error;
+
+            if (errorMessage != null) {
+                this.status = 'Error';
+                this.errorDetails = 'User/email or password incorrect, try again!';
+            }
+    });
+}
 
   loginLoading(contenido) {
     this.ngOnInit();

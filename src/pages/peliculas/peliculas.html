@@ -151,6 +151,12 @@
 
     </ion-card>
 
+    <ion-row *ngFor="let p of listMovie">
+      <ion-col col-6 class="center">
+        <h1>{{p.title}}</h1>
+      </ion-col>
+    </ion-row>
+
     <ion-row>
       <ion-col col-6 class="center">
         <ion-thumbnail item-start col-12>
