@@ -1,0 +1,25 @@
+page-videoplayer {
+    #videoplayer:fullscreen {
+        background-color: rgba(255,255,255,0);
+    }
+    #videoplayer:-webkit-full-screen {
+        background-color: rgba(255,255,255,0);
+    }
+    #videoplayer:-moz-full-screen {
+        background-color: rgba(255,255,255,0);
+    }
+
+    #videoplayer{
+        transform: rotate(-90deg);
+        width: 100% !important;
+        
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+    #myBtn{
+        position: absolute;
+        z-index: 10000;
+    }
+}

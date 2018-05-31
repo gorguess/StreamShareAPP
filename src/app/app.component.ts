@@ -22,7 +22,7 @@ var config = {
 @Component({
   templateUrl: 'app.html',
 })
-export class MyApp implements OnInit, DoCheck{
+export class MyApp{
   rootPage: any = HomePage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {

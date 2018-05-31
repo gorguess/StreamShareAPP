@@ -6,6 +6,7 @@ import { PerfilPage } from '../perfil/perfil';
 import { InicioPage } from '../inicio/inicio';
 import { PeliculasPage } from '../peliculas/peliculas';
 import { Movie } from '../../models/movie';
+import { VideoplayerPage } from '../videoplayer/videoplayer';
 
 
 const noop = () => {
@@ -223,12 +224,12 @@ export class InfoPage implements ControlValueAccessor {
   }
   
   gotoreproductor(){
-    let options: StreamingVideoOptions = {
+    /*let options: StreamingVideoOptions = {
       successCallback: () => { console.log('Video played') },
       errorCallback: (e) => { console.log('Error streaming') },
       orientation: 'portrait'
     };
-    this.streamingMedia.playVideo('https://www.youtube.com/watch?v=U6VMFwS2mPk', options);
+    this.streamingMedia.playVideo('https://www.youtube.com/watch?v=U6VMFwS2mPk', options);*/
+    this.navCtrl.push(VideoplayerPage);
   }
-  
 }

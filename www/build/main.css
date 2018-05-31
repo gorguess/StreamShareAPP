@@ -33598,3 +33598,42 @@ page-registro .vertical-align-content > * {
   -ms-flex-align: center !important;
   align-items: center !important;
 }
+
+page-videoplayer #videoplayer:-webkit-full-screen {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+page-videoplayer #videoplayer:-moz-full-screen {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+page-videoplayer #videoplayer:-ms-fullscreen {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+page-videoplayer #videoplayer:fullscreen {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+page-videoplayer #videoplayer:-webkit-full-screen {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+page-videoplayer #videoplayer:-moz-full-screen {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+page-videoplayer #videoplayer {
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  width: 100% !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+page-videoplayer #myBtn {
+  position: absolute;
+  z-index: 10000;
+}
