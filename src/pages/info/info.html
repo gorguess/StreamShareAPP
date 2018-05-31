@@ -1,67 +1,13 @@
-<ion-header>
-  <ion-navbar hideBackButton="true">
-
-    <ion-grid *ngIf="!isSearchbarOpened">
-      <ion-row>
-        <ion-col col-auto>
-          <ion-buttons>
-            <button ion-button icon-only (click)="goToInicio()">
-              Home
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-        <ion-col col-auto (click)="goToPeliculas()">
-          <ion-buttons>
-            <button ion-button icon-only>
-              Films
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-        <ion-col col-auto>
-          <ion-buttons>
-            <button ion-button icon-only (click)="goToSeries()">
-              Series
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-        <ion-col col-auto>
-          <ion-buttons>
-            <button ion-button icon-only (click)="goToPerfil()">
-              {{ usuario }}
-              <ion-icon name="md-contact"></ion-icon>
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-        <ion-col col-1>
-          <ion-buttons>
-            <button ion-button icon-only (click)="isSearchbarOpened=true">
-              <ion-icon name="search"></ion-icon>
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-      </ion-row>
-    </ion-grid>
-
-    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">
-    </ion-searchbar>
-  </ion-navbar>
-</ion-header>
-
-
+<page-header></page-header>
 <ion-content>
   <ion-card>
     <ion-card-content class="backgroundCard">
       <ion-row class="center">
         <ion-col col-8 offset-2>
-          <img [src]="portada">
+          <img [src]="movie.poster">
         </ion-col>
         <ion-col col-6 offset-3 style="text-align: center;">
-          <h1>{{ titulo }}</h1>
+          <h1>{{ movie.title }}</h1>
         </ion-col>
         <ion-col col-10>
           <ul class="rating" (keydown)="onKeyDown($event)">

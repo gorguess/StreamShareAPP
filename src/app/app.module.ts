@@ -28,6 +28,7 @@ import { AddEventPage } from '../pages/add-event/add-event';
 import { EditEventPage } from '../pages/edit-event/edit-event';
 import { InfoPage } from '../pages/info/info';
 import { LoginProvider } from '../providers/login/login';
+import { HeaderPage } from '../pages/header/header';
 
 const firebaseAuth = {
   apiKey: "AIzaSyDk2H5Yzy8mp8Q6OOwDQ8gptAFYYbP7x5Y",
@@ -51,7 +52,8 @@ const firebaseAuth = {
     AddEventPage,
     EditEventPage,
     InfoPage,
-    VerTodoPage
+    VerTodoPage,
+    HeaderPage
   ],
   imports: [ 
     FormsModule, 
@@ -77,7 +79,8 @@ const firebaseAuth = {
     AddEventPage,
     EditEventPage,
     InfoPage,
-    VerTodoPage
+    VerTodoPage,
+    HeaderPage
   ],
   providers: [
     StatusBar,

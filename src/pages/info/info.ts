@@ -5,6 +5,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { PerfilPage } from '../perfil/perfil';
 import { InicioPage } from '../inicio/inicio';
 import { PeliculasPage } from '../peliculas/peliculas';
+import { Movie } from '../../models/movie';
 
 
 const noop = () => {
@@ -35,6 +36,7 @@ export const RATING_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class InfoPage implements ControlValueAccessor {
 
+  movie: Movie;
   portada;
   titulo;
   usuario;
@@ -197,14 +199,15 @@ export class InfoPage implements ControlValueAccessor {
     public navParams: NavParams,
     private streamingMedia: StreamingMedia
   ) {
-    this.portada = navParams.data['foto'];
-    this.titulo = navParams.data['nombre'];
-    this.usuario = 'Gorguess';
+    //this.portada = navParams.data['foto'];
+    //this.titulo = navParams.data['nombre'];
+    //this.usuario = 'Gorguess';
+    this.movie = navParams.data['content'];
   }
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InfoPage');
+    console.log(this.movie);
   }
 
   goToPerfil() {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, DoCheck} from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -10,7 +10,6 @@ import { InicioPage } from '../pages/inicio/inicio';
 import { ChatPage } from '../pages/chat/chat';
 import { VerTodoPage } from '../pages/ver-todo/ver-todo';
 
-
 var config = {
   apiKey: "AIzaSyDk2H5Yzy8mp8Q6OOwDQ8gptAFYYbP7x5Y",
   authDomain: "proyecto-final-cfc6c.firebaseapp.com",
@@ -21,9 +20,9 @@ var config = {
 };
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
 })
-export class MyApp {
+export class MyApp implements OnInit, DoCheck{
   rootPage: any = HomePage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {

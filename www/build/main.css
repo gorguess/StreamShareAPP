@@ -33352,6 +33352,20 @@ ion-navbar.toolbar {
   min-height: calc(46px + env(safe-area-inset-bottom));
 }
 
+.userAvatar {
+  border-radius: 50%;
+  max-height: 32px;
+}
+
+.ion-page > ion-content {
+  position: relative !important;
+}
+
+ion-header {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
 page-home ion-content {
   background: url("../assets/imgs/home.jpg");
   background-attachment: fixed;

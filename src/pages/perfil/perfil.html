@@ -1,58 +1,4 @@
-<ion-header>
-  <ion-navbar hideBackButton="true">
-
-    <ion-grid *ngIf="!isSearchbarOpened">
-      <ion-row>
-        <ion-col col-auto>
-          <ion-buttons>
-            <button ion-button icon-only (click)="goToInicio()">
-              Home
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-        <ion-col col-auto>
-          <ion-buttons>
-            <button ion-button icon-only (click)="goToPeliculas()">
-              Films
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-        <ion-col col-auto>
-          <ion-buttons>
-            <button ion-button icon-only (click)="goToSeries()">
-              Series
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-        <ion-col col-auto>
-          <ion-buttons>
-            <button ion-button icon-only>
-              {{ nombreUsuario }}
-              <ion-icon name="md-contact"></ion-icon>
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-        <ion-col col-1>
-          <ion-buttons>
-            <button ion-button icon-only (click)="isSearchbarOpened=true">
-              <ion-icon name="search"></ion-icon>
-            </button>
-          </ion-buttons>
-        </ion-col>
-
-      </ion-row>
-    </ion-grid>
-
-    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">
-    </ion-searchbar>
-  </ion-navbar>
-</ion-header>
-
-
+<page-header></page-header>
 <ion-content>
   <ion-list *ngIf="isSearchbarOpened">
     <button ion-item *ngFor="let item of items" (click)="showDetail(item)">
@@ -64,9 +10,14 @@
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col col-12>
+          <ion-col col-12 *ngIf="!trustedUrl">
             <ion-thumbnail item-start>
               <img [src]="perfilImg">
+            </ion-thumbnail>
+          </ion-col>
+          <ion-col col-12 *ngIf="trustedUrl">
+            <ion-thumbnail item-start>  
+              <img  [src]="trustedUrl">
             </ion-thumbnail>
           </ion-col>
         </ion-row>
@@ -79,7 +30,7 @@
                   <h2 class="bold">Name: </h2>
                 </ion-col>
                 <ion-col col-auto>
-                  <h2>{{ nombre }} {{ apellido }}</h2>
+                  <h2>{{ identity.name }} {{ identity.surname }}</h2>
                 </ion-col>
                 <ion-col col-auto>
                   <a (click)="nameType()">
@@ -99,7 +50,7 @@
                   <h2 class="bold">Username: </h2>
                 </ion-col>
                 <ion-col col-auto>
-                  <h2>{{ nombreUsuario }}</h2>
+                  <h2>{{ identity.nickname }}</h2>
                 </ion-col>
                 <ion-col col-auto>
                   <a (click)="userType()">

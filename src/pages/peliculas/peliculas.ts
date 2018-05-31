@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, FabContainer,
          ToastController, LoadingController} from 'ionic-angular';
 import { Subject } from 'rxjs';
@@ -8,6 +8,7 @@ import { InicioPage } from '../inicio/inicio';
 import { InfoPage } from '../info/info';
 import { MovieProvider } from '../../providers/movies/movie.provider'; 
 import { Movie } from '../../models/movie';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @IonicPage()
 @Component({
@@ -43,7 +44,8 @@ export class PeliculasPage {
     public navParams: NavParams,
     public toastCtrl: ToastController,
     public contenedorFilms: LoginProvider,
-    private _movieProvider: MovieProvider
+    private _movieProvider: MovieProvider,
+    private _sanitizer: DomSanitizer,
   
   ) {
     this.peli1 = "assets/imgs/peli1.jpg";
@@ -55,7 +57,7 @@ export class PeliculasPage {
     this.iconoIOS = 'ios-arrow-dropdown';
     this.iconoAndroid = 'md-arrow-dropdown';
     this.contenedor = navParams.data['data'];
-    this.nombreUsuario = this.contenedor['nickname'];
+    //this.nombreUsuario = this.contenedor['nickname'];
     this.movie = new Movie(
       '',
       '',
@@ -106,6 +108,11 @@ export class PeliculasPage {
       nombre: titulo,
       data: this.contenedor
     });
+  }
+
+  goToPeli(movie: Movie){
+    this.navCtrl.push(InfoPage, {content: movie});
+    console.log(movie);
   }
 
   filterType() {

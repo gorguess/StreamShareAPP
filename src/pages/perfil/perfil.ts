@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, DoCheck } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
 import { Subject } from 'rxjs';
@@ -13,6 +13,9 @@ import {
   MbscRange,
   MbscEventcalendar
 } from '@mobiscroll/angular';
+import { LoginProvider } from '../../providers/login/login';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { UserProvider } from '../../providers/user.provider';
 
 let now = new Date();
 
@@ -20,8 +23,14 @@ let now = new Date();
 @Component({
   selector: 'page-perfil',
   templateUrl: 'perfil.html',
+  providers: [LoginProvider, UserProvider]
 })
-export class PerfilPage {
+export class PerfilPage implements OnInit {
+  nuevoName: { name: any; }[];
+  trustedUrl: any;
+  avatarUrl: any;
+  identity: any;
+  nuevoUser: Array<any>;
   @ViewChild('mbscRange')
   range: MbscRange;
 
@@ -53,14 +62,30 @@ export class PerfilPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private comprobarLogin: LoginProvider,
+    private sanitizer: DomSanitizer,
+    private _userProvider: UserProvider
   ) {
-    this.contenedor = navParams.data['data'];
+    /*this.contenedor = navParams.data['data'];
     this.nombreUsuario = this.contenedor['nickname'];
     this.nombre = this.contenedor['name'];
     this.apellido = this.contenedor['surname'];
-    this.perfilImg = this.contenedor['image'];
+    this.perfilImg = this.contenedor['image'];*/
   }
+
+  ngOnInit(){
+    this.identity = this.comprobarLogin.getIdentity();
+    this.avatarUrl = this.comprobarLogin.getImageAvatar();
+    this.trustedUrl = this.sanitizer.bypassSecurityTrustUrl(this.avatarUrl)
+    }
+  
+  
+    /*ngDoCheck(){
+      this.identity = this.comprobarLogin.getIdentity();
+      this.avatarUrl = this.comprobarLogin.getImageAvatar();
+      this.trustedUrl = this.sanitizer.bypassSecurityTrustUrl(this.avatarUrl)
+    }*/
 
   ionViewDidLoad() {
     if (!this.perfilImg) {
@@ -195,6 +220,8 @@ export class PerfilPage {
             this.contenidoDescripcion = [];
             for (var key in data) {
               this.contenidoDescripcion.push(data[key]);
+              //this.nuevoUser = [{description: this.contenidoDescripcion}];
+              //this.updateUser(this.nuevoUser);
             }
           }
         }
@@ -225,6 +252,8 @@ export class PerfilPage {
             this.nombre = [];
             for (var key in data) {
               this.nombre.push(data[key]);
+              this.nuevoUser = [{name: this.nombre}];
+              this.updateUser(this.nuevoUser);
             }
           }
         }
@@ -255,12 +284,24 @@ export class PerfilPage {
             this.nombreUsuario = [];
             for (var key in data) {
               this.nombreUsuario.push(data[key]);
-              this.contenedor['nickname'] = this.nombreUsuario;
+              this.nuevoUser = [{nickname: this.nombreUsuario}];
+              this.updateUser(this.nuevoUser);
             }
           }
         }
       ]
     });
     prompt.present();
+  }
+
+  updateUser(user: Array<any>){
+    console.log(user[0]);
+    this._userProvider.updateUser(user[0],localStorage.getItem('token'), this.comprobarLogin.getIdentity()._id)
+    .subscribe(response=>{
+        console.log(response);
+      },
+      err=>{
+        console.log(err);
+    });
   }
 }

@@ -6,6 +6,7 @@ import { LoginProvider } from '../../providers/login/login';
 import { RegistroPage } from '../registro/registro';
 import { InicioPage } from '../inicio/inicio';
 import { UserLogin } from '../../models/userLogin';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @IonicPage()
 @Component({
@@ -15,6 +16,8 @@ import { UserLogin } from '../../models/userLogin';
 })
 export class HomePage {
 
+  trustedUrl: SafeUrl;
+  avatarUrl: any;
   errorDetails: string;
   status: string;
   token;
@@ -31,7 +34,8 @@ export class HomePage {
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private comprobarLogin: LoginProvider
+    private comprobarLogin: LoginProvider,
+    private _sanitizer: DomSanitizer
   ) {
     this.userLogin = new UserLogin('', '', '', '');
   }
@@ -40,8 +44,11 @@ export class HomePage {
 
     this.formularioUsuario = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
-      pass: new FormControl('', [Validators.pattern(/^[a-z0-9_-]{5,18}$/)])
+      pass: new FormControl('', [Validators.pattern(/^[a-z0-9_-]{4,18}$/)])
     });
+
+    this.avatarUrl = this.comprobarLogin.getImageAvatar();
+    this.trustedUrl = this._sanitizer.bypassSecurityTrustUrl(this.avatarUrl)
   }
 
   goToRegistro() {
@@ -75,7 +82,17 @@ export class HomePage {
         localStorage.setItem('stats', JSON.stringify(response));
         this.status = 'Success';
         this.errorDetails = 'Login successful, enjoy!!';
-        this.loginLoading(contenedor); 
+        
+        this.comprobarLogin.getAvatar(this.token, contenedor.image).subscribe(response => {
+          console.log(response);
+          var file = new Blob([response], {type: 'image/jpeg'});
+          var fileURL = URL.createObjectURL(file);
+          localStorage.setItem('avatar', fileURL);
+          this.loginLoading(contenedor);
+      },
+      err => {
+          console.log(err);
+      });
     },
     error => {
         console.log(error);
