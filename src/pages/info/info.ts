@@ -37,7 +37,9 @@ export class InfoPage implements ControlValueAccessor {
 
   portada;
   titulo;
-  usuario;
+  contenedor;
+  nombreUsuario;
+  contenido;
 
   _max: number = 5;
   _readOnly: boolean = false;
@@ -197,26 +199,49 @@ export class InfoPage implements ControlValueAccessor {
     public navParams: NavParams,
     private streamingMedia: StreamingMedia
   ) {
-    this.portada = navParams.data['foto'];
-    this.titulo = navParams.data['nombre'];
-    this.usuario = 'Gorguess';
+    this.contenido = navParams.data['contenido'];
+    // this.portada = navParams.data['contenido'];
+    // this.titulo = navParams.data['nombre'];
+    this.contenedor = navParams.data['data'];
+    this.nombreUsuario = this.contenedor['nickname'];
   }
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InfoPage');
+    console.log(this.contenido["description"]);
+    if (this.contenido["description"] == "N/A") {
+      this.contenido["description"] = "Not available";
+    }
+    if (this.contenido["genre"] == "N/A") {
+      this.contenido["genre"] = "Not available";
+    }
+    if (this.contenido["title"] == "N/A") {
+      this.contenido["title"] = "Not available";
+    }
+    if (this.contenido["year"] == "N/A") {
+      this.contenido["year"] = "Not available";
+    }
+    if (this.contenido["poster"] == "N/A") {
+      this.contenido["poster"] = "assets/imgs/notAvailable.png";
+    }
   }
 
   goToPerfil() {
-    this.navCtrl.push(PerfilPage);
+    this.navCtrl.push(PerfilPage, {
+      data: this.contenedor
+    });
   }
 
   goToInicio() {
-    this.navCtrl.push(InicioPage);
+    this.navCtrl.push(InicioPage, {
+      data: this.contenedor
+    });
   }
 
   goToPeliculas() {
-    this.navCtrl.push(PeliculasPage);
+    this.navCtrl.push(PeliculasPage, {
+      data: this.contenedor
+    });
   }
   
   gotoreproductor(){

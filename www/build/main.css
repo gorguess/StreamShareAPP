@@ -33423,6 +33423,10 @@ page-info .center {
   align-items: center !important;
 }
 
+page-info .titulo {
+  font-weight: bolder;
+}
+
 page-inicio ion-content {
   background: url("../assets/imgs/fondo.jpg");
   background-attachment: fixed;
@@ -33452,6 +33456,14 @@ page-inicio .titulo2 {
 
 page-inicio .center {
   text-align: center;
+}
+
+page-inicio .nombreUsuario {
+  color: #E57373;
+}
+
+page-inicio .usuarioIcono {
+  color: white;
 }
 
 page-peliculas ion-content {

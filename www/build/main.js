@@ -1,164 +1,5 @@
 webpackJsonp([11],{
 
-/***/ 161:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegistroPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_login_login__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__ = __webpack_require__(226);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase__ = __webpack_require__(138);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__home_home__ = __webpack_require__(89);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-
-var RegistroPage = (function () {
-    function RegistroPage(navCtrl, navParams, loadingCtrl, fire, comprobarLogin) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.loadingCtrl = loadingCtrl;
-        this.fire = fire;
-        this.comprobarLogin = comprobarLogin;
-        this.arrayDatos = [];
-        this.emailForm = '';
-        this.nombreForm = '';
-        this.usuarioForm = '';
-    }
-    RegistroPage.prototype.ngOnInit = function () {
-        this.formularioUsuario = new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormGroup */]({
-            name: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required]),
-            user: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required]),
-            email: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
-            pass: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].pattern(/^[a-z0-9_-]{10,18}$/)]),
-            pass2: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required, this.equalto('pass')])
-        });
-    };
-    // ionViewDidLoad() {
-    //   console.log('ionViewDidLoad HomePage');
-    // }
-    RegistroPage.prototype.gotoHome = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__home_home__["a" /* HomePage */]);
-    };
-    RegistroPage.prototype.saveAllData = function () {
-        var messagesRef = __WEBPACK_IMPORTED_MODULE_5_firebase___default.a.database().ref().child("datosUsuario");
-        messagesRef.push({
-            email: this.emailForm,
-            nombre: this.nombreForm,
-            usuario: this.usuarioForm
-        });
-        this.loginLoading();
-    };
-    /**
-     * evento que se ejecuta al enviar la informacion, este solo cumple la funcion de mostrar un mensaje de informacion,
-     * resetea el formulario y sus validaciones y limpia el parametro datosUsuario para el nuevo ingreso de informacion.
-     */
-    RegistroPage.prototype.saveData = function () {
-        var _this = this;
-        this.emailForm = this.formularioUsuario.value.email;
-        this.nombreForm = this.formularioUsuario.value.name;
-        this.usuarioForm = this.formularioUsuario.value.user;
-        this.ngOnInit();
-        this.fire.auth.createUserWithEmailAndPassword(this.emailAddress.value, this.currentPassword.value)
-            .then(function (data) {
-            console.log(data);
-            _this.saveAllData();
-        })
-            .catch(function (error) {
-            console.log('got an error', error);
-        });
-    };
-    RegistroPage.prototype.equalto = function (field_name) {
-        return function (control) {
-            var input = control.value;
-            var isValid = control.root.value[field_name] == input;
-            if (!isValid)
-                return { 'equalTo': { isValid: isValid } };
-            else
-                return null;
-        };
-    };
-    RegistroPage.prototype.loginLoading = function () {
-        var _this = this;
-        this.ngOnInit();
-        var loading = this.loadingCtrl.create({
-            content: 'Please wait...',
-            duration: 2000,
-            dismissOnPageChange: true
-        });
-        loading.present();
-        setTimeout(function () {
-            _this.gotoHome();
-        }, 2000);
-    };
-    RegistroPage.prototype.registerUsers = function () {
-        this.registro = [{
-                name: this.nombre.value,
-                surname: this.nombre.value,
-                nickname: this.nombre.value,
-                email: this.emailAddress.value,
-                birthdate: '28/10/1997',
-                password: this.currentPassword.value,
-                user: null,
-                gettoken: true
-            }];
-        this.comprobarLogin.registerUsers(this.registro).subscribe(function (datos) {
-            // this.objetoUser = datos;
-            console.log('Datos: ', datos);
-        }, function (err) {
-            console.log(err["message"]);
-        });
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("emailad"),
-        __metadata("design:type", Object)
-    ], RegistroPage.prototype, "emailAddress", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("username"),
-        __metadata("design:type", Object)
-    ], RegistroPage.prototype, "userName", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("name"),
-        __metadata("design:type", Object)
-    ], RegistroPage.prototype, "nombre", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("password"),
-        __metadata("design:type", Object)
-    ], RegistroPage.prototype, "currentPassword", void 0);
-    RegistroPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-registro',template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\registro\registro.html"*/'<ion-content class="vertical-align-content">\n  <ion-grid>\n    <ion-row>\n      <ion-col col-12>\n        <!-- Creamos una "tarjeta" en la que vendrá diseñado nuestro formulario de inicio de sesión -->\n        <ion-card>\n          <!-- Cabecera -->\n          <ion-card-header>\n            <p class="header">Registration</p>\n          </ion-card-header>\n          <!-- Contenido de nuestro formulario -->\n          <ion-card-content>\n            <ion-list>\n              <!-- Creamos nuestra etiqueta para nuestro formulario, asignándole un nombre de grupo (ID) y una llamada \n            a una función de carga mientras comprueba las credenciales (loginLoading)-->\n              <form [formGroup]="formularioUsuario" (ngSubmit)="loginLoading()" novalidate>\n                <ion-item>\n                  <ion-label floating>Name</ion-label>\n                  <ion-input formControlName="name" #name type="text" #name></ion-input>\n                </ion-item>\n                <ion-item *ngIf="formularioUsuario.get(\'name\').errors && formularioUsuario.get(\'name\').dirty">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'name\').hasError(\'required\')">Your name is required</p>\n                </ion-item>\n                <ion-item>\n                  <ion-label floating>Username</ion-label>\n                  <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido \n                            de éste-->\n                  <ion-input type="text" #userame formControlName="user"></ion-input>\n                </ion-item>\n                <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->\n                <ion-item *ngIf="formularioUsuario.get(\'user\').errors && formularioUsuario.get(\'user\').dirty">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'user\').hasError(\'required\')" class="error">\n                    Username is required.\n                  </p>\n                </ion-item>\n                <ion-item>\n                  <ion-label floating>Email address</ion-label>\n                  <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido \n                de éste-->\n                  <ion-input type="text" #emailad formControlName="email"></ion-input>\n                </ion-item>\n                <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->\n                <ion-item *ngIf="formularioUsuario.get(\'email\').errors && formularioUsuario.get(\'email\').dirty">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'email\').hasError(\'required\')" class="error">\n                    Email is required.\n                  </p>\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'email\').hasError(\'pattern\')">\n                    It is not an email\n                  </p>\n                </ion-item>\n\n                <ion-item>\n                  <ion-label floating>Password</ion-label>\n                  <!-- Creamos el input para la contraseña -->\n                  <ion-input type="password" name="pass" formControlName="pass"></ion-input>\n                </ion-item>\n                <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->\n                <ion-item *ngIf="formularioUsuario.get(\'pass\').errors && formularioUsuario.get(\'pass\').dirty">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'pass\').hasError(\'pattern\')" class="error">\n                    It is not a strong password.\n                  </p>\n                </ion-item>\n\n                <ion-item>\n                  <ion-label floating>Confirm password</ion-label>\n                  <!-- Creamos el input para la contraseña -->\n                  <ion-input type="password" #password formControlName="pass2"></ion-input>\n                </ion-item>\n                <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->\n                <ion-item *ngIf="(formularioUsuario.get(\'pass2\').hasError(\'equalTo\') || formularioUsuario.get(\'pass2\').hasError(\'required\')) && formularioUsuario.get(\'pass2\').touched">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'pass2\').hasError(\'required\') && formularioUsuario.get(\'pass2\').touched" class="error">\n                    It is not a strong password.\n                  </p>\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'pass2\').hasError(\'equalTo\') && formularioUsuario.get(\'pass2\').touched" class="error">\n                    Passwords do not match\n                  </p>\n                </ion-item>\n\n                <br>\n                <!-- Creamos el botón de registro, que permanecerá desactivado, hasta que los campos del formulario\n              estén correctamente rellenos superando el control de errores -->\n                <ion-grid padding-top>\n                  <ion-row justify-content-center>\n                    <div class="col-1" align-self-center>\n                      <div>\n                        <button ion-button type="submit" [disabled]="!formularioUsuario.valid" (click)="registerUsers()">Sign Up</button>\n                      </div>\n                    </div>\n                  </ion-row>\n                </ion-grid>\n\n                <ion-grid>\n                  <ion-row justify-content-center padding-top>\n                    <div align-self-center>\n                      <div>Or</div>\n                    </div>\n                  </ion-row>\n                  <ion-row justify-content-center padding-top>\n                    <div align-self-center>\n                      <div>\n                        <!-- <a (click)="goToRegistry()"> -->\n                        <a (click)="gotoHome()">\n                          <strong>Go to Login Page!</strong>\n                        </a>\n                      </div>\n                    </div>\n                  </ion-row>\n                </ion-grid>\n              </form>\n\n            </ion-list>\n          </ion-card-content>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\registro\registro.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__["a" /* AngularFireAuth */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_login_login__["a" /* LoginProvider */]])
-    ], RegistroPage);
-    return RegistroPage;
-}());
-
-//# sourceMappingURL=registro.js.map
-
-/***/ }),
-
 /***/ 162:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -166,7 +7,7 @@ var RegistroPage = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase__ = __webpack_require__(223);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_firebase__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -243,15 +84,12 @@ var ChatPage = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export RATING_CONTROL_VALUE_ACCESSOR */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InfoPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegistroPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_streaming_media__ = __webpack_require__(325);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__perfil_perfil__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inicio_inicio__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__peliculas_peliculas__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_login_login__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__home_home__ = __webpack_require__(89);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -267,234 +105,119 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var noop = function () {
-};
-var RATING_CONTROL_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_3__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* forwardRef */])(function () { return InfoPage; }),
-    multi: true
-};
-var InfoPage = (function () {
-    function InfoPage(navCtrl, navParams, streamingMedia) {
+var RegistroPage = (function () {
+    function RegistroPage(navCtrl, navParams, loadingCtrl, alertCtrl, comprobarLogin) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.streamingMedia = streamingMedia;
-        this._max = 5;
-        this._readOnly = false;
-        this._emptyStarIconName = 'star-outline';
-        this._halfStarIconName = 'star-half';
-        this._starIconName = 'star';
-        this._nullable = false;
-        this.onChangeCallback = noop;
-        this.portada = navParams.data['foto'];
-        this.titulo = navParams.data['nombre'];
-        this.usuario = 'Gorguess';
+        this.loadingCtrl = loadingCtrl;
+        this.alertCtrl = alertCtrl;
+        this.comprobarLogin = comprobarLogin;
     }
-    Object.defineProperty(InfoPage.prototype, "max", {
-        get: function () {
-            return this._max;
-        },
-        set: function (val) {
-            var newValue = this.getNumberPropertyValue(val);
-            if (newValue !== this._max) {
-                this._max = newValue;
-                this.createStarIndexes();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(InfoPage.prototype, "readOnly", {
-        get: function () {
-            return this._readOnly;
-        },
-        set: function (val) {
-            this._readOnly = this.isTrueProperty(val);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(InfoPage.prototype, "emptyStarIconName", {
-        get: function () {
-            return this._emptyStarIconName;
-        },
-        set: function (val) {
-            this._emptyStarIconName = val;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(InfoPage.prototype, "halfStarIconName", {
-        get: function () {
-            return this._halfStarIconName;
-        },
-        set: function (val) {
-            this._halfStarIconName = val;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(InfoPage.prototype, "starIconName", {
-        get: function () {
-            return this._starIconName;
-        },
-        set: function (val) {
-            this._starIconName = val;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(InfoPage.prototype, "nullable", {
-        get: function () {
-            return this._nullable;
-        },
-        set: function (val) {
-            this._nullable = this.isTrueProperty(val);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    InfoPage.prototype.ngOnInit = function () {
-        // ngFor needs an array
-        this.createStarIndexes();
+    RegistroPage.prototype.ngOnInit = function () {
+        this.formularioUsuario = new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormGroup */]({
+            name: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required]),
+            surname: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required]),
+            nickname: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required]),
+            email: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
+            pass: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].pattern(/^[a-z0-9_-]{5,18}$/)]),
+            pass2: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required, this.equalto('pass')])
+        });
     };
-    InfoPage.prototype.createStarIndexes = function () {
-        this.starIndexes = Array(this.max).fill(1).map(function (x, i) { return i; });
+    RegistroPage.prototype.gotoHome = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__home_home__["a" /* HomePage */]);
     };
-    InfoPage.prototype.getStarIconName = function (starIndex) {
-        if (this.value === undefined) {
-            return this.emptyStarIconName;
-        }
-        if (this.value > starIndex) {
-            if (this.value < starIndex + 1) {
-                return this.halfStarIconName;
+    RegistroPage.prototype.equalto = function (field_name) {
+        return function (control) {
+            var input = control.value;
+            var isValid = control.root.value[field_name] == input;
+            if (!isValid)
+                return { 'equalTo': { isValid: isValid } };
+            else
+                return null;
+        };
+    };
+    RegistroPage.prototype.alert = function () {
+        this.alertCtrl.create({
+            title: 'There was a problem!',
+            subTitle: 'This user alredy exists',
+            buttons: ['OK']
+        }).present();
+    };
+    RegistroPage.prototype.registerUsers = function () {
+        var _this = this;
+        this.registro = [{
+                name: this.nombre.value,
+                surname: this.apellidos.value,
+                nickname: this.username.value,
+                email: this.emailAddress.value,
+                birthdate: this.birthday.value["day"] +
+                    '/' + this.birthday.value["month"] +
+                    '/' + this.birthday.value["year"],
+                password: this.currentPassword.value
+            }];
+        this.comprobarLogin.registerUsers(this.registro).subscribe(function (datos) {
+            console.log('Datos: ', datos);
+            if (datos['message'] == 'Este usuario ya existe') {
+                _this.alert();
             }
             else {
-                return this.starIconName;
+                _this.loginLoading();
             }
-        }
-        else {
-            return this.emptyStarIconName;
-        }
+        }, function (err) {
+            console.log(err["message"]);
+        });
     };
-    Object.defineProperty(InfoPage.prototype, "value", {
-        get: function () {
-            return this.innerValue;
-        },
-        set: function (value) {
-            if (value !== this.innerValue) {
-                this.innerValue = value;
-                this.onChangeCallback(value);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    InfoPage.prototype.writeValue = function (value) {
-        if (value !== this.innerValue) {
-            this.innerValue = value;
-        }
-    };
-    InfoPage.prototype.registerOnChange = function (fn) {
-        this.onChangeCallback = fn;
-    };
-    InfoPage.prototype.registerOnTouched = function (fn) {
-    };
-    InfoPage.prototype.onKeyDown = function (event) {
-        if (/(37|38|39|40)/.test(event.which)) {
-            event.preventDefault();
-            event.stopPropagation();
-            var newValue = this.value + ((event.which == 38 || event.which == 39) ? 1 : -1);
-            return this.rate(newValue);
-        }
-    };
-    InfoPage.prototype.rate = function (value) {
-        if (this.readOnly || value < 0 || value > this.max) {
-            return;
-        }
-        if (value === this.value && this.nullable) {
-            value = null;
-        }
-        this.value = value;
-    };
-    InfoPage.prototype.isTrueProperty = function (val) {
-        if (typeof val === 'string') {
-            val = val.toLowerCase().trim();
-            return (val === 'true' || val === 'on');
-        }
-        return !!val;
-    };
-    InfoPage.prototype.getNumberPropertyValue = function (val) {
-        if (typeof val === 'string') {
-            return parseInt(val.trim());
-        }
-        return val;
-    };
-    InfoPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad InfoPage');
-    };
-    InfoPage.prototype.goToPerfil = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__perfil_perfil__["a" /* PerfilPage */]);
-    };
-    InfoPage.prototype.goToInicio = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__inicio_inicio__["a" /* InicioPage */]);
-    };
-    InfoPage.prototype.goToPeliculas = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__peliculas_peliculas__["a" /* PeliculasPage */]);
-    };
-    InfoPage.prototype.gotoreproductor = function () {
-        var options = {
-            successCallback: function () { console.log('Video played'); },
-            errorCallback: function (e) { console.log('Error streaming'); },
-            orientation: 'portrait'
-        };
-        this.streamingMedia.playVideo('https://www.youtube.com/watch?v=U6VMFwS2mPk', options);
+    RegistroPage.prototype.loginLoading = function () {
+        var _this = this;
+        this.ngOnInit();
+        var loading = this.loadingCtrl.create({
+            content: 'Please wait...',
+            duration: 2000,
+            dismissOnPageChange: true
+        });
+        loading.present();
+        setTimeout(function () {
+            _this.gotoHome();
+        }, 2000);
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], InfoPage.prototype, "max", null);
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("name"),
+        __metadata("design:type", Object)
+    ], RegistroPage.prototype, "nombre", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], InfoPage.prototype, "readOnly", null);
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("surname"),
+        __metadata("design:type", Object)
+    ], RegistroPage.prototype, "apellidos", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], InfoPage.prototype, "emptyStarIconName", null);
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("nickname"),
+        __metadata("design:type", Object)
+    ], RegistroPage.prototype, "username", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], InfoPage.prototype, "halfStarIconName", null);
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("birthday"),
+        __metadata("design:type", Object)
+    ], RegistroPage.prototype, "birthday", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], InfoPage.prototype, "starIconName", null);
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("emailad"),
+        __metadata("design:type", Object)
+    ], RegistroPage.prototype, "emailAddress", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], InfoPage.prototype, "nullable", null);
-    InfoPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("password"),
+        __metadata("design:type", Object)
+    ], RegistroPage.prototype, "currentPassword", void 0);
+    RegistroPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-info',
-            styles: ["\n    ul.rating li {\n      display: inline;\n      border: 0px;\n      background: none;\n      padding: 5px 10px;\n    }\n    ul.rating li i {\n      font-size: 30px;\n    }\n  "],template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\info\info.html"*/'<ion-header>\n  <ion-navbar hideBackButton="true">\n\n    <ion-grid *ngIf="!isSearchbarOpened">\n      <ion-row>\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToInicio()">\n              Home\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto (click)="goToPeliculas()">\n          <ion-buttons>\n            <button ion-button icon-only>\n              Films\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToSeries()">\n              Series\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToPerfil()">\n              {{ usuario }}\n              <ion-icon name="md-contact"></ion-icon>\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-1>\n          <ion-buttons>\n            <button ion-button icon-only (click)="isSearchbarOpened=true">\n              <ion-icon name="search"></ion-icon>\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n      </ion-row>\n    </ion-grid>\n\n    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">\n    </ion-searchbar>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content>\n  <ion-card>\n    <ion-card-content class="backgroundCard">\n      <ion-row class="center">\n        <ion-col col-8 offset-2>\n          <img [src]="portada">\n        </ion-col>\n        <ion-col col-6 offset-3 style="text-align: center;">\n          <h1>{{ titulo }}</h1>\n        </ion-col>\n        <ion-col col-10>\n          <ul class="rating" (keydown)="onKeyDown($event)">\n            <li *ngFor="let starIndex of starIndexes" tappable (click)="rate(starIndex + 1)">\n              <ion-icon [name]="getStarIconName(starIndex)">\n              </ion-icon>\n            </li>\n          </ul>\n        </ion-col>\n        <ion-col col-6 offset-3>\n          <ion-buttons>\n            <button ion-button icon-only outline col-12 class="center" (click)="gotoreproductor()">\n              Watch Trailer\n            </button>\n          </ion-buttons>\n        </ion-col>\n      </ion-row>\n    </ion-card-content>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\info\info.html"*/,
-            providers: [RATING_CONTROL_VALUE_ACCESSOR]
+            selector: 'page-registro',template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\registro\registro.html"*/'<ion-content>\n  <ion-grid>\n    <ion-row>\n      <ion-col col-12>\n        <ion-card>\n          <ion-card-header>\n            <p class="header">Registration</p>\n          </ion-card-header>\n          <ion-card-content>\n            <ion-list>\n              <form [formGroup]="formularioUsuario" novalidate>\n                <ion-item>\n                  <ion-label floating>Name *</ion-label>\n                  <ion-input formControlName="name" #name type="text"></ion-input>\n                </ion-item>\n                <ion-item *ngIf="formularioUsuario.get(\'name\').errors && formularioUsuario.get(\'name\').dirty">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'name\').hasError(\'required\')">Your name is required</p>\n                </ion-item>\n                <ion-item>\n                  <ion-label floating>Surname *</ion-label>\n                  <ion-input formControlName="surname" #surname type="text"></ion-input>\n                </ion-item>\n                <ion-item *ngIf="formularioUsuario.get(\'surname\').errors && formularioUsuario.get(\'surname\').dirty">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'surname\').hasError(\'required\')">Your surname is required</p>\n                </ion-item>\n                <ion-item>\n                  <ion-label floating>Nickname *</ion-label>\n                  <ion-input type="text" #nickname formControlName="nickname"></ion-input>\n                </ion-item>\n                <ion-item *ngIf="formularioUsuario.get(\'nickname\').errors && formularioUsuario.get(\'nickname\').dirty">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'nickname\').hasError(\'required\')" class="error">\n                    nickname is required.\n                  </p>\n                </ion-item>\n                <ion-item>\n                  <ion-label floating>Birthday</ion-label>\n                  <ion-datetime #birthday displayFormat="MM/DD/YYYY"></ion-datetime>\n                </ion-item>\n                <ion-item>\n                  <ion-label floating>Email address *</ion-label>\n                  <ion-input type="email" #emailad formControlName="email"></ion-input>\n                </ion-item>\n                <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->\n                <ion-item *ngIf="formularioUsuario.get(\'email\').errors && formularioUsuario.get(\'email\').dirty">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'email\').hasError(\'required\')" class="error">\n                    Email is required.\n                  </p>\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'email\').hasError(\'pattern\')">\n                    It is not an email\n                  </p>\n                </ion-item>\n                <ion-item>\n                  <ion-label floating>Password *</ion-label>\n                  <!-- Creamos el input para la contraseña -->\n                  <ion-input type="password" name="pass" formControlName="pass"></ion-input>\n                </ion-item>\n                <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->\n                <ion-item *ngIf="formularioUsuario.get(\'pass\').errors && formularioUsuario.get(\'pass\').dirty">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'pass\').hasError(\'pattern\')" class="error">\n                    It is not a strong password.\n                  </p>\n                </ion-item>\n\n                <ion-item>\n                  <ion-label floating>Confirm password *</ion-label>\n                  <!-- Creamos el input para la contraseña -->\n                  <ion-input type="password" #password formControlName="pass2"></ion-input>\n                </ion-item>\n                <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->\n                <ion-item *ngIf="(formularioUsuario.get(\'pass2\').hasError(\'equalTo\') || formularioUsuario.get(\'pass2\').hasError(\'required\')) && formularioUsuario.get(\'pass2\').touched">\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'pass2\').hasError(\'required\') && formularioUsuario.get(\'pass2\').touched" class="error">\n                    It is not a strong password.\n                  </p>\n                  <p color="danger" ion-text *ngIf="formularioUsuario.get(\'pass2\').hasError(\'equalTo\') && formularioUsuario.get(\'pass2\').touched" class="error">\n                    Passwords do not match\n                  </p>\n                </ion-item>\n\n                <br>\n                <!-- Creamos el botón de registro, que permanecerá desactivado, hasta que los campos del formulario\n              estén correctamente rellenos superando el control de errores -->\n                <ion-grid padding-top>\n                  <ion-row justify-content-center>\n                    <div class="col-1" align-self-center>\n                      <div>\n                        <button ion-button type="submit" [disabled]="!formularioUsuario.valid" (click)="registerUsers()">Sign Up</button>\n                      </div>\n                    </div>\n                  </ion-row>\n                </ion-grid>\n\n                <ion-grid>\n                  <ion-row justify-content-center padding-top>\n                    <div align-self-center>\n                      <div>Or</div>\n                    </div>\n                  </ion-row>\n                  <ion-row justify-content-center padding-top>\n                    <div align-self-center>\n                      <div>\n                        <!-- <a (click)="goToRegistry()"> -->\n                        <a (click)="gotoHome()">\n                          <strong>Go to Login Page!</strong>\n                        </a>\n                      </div>\n                    </div>\n                  </ion-row>\n                </ion-grid>\n              </form>\n\n            </ion-list>\n          </ion-card-content>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\registro\registro.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__ionic_native_streaming_media__["a" /* StreamingMedia */]])
-    ], InfoPage);
-    return InfoPage;
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_login_login__["a" /* LoginProvider */]])
+    ], RegistroPage);
+    return RegistroPage;
 }());
 
-//# sourceMappingURL=info.js.map
+//# sourceMappingURL=registro.js.map
 
 /***/ }),
 
@@ -588,47 +311,47 @@ webpackEmptyAsyncContext.id = 177;
 
 var map = {
 	"../pages/add-event/add-event.module": [
-		711,
+		714,
 		10
 	],
 	"../pages/chat/chat.module": [
-		716,
+		715,
 		9
 	],
 	"../pages/edit-event/edit-event.module": [
-		712,
+		716,
 		8
 	],
 	"../pages/home/home.module": [
-		713,
+		717,
 		7
 	],
 	"../pages/info/info.module": [
-		721,
+		718,
 		6
 	],
 	"../pages/inicio/inicio.module": [
-		714,
+		719,
 		5
 	],
 	"../pages/menu/menu.module": [
-		715,
+		720,
 		4
 	],
 	"../pages/peliculas/peliculas.module": [
-		717,
+		721,
 		3
 	],
 	"../pages/perfil/perfil.module": [
-		718,
+		722,
 		2
 	],
 	"../pages/registro/registro.module": [
-		719,
+		723,
 		1
 	],
 	"../pages/ver-todo/ver-todo.module": [
-		720,
+		724,
 		0
 	]
 };
@@ -648,7 +371,7 @@ module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 368:
+/***/ 367:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -693,7 +416,7 @@ var AddEventPage = (function () {
 
 /***/ }),
 
-/***/ 369:
+/***/ 368:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -738,7 +461,7 @@ var EditEventPage = (function () {
 
 /***/ }),
 
-/***/ 370:
+/***/ 369:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -799,13 +522,13 @@ var MenuPage = (function () {
 
 /***/ }),
 
-/***/ 371:
+/***/ 370:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(372);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(376);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(371);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(375);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -813,7 +536,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 376:
+/***/ 375:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -823,34 +546,36 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(707);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angularfire2__ = __webpack_require__(319);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2_auth__ = __webpack_require__(226);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_streaming_media__ = __webpack_require__(325);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ionic2_rating__ = __webpack_require__(708);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_common_http__ = __webpack_require__(223);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__ = __webpack_require__(365);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__ = __webpack_require__(366);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_http__ = __webpack_require__(710);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_camera__ = __webpack_require__(323);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_home_home__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_registro_registro__ = __webpack_require__(161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_inicio_inicio__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_menu_menu__ = __webpack_require__(370);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_ver_todo_ver_todo__ = __webpack_require__(164);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_peliculas_peliculas__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_perfil_perfil__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_chat_chat__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_add_event_add_event__ = __webpack_require__(368);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_edit_event_edit_event__ = __webpack_require__(369);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_info_info__ = __webpack_require__(163);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__providers_login_login__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(430);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angularfire2__ = __webpack_require__(274);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2_auth__ = __webpack_require__(708);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_streaming_media__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ionic2_rating__ = __webpack_require__(711);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_common_http__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__providers_movie_movie_provider__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_status_bar__ = __webpack_require__(272);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_splash_screen__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_http__ = __webpack_require__(713);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ionic_native_camera__ = __webpack_require__(228);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_home_home__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_registro_registro__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_inicio_inicio__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_menu_menu__ = __webpack_require__(369);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_ver_todo_ver_todo__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_peliculas_peliculas__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_perfil_perfil__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_chat_chat__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_add_event_add_event__ = __webpack_require__(367);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_edit_event_edit_event__ = __webpack_require__(368);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_info_info__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__providers_login_login__ = __webpack_require__(75);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -894,65 +619,66 @@ var AppModule = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["J" /* NgModule */])({
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */],
-                __WEBPACK_IMPORTED_MODULE_15__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_16__pages_registro_registro__["a" /* RegistroPage */],
-                __WEBPACK_IMPORTED_MODULE_17__pages_inicio_inicio__["a" /* InicioPage */],
-                __WEBPACK_IMPORTED_MODULE_18__pages_menu_menu__["a" /* MenuPage */],
-                __WEBPACK_IMPORTED_MODULE_20__pages_peliculas_peliculas__["a" /* PeliculasPage */],
-                __WEBPACK_IMPORTED_MODULE_21__pages_perfil_perfil__["a" /* PerfilPage */],
-                __WEBPACK_IMPORTED_MODULE_22__pages_chat_chat__["a" /* ChatPage */],
-                __WEBPACK_IMPORTED_MODULE_23__pages_add_event_add_event__["a" /* AddEventPage */],
-                __WEBPACK_IMPORTED_MODULE_24__pages_edit_event_edit_event__["a" /* EditEventPage */],
-                __WEBPACK_IMPORTED_MODULE_25__pages_info_info__["a" /* InfoPage */],
-                __WEBPACK_IMPORTED_MODULE_19__pages_ver_todo_ver_todo__["a" /* VerTodoPage */]
+                __WEBPACK_IMPORTED_MODULE_16__pages_home_home__["a" /* HomePage */],
+                __WEBPACK_IMPORTED_MODULE_17__pages_registro_registro__["a" /* RegistroPage */],
+                __WEBPACK_IMPORTED_MODULE_18__pages_inicio_inicio__["a" /* InicioPage */],
+                __WEBPACK_IMPORTED_MODULE_19__pages_menu_menu__["a" /* MenuPage */],
+                __WEBPACK_IMPORTED_MODULE_21__pages_peliculas_peliculas__["a" /* PeliculasPage */],
+                __WEBPACK_IMPORTED_MODULE_22__pages_perfil_perfil__["a" /* PerfilPage */],
+                __WEBPACK_IMPORTED_MODULE_23__pages_chat_chat__["a" /* ChatPage */],
+                __WEBPACK_IMPORTED_MODULE_24__pages_add_event_add_event__["a" /* AddEventPage */],
+                __WEBPACK_IMPORTED_MODULE_25__pages_edit_event_edit_event__["a" /* EditEventPage */],
+                __WEBPACK_IMPORTED_MODULE_26__pages_info_info__["a" /* InfoPage */],
+                __WEBPACK_IMPORTED_MODULE_20__pages_ver_todo_ver_todo__["a" /* VerTodoPage */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_forms__["c" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_1__mobiscroll_angular__["b" /* MbscModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_13__angular_http__["a" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_14__angular_http__["a" /* HttpModule */],
                 __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
                     links: [
                         { loadChildren: '../pages/add-event/add-event.module#AddEventPageModule', name: 'AddEventPage', segment: 'add-event', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/edit-event/edit-event.module#EditEventPageModule', name: 'EditEventPage', segment: 'edit-event', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/home/home.module#HomePageModule', name: 'HomePage', segment: 'home', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/info/info.module#InfoPageModule', name: 'InfoPage', segment: 'info', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/inicio/inicio.module#InicioPageModule', name: 'InicioPage', segment: 'inicio', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/peliculas/peliculas.module#PeliculasPageModule', name: 'PeliculasPage', segment: 'peliculas', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/perfil/perfil.module#PerfilPageModule', name: 'PerfilPage', segment: 'perfil', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/registro/registro.module#RegistroPageModule', name: 'RegistroPage', segment: 'registro', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/ver-todo/ver-todo.module#VerTodoPageModule', name: 'VerTodoPage', segment: 'ver-todo', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/info/info.module#InfoPageModule', name: 'InfoPage', segment: 'info', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/ver-todo/ver-todo.module#VerTodoPageModule', name: 'VerTodoPage', segment: 'ver-todo', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_6_angularfire2__["a" /* AngularFireModule */].initializeApp(firebaseAuth),
-                __WEBPACK_IMPORTED_MODULE_7_angularfire2_auth__["b" /* AngularFireAuthModule */],
+                __WEBPACK_IMPORTED_MODULE_7_angularfire2_auth__["a" /* AngularFireAuthModule */],
                 __WEBPACK_IMPORTED_MODULE_9_ionic2_rating__["a" /* Ionic2RatingModule */],
                 __WEBPACK_IMPORTED_MODULE_10__angular_common_http__["b" /* HttpClientModule */]
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_4_ionic_angular__["b" /* IonicApp */]],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */],
-                __WEBPACK_IMPORTED_MODULE_15__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_16__pages_registro_registro__["a" /* RegistroPage */],
-                __WEBPACK_IMPORTED_MODULE_17__pages_inicio_inicio__["a" /* InicioPage */],
-                __WEBPACK_IMPORTED_MODULE_18__pages_menu_menu__["a" /* MenuPage */],
-                __WEBPACK_IMPORTED_MODULE_20__pages_peliculas_peliculas__["a" /* PeliculasPage */],
-                __WEBPACK_IMPORTED_MODULE_21__pages_perfil_perfil__["a" /* PerfilPage */],
-                __WEBPACK_IMPORTED_MODULE_22__pages_chat_chat__["a" /* ChatPage */],
-                __WEBPACK_IMPORTED_MODULE_23__pages_add_event_add_event__["a" /* AddEventPage */],
-                __WEBPACK_IMPORTED_MODULE_24__pages_edit_event_edit_event__["a" /* EditEventPage */],
-                __WEBPACK_IMPORTED_MODULE_25__pages_info_info__["a" /* InfoPage */],
-                __WEBPACK_IMPORTED_MODULE_19__pages_ver_todo_ver_todo__["a" /* VerTodoPage */]
+                __WEBPACK_IMPORTED_MODULE_16__pages_home_home__["a" /* HomePage */],
+                __WEBPACK_IMPORTED_MODULE_17__pages_registro_registro__["a" /* RegistroPage */],
+                __WEBPACK_IMPORTED_MODULE_18__pages_inicio_inicio__["a" /* InicioPage */],
+                __WEBPACK_IMPORTED_MODULE_19__pages_menu_menu__["a" /* MenuPage */],
+                __WEBPACK_IMPORTED_MODULE_21__pages_peliculas_peliculas__["a" /* PeliculasPage */],
+                __WEBPACK_IMPORTED_MODULE_22__pages_perfil_perfil__["a" /* PerfilPage */],
+                __WEBPACK_IMPORTED_MODULE_23__pages_chat_chat__["a" /* ChatPage */],
+                __WEBPACK_IMPORTED_MODULE_24__pages_add_event_add_event__["a" /* AddEventPage */],
+                __WEBPACK_IMPORTED_MODULE_25__pages_edit_event_edit_event__["a" /* EditEventPage */],
+                __WEBPACK_IMPORTED_MODULE_26__pages_info_info__["a" /* InfoPage */],
+                __WEBPACK_IMPORTED_MODULE_20__pages_ver_todo_ver_todo__["a" /* VerTodoPage */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__["a" /* StatusBar */],
-                __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__["a" /* SplashScreen */],
+                __WEBPACK_IMPORTED_MODULE_12__ionic_native_status_bar__["a" /* StatusBar */],
+                __WEBPACK_IMPORTED_MODULE_13__ionic_native_splash_screen__["a" /* SplashScreen */],
                 { provide: __WEBPACK_IMPORTED_MODULE_2__angular_core__["v" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["c" /* IonicErrorHandler */] },
-                __WEBPACK_IMPORTED_MODULE_14__ionic_native_camera__["a" /* Camera */],
+                __WEBPACK_IMPORTED_MODULE_15__ionic_native_camera__["a" /* Camera */],
                 __WEBPACK_IMPORTED_MODULE_8__ionic_native_streaming_media__["a" /* StreamingMedia */],
-                __WEBPACK_IMPORTED_MODULE_26__providers_login_login__["a" /* LoginProvider */]
+                __WEBPACK_IMPORTED_MODULE_27__providers_login_login__["a" /* LoginProvider */],
+                __WEBPACK_IMPORTED_MODULE_11__providers_movie_movie_provider__["a" /* MovieProvider */]
             ]
         })
     ], AppModule);
@@ -973,6 +699,7 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__perfil_perfil__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__peliculas_peliculas__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ver_todo_ver_todo__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__info_info__ = __webpack_require__(90);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -982,6 +709,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1009,6 +737,13 @@ var InicioPage = (function () {
         this.contenedor = navParams.data['data'];
         this.nombreUsuario = this.contenedor['nickname'];
     }
+    InicioPage.prototype.goToInfo = function (fotoPeli, titulo) {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__info_info__["a" /* InfoPage */], {
+            foto: fotoPeli,
+            nombre: titulo,
+            data: this.contenedor
+        });
+    };
     InicioPage.prototype.listado = function () {
         this.items = [
             'Amsterdam',
@@ -1085,7 +820,7 @@ var InicioPage = (function () {
     };
     InicioPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-inicio',template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\inicio\inicio.html"*/'<ion-header>\n\n  <ion-navbar hideBackButton="true">\n\n\n\n    <ion-grid *ngIf="!isSearchbarOpened">\n\n      <ion-row>\n\n        <ion-col col-auto>\n\n          <ion-buttons>\n\n            <button ion-button icon-only>\n\n              Home\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n        <ion-col col-auto>\n\n          <ion-buttons>\n\n            <button ion-button icon-only (click)="goToPeliculas()">\n\n              Films\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n        <ion-col col-auto>\n\n          <ion-buttons>\n\n            <button ion-button icon-only (click)="goToSeries()">\n\n              Series\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n        <ion-col col-auto>\n\n          <ion-buttons>\n\n            <button ion-button icon-only (click)="goToPerfil()">\n\n              {{ nombreUsuario }}\n\n              <ion-icon name="md-contact"></ion-icon>\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n        <ion-col col-1>\n\n          <ion-buttons>\n\n            <button ion-button icon-only (click)="isSearchbarOpened=true">\n\n              <ion-icon name="search"></ion-icon>\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n      </ion-row>\n\n    </ion-grid>\n\n\n\n    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">\n\n    </ion-searchbar>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-list *ngIf="isSearchbarOpened">\n\n    <button ion-item *ngFor="let item of items" (click)="showDetail(item)">\n\n      {{ item }}\n\n    </button>\n\n  </ion-list>\n\n\n\n  <ion-card>\n\n    <ion-card-header>\n\n      <ion-grid>\n\n        <ion-row>\n\n          <ion-col col-12>\n\n            <h1 class="titulo">\n\n               Welcome, {{ nombreUsuario }}!\n\n            </h1>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-grid>\n\n    </ion-card-header>\n\n\n\n    <ion-card-content>\n\n      <ion-grid>\n\n        <ion-row>\n\n          <ion-col col-12>\n\n            <h3 class="titulo">Movies seen:</h3>\n\n            <a *ngIf="seeAll" class="alinearDerecha" (click)="goToSeeAll(\'peliculaVista\')">see all</a>\n\n            <ion-grid>\n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <ion-thumbnail item-start>\n\n                    <img [src]="peli1">\n\n                  </ion-thumbnail>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <ion-thumbnail item-start>\n\n                    <img [src]="peli2">\n\n                  </ion-thumbnail>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <ion-thumbnail item-start>\n\n                    <img [src]="peli3">\n\n                  </ion-thumbnail>\n\n                </ion-col>\n\n              </ion-row>\n\n\n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo1 }}</h2>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo2 }}</h2>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo3 }}</h2>\n\n                </ion-col>\n\n              </ion-row>\n\n            </ion-grid>\n\n\n\n            <h3 class="titulo2">Series seen:</h3>\n\n            <ion-grid>\n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <ion-thumbnail item-start class="slide-image">\n\n                    <img [src]="serie1">\n\n                  </ion-thumbnail>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <ion-thumbnail item-start>\n\n                    <img [src]="serie2" class="slide-image">\n\n                  </ion-thumbnail>\n\n                </ion-col>\n\n              </ion-row>\n\n            \n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo4 }}</h2>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo5 }}</h2>\n\n                </ion-col>\n\n              </ion-row>\n\n            </ion-grid>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-grid>\n\n    </ion-card-content>\n\n  </ion-card>\n\n</ion-content>'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\inicio\inicio.html"*/,
+            selector: 'page-inicio',template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\inicio\inicio.html"*/'<ion-header>\n\n  <ion-navbar hideBackButton="true">\n\n\n\n    <ion-grid *ngIf="!isSearchbarOpened">\n\n      <ion-row>\n\n        <ion-col col-auto>\n\n          <ion-buttons>\n\n            <button ion-button icon-only>\n\n              Home\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n        <ion-col col-auto>\n\n          <ion-buttons>\n\n            <button ion-button icon-only (click)="goToPeliculas()">\n\n              Films\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n        <ion-col col-auto>\n\n          <ion-buttons>\n\n            <button ion-button icon-only (click)="goToSeries()">\n\n              Series\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n        <ion-col col-auto>\n\n          <ion-buttons>\n\n            <button ion-button icon-only (click)="goToPerfil()" class="nombreUsuario">\n\n              {{ nombreUsuario }}\n\n              <ion-icon name="md-contact" class="usuarioIcono"></ion-icon>\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n        <ion-col col-1>\n\n          <ion-buttons>\n\n            <button ion-button icon-only (click)="isSearchbarOpened=true">\n\n              <ion-icon name="search"></ion-icon>\n\n            </button>\n\n          </ion-buttons>\n\n        </ion-col>\n\n\n\n      </ion-row>\n\n    </ion-grid>\n\n\n\n    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">\n\n    </ion-searchbar>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-list *ngIf="isSearchbarOpened">\n\n    <button ion-item *ngFor="let item of items" (click)="showDetail(item)">\n\n      {{ item }}\n\n    </button>\n\n  </ion-list>\n\n\n\n  <ion-card>\n\n    <ion-card-header>\n\n      <ion-grid>\n\n        <ion-row>\n\n          <ion-col col-12>\n\n            <h1 class="titulo">\n\n               Welcome, {{ nombreUsuario }}!\n\n            </h1>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-grid>\n\n    </ion-card-header>\n\n\n\n    <ion-card-content>\n\n      <ion-grid>\n\n        <ion-row>\n\n          <ion-col col-12>\n\n            <h3 class="titulo">Movies seen:</h3>\n\n            <a *ngIf="seeAll" class="alinearDerecha" (click)="goToSeeAll(\'peliculaVista\')">see all</a>\n\n            <ion-grid>\n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <button (click)="goToInfo(peli1, titulo1)" class="fotoPelicula" no-padding>\n\n                    <ion-thumbnail item-start>\n\n                      <img [src]="peli1">\n\n                    </ion-thumbnail>\n\n                  </button>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <button (click)="goToInfo(peli2, titulo2)" class="fotoPelicula" no-padding>\n\n                    <ion-thumbnail item-start>\n\n                      <img [src]="peli2">\n\n                    </ion-thumbnail>\n\n                  </button>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <button (click)="goToInfo(peli3, titulo3)" class="fotoPelicula" no-padding>\n\n                    <ion-thumbnail item-start>\n\n                      <img [src]="peli3">\n\n                    </ion-thumbnail>\n\n                  </button>\n\n                </ion-col>\n\n              </ion-row>\n\n\n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo1 }}</h2>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo2 }}</h2>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo3 }}</h2>\n\n                </ion-col>\n\n              </ion-row>\n\n            </ion-grid>\n\n\n\n            <h3 class="titulo2">Series seen:</h3>\n\n            <ion-grid>\n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <button (click)="goToInfo(serie1, titulo4)" class="fotoPelicula" no-padding>\n\n                    <ion-thumbnail item-start>\n\n                      <img [src]="serie1">\n\n                    </ion-thumbnail>\n\n                  </button>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <button (click)="goToInfo(serie2, titulo5)" class="fotoPelicula" no-padding>\n\n                    <ion-thumbnail item-start>\n\n                      <img [src]="serie2">\n\n                    </ion-thumbnail>\n\n                  </button>\n\n                </ion-col>\n\n              </ion-row>\n\n            \n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo4 }}</h2>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo5 }}</h2>\n\n                </ion-col>\n\n              </ion-row>\n\n            </ion-grid>\n\n\n\n            <h3 class="titulo2">Favourites films and series:</h3>\n\n            <ion-grid>\n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <button (click)="goToInfo(serie1, titulo4)" class="fotoPelicula" no-padding>\n\n                    <ion-thumbnail item-start>\n\n                      <img [src]="serie1">\n\n                    </ion-thumbnail>\n\n                  </button>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <button (click)="goToInfo(serie2, titulo5)" class="fotoPelicula" no-padding>\n\n                    <ion-thumbnail item-start>\n\n                      <img [src]="serie2">\n\n                    </ion-thumbnail>\n\n                  </button>\n\n                </ion-col>\n\n              </ion-row>\n\n            \n\n              <ion-row>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo4 }}</h2>\n\n                </ion-col>\n\n                <ion-col col-4>\n\n                  <h2 class="center">{{ titulo5 }}</h2>\n\n                </ion-col>\n\n              </ion-row>\n\n            </ion-grid>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-grid>\n\n    </ion-card-content>\n\n  </ion-card>\n\n</ion-content>'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\inicio\inicio.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */],
@@ -1099,17 +834,85 @@ var InicioPage = (function () {
 
 /***/ }),
 
-/***/ 47:
+/***/ 410:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PeliculasPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MovieProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__global_global__ = __webpack_require__(411);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var MovieProvider = (function () {
+    function MovieProvider(_http) {
+        this._http = _http;
+        this.url = __WEBPACK_IMPORTED_MODULE_2__global_global__["a" /* GLOBAL */].url;
+    }
+    MovieProvider.prototype.getAllMovies = function (token) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]().set('Content-type', 'application/json').set('Authorization', token);
+        return this._http.get(this.url + 'getallmovies', { headers: headers });
+    };
+    MovieProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
+    ], MovieProvider);
+    return MovieProvider;
+}());
+
+//# sourceMappingURL=movie.provider.js.map
+
+/***/ }),
+
+/***/ 411:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GLOBAL; });
+var GLOBAL = {
+    url: 'http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api/'
+};
+//# sourceMappingURL=global.js.map
+
+/***/ }),
+
+/***/ 412:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Movie; });
+var Movie = (function () {
+    function Movie(title, description, genre, category, year, creator, duration, poster, URI, uploadat, userUp) {
+    }
+    return Movie;
+}());
+
+//# sourceMappingURL=movie.js.map
+
+/***/ }),
+
+/***/ 430:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_login_login__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__perfil_perfil__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__inicio_inicio__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__info_info__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(272);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_firebase__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_firebase__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_home_home__ = __webpack_require__(89);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1125,35 +928,113 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+var config = {
+    apiKey: "AIzaSyDk2H5Yzy8mp8Q6OOwDQ8gptAFYYbP7x5Y",
+    authDomain: "proyecto-final-cfc6c.firebaseapp.com",
+    databaseURL: "https://proyecto-final-cfc6c.firebaseio.com",
+    projectId: "proyecto-final-cfc6c",
+    storageBucket: "proyecto-final-cfc6c.appspot.com",
+    messagingSenderId: "878191344149"
+};
+var MyApp = (function () {
+    function MyApp(platform, statusBar, splashScreen) {
+        this.rootPage = __WEBPACK_IMPORTED_MODULE_5__pages_home_home__["a" /* HomePage */];
+        platform.ready().then(function () {
+            statusBar.styleDefault();
+            splashScreen.hide();
+        });
+        __WEBPACK_IMPORTED_MODULE_4_firebase___default.a.initializeApp(config);
+    }
+    MyApp = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\app\app.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
+    ], MyApp);
+    return MyApp;
+}());
+
+//# sourceMappingURL=app.component.js.map
+
+/***/ }),
+
+/***/ 47:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PeliculasPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_login_login__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__perfil_perfil__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__inicio_inicio__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__info_info__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_movie_movie_provider__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_movie_movie__ = __webpack_require__(412);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
 var PeliculasPage = (function () {
-    function PeliculasPage(navCtrl, loadingCtrl, navParams, toastCtrl, contenedorFilms) {
+    function PeliculasPage(navCtrl, loadingCtrl, navParams, toastCtrl, contenedorFilms, _movieProvider) {
         this.navCtrl = navCtrl;
         this.loadingCtrl = loadingCtrl;
         this.navParams = navParams;
         this.toastCtrl = toastCtrl;
         this.contenedorFilms = contenedorFilms;
+        this._movieProvider = _movieProvider;
+        // peli1;
+        // peli2;
+        // titulo1;
+        // titulo2;
         this.structure = { lower: 1990, upper: 2018 };
         this.filter = false;
         this.genre = 'Genre: All';
         this.videoLanguage = 'Video Language: All';
         this.subtitleLanguage = 'Subtitle Language: All';
         this.isSearchbarOpened = false;
-        this.peli1 = "assets/imgs/peli1.jpg";
-        this.peli2 = "assets/imgs/peli2.jpg";
-        this.titulo1 = 'Deadpool';
-        this.titulo2 = 'Avengers 2';
+        // this.peli1 = "assets/imgs/peli1.jpg";
+        // this.peli2 = "assets/imgs/peli2.jpg";
+        // this.titulo1 = 'Deadpool';
+        // this.titulo2 = 'Avengers 2';
         this.iconoIOS1 = 'ios-arrow-dropdown';
         this.iconoAndroid1 = 'md-arrow-dropdown';
         this.iconoIOS = 'ios-arrow-dropdown';
         this.iconoAndroid = 'md-arrow-dropdown';
         this.contenedor = navParams.data['data'];
         this.nombreUsuario = this.contenedor['nickname'];
+        this.movie = new __WEBPACK_IMPORTED_MODULE_7__providers_movie_movie__["a" /* Movie */]('', '', '', '', '', '', '', '', '', '', '');
     }
-    PeliculasPage.prototype.ionViewDidLoad = function () {
-        this.contenedorFilms.getAllMovies().subscribe(function (datos) {
-            console.log('Peliculas: ', datos);
-        }, function (err) {
-            console.log(err["message"]);
+    // ionViewDidLoad() {
+    //   this.contenedorFilms.getAllMovies().subscribe((datos) => {
+    //     console.log('Peliculas: ', datos);
+    //   }, (err) => {
+    //     console.log(err["message"]);
+    //   });
+    // }
+    PeliculasPage.prototype.ngOnInit = function () {
+        var _this = this;
+        this._movieProvider.getAllMovies(localStorage.getItem('token')).subscribe(function (response) {
+            _this.listMovie = [];
+            response.message.forEach(function (eleMovie) {
+                _this.movie = eleMovie;
+                _this.listMovie.push(_this.movie);
+            });
+            console.log(_this.listMovie);
+        }, function (error) {
+            console.log(error);
         });
     };
     PeliculasPage.prototype.goToPerfil = function () {
@@ -1166,10 +1047,9 @@ var PeliculasPage = (function () {
             data: this.contenedor
         });
     };
-    PeliculasPage.prototype.goToInfo = function (fotoPeli, titulo) {
+    PeliculasPage.prototype.goToInfo = function (p) {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__info_info__["a" /* InfoPage */], {
-            foto: fotoPeli,
-            nombre: titulo,
+            contenido: p,
             data: this.contenedor
         });
     };
@@ -1232,15 +1112,12 @@ var PeliculasPage = (function () {
     };
     PeliculasPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-peliculas',template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\peliculas\peliculas.html"*/'<ion-header>\n  <ion-navbar hideBackButton="true">\n\n    <ion-grid *ngIf="!isSearchbarOpened">\n      <ion-row>\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToInicio()">\n              Home\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only>\n              Films\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToSeries()">\n              Series\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToPerfil()">\n              {{ nombreUsuario }}\n              <ion-icon name="md-contact"></ion-icon>\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-1>\n          <ion-buttons>\n            <button ion-button icon-only (click)="isSearchbarOpened=true">\n              <ion-icon name="search"></ion-icon>\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n      </ion-row>\n    </ion-grid>\n\n    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">\n    </ion-searchbar>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content>\n  <ion-refresher (ionRefresh)="doRefresh($event)">\n    <ion-refresher-content></ion-refresher-content>\n  </ion-refresher>\n  <ion-card>\n    <ion-row>\n      <ion-col col-12 class="center">\n        <ion-buttons padding-bottom>\n          <button ion-button icon-only outline *ngIf="!filter" (click)="filterType()" col-5>\n            Show Filters\n          </button>\n        </ion-buttons>\n      </ion-col>\n    </ion-row>\n\n    <ion-card *ngIf="filter">\n\n      <ion-item>\n        <ion-label>Year: </ion-label>\n        <ion-range dualKnobs="true" pin="true" min="1900" max="2020" step="5" snaps="true" [(ngModel)]="structure">\n          <ion-icon range-left small ios="ios-time" md="md-time"></ion-icon>\n          <ion-icon range-right ios="ios-time" md="md-time"></ion-icon>\n        </ion-range>\n      </ion-item>\n      \n      <ion-item>\n        <ion-label>Films Genre: </ion-label>\n        <ion-select [(ngModel)]="genre" interface="popover">\n          <ion-option value="Genre: All" selected="true">All</ion-option>\n          <ion-option value="Genre: Action and adventure">Action and adventure</ion-option>\n          <ion-option value="Genre: Cartoon">Cartoon</ion-option>\n          <ion-option value="Genre: Comedy">Comedy</ion-option>\n          <ion-option value="Genre: Crime">Crime</ion-option>\n          <ion-option value="Genre: Documentary film">Documentary film</ion-option>\n          <ion-option value="Genre: Drama">Drama</ion-option>\n          <ion-option value="Genre: Fantasy">Fantasy</ion-option>\n          <ion-option value="Genre: Mistery">Mistery</ion-option>\n          <ion-option value="Genre: Science fiction">Science fiction</ion-option>\n          <ion-option value="Genre: Sports">Sports</ion-option>\n          <ion-option value="Genre: Terror">Terror</ion-option>\n          <ion-option value="Genre: Thriller">Thriller</ion-option>\n        </ion-select>\n      </ion-item>\n      \n      <ion-item>\n        <ion-label>Video Language: </ion-label>\n        <ion-select [(ngModel)]="videoLanguage" interface="popover">\n          <ion-option value="Video Language: All" selected="true">All</ion-option>\n          <ion-option value="Video Language: English">English</ion-option>\n          <ion-option value="Video Language: French">French</ion-option>\n          <ion-option value="Video Language: German">German</ion-option>\n          <ion-option value="Video Language: Greek">Greek</ion-option>\n          <ion-option value="Video Language: Italian">Italian</ion-option>\n          <ion-option value="Video Language: Portuguese">Portuguese</ion-option>\n          <ion-option value="Video Language: Russian">Russian</ion-option>\n          <ion-option value="Video Language: Spanish">Spanish</ion-option>\n          <ion-option value="Video Language: Others">Others</ion-option>\n        </ion-select>\n      </ion-item>\n      \n      <ion-item>\n        <ion-label>Subtitle Language: </ion-label>\n        <ion-select [(ngModel)]="subtitleLanguage" interface="popover">\n          <ion-option value="Subtitle Language: All" selected="true">All</ion-option>\n          <ion-option value="Subtitle Language: English">English</ion-option>\n          <ion-option value="Subtitle Language: French">French</ion-option>\n          <ion-option value="Subtitle Language: German">German</ion-option>\n          <ion-option value="Subtitle Language: Greek">Greek</ion-option>\n          <ion-option value="Subtitle Language: Italian">Italian</ion-option>\n          <ion-option value="Subtitle Language: Portuguese">Portuguese</ion-option>\n          <ion-option value="Subtitle Language: Russian">Russian</ion-option>\n          <ion-option value="Subtitle Language: Spanish">Spanish</ion-option>\n          <ion-option value="Subtitle Language: Others">Others</ion-option>\n        </ion-select>\n      </ion-item>\n      \n      <ion-row>\n        <ion-col col-12 class="center">\n          <ion-buttons>\n            <button ion-button icon-only outline class="center" *ngIf="filter" (click)="loginLoading()" col-5>\n              Accept\n            </button>\n          </ion-buttons>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col col-12 class="center">\n          <ion-buttons>\n            <button ion-button icon-only outline class="center" *ngIf="filter" (click)="filterType2()" col-5>\n              Hide Filters\n            </button>\n          </ion-buttons>\n        </ion-col>\n      </ion-row>\n\n    </ion-card>\n\n    <ion-row>\n      <ion-col col-6 class="center">\n        <ion-thumbnail item-start col-12>\n          <button (click)="goToInfo(peli1, titulo1)" class="fotoPelicula" no-padding>\n            <img [src]="peli1">\n          </button>\n          <h5 class="center">\n            {{ titulo1 }}\n            <ion-fab top right edge col-4 #fab>\n              <button ion-fab mini class="background">\n                <ion-icon [ios]="iconoIOS1" [md]="iconoAndroid1"></ion-icon>\n              </button>\n              <ion-fab-list>\n                <button ion-fab>\n                  <ion-icon ios="ios-eye-off" md="md-eye-off" (click)="cambiarIconoSeen(fab)"></ion-icon>\n                </button>\n                <button ion-fab>\n                  <ion-icon ios="ios-heart" md="md-heart" (click)="cambiarIconoLike(fab)"></ion-icon>\n                </button>\n              </ion-fab-list>\n            </ion-fab>\n          </h5>\n        </ion-thumbnail>\n      </ion-col>\n      <ion-col col-6 class="center">\n        <ion-thumbnail item-start col-12>\n          <button (click)="goToInfo(peli2, titulo2)" class="fotoPelicula" no-padding>\n            <img [src]="peli2">\n          </button>\n          <h5 class="center">\n            {{ titulo2 }}\n            <ion-fab top right edge col-4 #fab>\n              <button ion-fab mini class="background">\n                <ion-icon [ios]="iconoIOS" [md]="iconoAndroid"></ion-icon>\n              </button>\n              <ion-fab-list>\n                <button ion-fab>\n                  <ion-icon ios="ios-eye-off" md="md-eye-off" (click)="cambiarIconoSeen(fab)"></ion-icon>\n                </button>\n                <button ion-fab>\n                  <ion-icon ios="ios-heart" md="md-heart" (click)="cambiarIconoLike(fab)"></ion-icon>\n                </button>\n                <button ion-fab>\n                  <ion-icon ios="ios-trash" md="md-trash" (click)="cambiarIconoRemove(fab)"></ion-icon>\n                </button>\n              </ion-fab-list>\n            </ion-fab>\n          </h5>\n        </ion-thumbnail>\n      </ion-col>\n    </ion-row>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\peliculas\peliculas.html"*/,
+            selector: 'page-peliculas',template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\peliculas\peliculas.html"*/'<ion-header>\n  <ion-navbar hideBackButton="true">\n\n    <ion-grid *ngIf="!isSearchbarOpened">\n      <ion-row>\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToInicio()">\n              Home\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only>\n              Films\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToSeries()">\n              Series\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToPerfil()">\n              {{ nombreUsuario }}\n              <ion-icon name="md-contact"></ion-icon>\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-1>\n          <ion-buttons>\n            <button ion-button icon-only (click)="isSearchbarOpened=true">\n              <ion-icon name="search"></ion-icon>\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n      </ion-row>\n    </ion-grid>\n\n    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">\n    </ion-searchbar>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content>\n  <ion-refresher (ionRefresh)="doRefresh($event)">\n    <ion-refresher-content></ion-refresher-content>\n  </ion-refresher>\n  <ion-card>\n    <ion-row>\n      <ion-col col-12 class="center">\n        <ion-buttons padding-bottom>\n          <button ion-button icon-only outline *ngIf="!filter" (click)="filterType()" col-5>\n            Show Filters\n          </button>\n        </ion-buttons>\n      </ion-col>\n    </ion-row>\n\n    <ion-card *ngIf="filter">\n\n      <ion-item>\n        <ion-label>Year: </ion-label>\n        <ion-range dualKnobs="true" pin="true" min="1900" max="2020" step="5" snaps="true" [(ngModel)]="structure">\n          <ion-icon range-left small ios="ios-time" md="md-time"></ion-icon>\n          <ion-icon range-right ios="ios-time" md="md-time"></ion-icon>\n        </ion-range>\n      </ion-item>\n      \n      <ion-item>\n        <ion-label>Films Genre: </ion-label>\n        <ion-select [(ngModel)]="genre" interface="popover">\n          <ion-option value="Genre: All" selected="true">All</ion-option>\n          <ion-option value="Genre: Action and adventure">Action and adventure</ion-option>\n          <ion-option value="Genre: Cartoon">Cartoon</ion-option>\n          <ion-option value="Genre: Comedy">Comedy</ion-option>\n          <ion-option value="Genre: Crime">Crime</ion-option>\n          <ion-option value="Genre: Documentary film">Documentary film</ion-option>\n          <ion-option value="Genre: Drama">Drama</ion-option>\n          <ion-option value="Genre: Fantasy">Fantasy</ion-option>\n          <ion-option value="Genre: Mistery">Mistery</ion-option>\n          <ion-option value="Genre: Science fiction">Science fiction</ion-option>\n          <ion-option value="Genre: Sports">Sports</ion-option>\n          <ion-option value="Genre: Terror">Terror</ion-option>\n          <ion-option value="Genre: Thriller">Thriller</ion-option>\n        </ion-select>\n      </ion-item>\n      \n      <ion-item>\n        <ion-label>Video Language: </ion-label>\n        <ion-select [(ngModel)]="videoLanguage" interface="popover">\n          <ion-option value="Video Language: All" selected="true">All</ion-option>\n          <ion-option value="Video Language: English">English</ion-option>\n          <ion-option value="Video Language: French">French</ion-option>\n          <ion-option value="Video Language: German">German</ion-option>\n          <ion-option value="Video Language: Greek">Greek</ion-option>\n          <ion-option value="Video Language: Italian">Italian</ion-option>\n          <ion-option value="Video Language: Portuguese">Portuguese</ion-option>\n          <ion-option value="Video Language: Russian">Russian</ion-option>\n          <ion-option value="Video Language: Spanish">Spanish</ion-option>\n          <ion-option value="Video Language: Others">Others</ion-option>\n        </ion-select>\n      </ion-item>\n      \n      <ion-item>\n        <ion-label>Subtitle Language: </ion-label>\n        <ion-select [(ngModel)]="subtitleLanguage" interface="popover">\n          <ion-option value="Subtitle Language: All" selected="true">All</ion-option>\n          <ion-option value="Subtitle Language: English">English</ion-option>\n          <ion-option value="Subtitle Language: French">French</ion-option>\n          <ion-option value="Subtitle Language: German">German</ion-option>\n          <ion-option value="Subtitle Language: Greek">Greek</ion-option>\n          <ion-option value="Subtitle Language: Italian">Italian</ion-option>\n          <ion-option value="Subtitle Language: Portuguese">Portuguese</ion-option>\n          <ion-option value="Subtitle Language: Russian">Russian</ion-option>\n          <ion-option value="Subtitle Language: Spanish">Spanish</ion-option>\n          <ion-option value="Subtitle Language: Others">Others</ion-option>\n        </ion-select>\n      </ion-item>\n      \n      <ion-row>\n        <ion-col col-12 class="center">\n          <ion-buttons>\n            <button ion-button icon-only outline class="center" *ngIf="filter" (click)="loginLoading()" col-5>\n              Accept\n            </button>\n          </ion-buttons>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col col-12 class="center">\n          <ion-buttons>\n            <button ion-button icon-only outline class="center" *ngIf="filter" (click)="filterType2()" col-5>\n              Hide Filters\n            </button>\n          </ion-buttons>\n        </ion-col>\n      </ion-row>\n\n    </ion-card>\n\n    <ion-row>\n      <!-- <ion-col col-6 class="center">\n        <ion-thumbnail item-start col-12>\n          <button (click)="goToInfo(peli1, titulo1)" class="fotoPelicula" no-padding>\n            <img [src]="peli1">\n          </button>\n          <h5 class="center">\n            {{ titulo1 }}\n            <ion-fab top right edge col-4 #fab>\n              <button ion-fab mini class="background">\n                <ion-icon [ios]="iconoIOS1" [md]="iconoAndroid1"></ion-icon>\n              </button>\n              <ion-fab-list>\n                <button ion-fab>\n                  <ion-icon ios="ios-eye-off" md="md-eye-off" (click)="cambiarIconoSeen(fab)"></ion-icon>\n                </button>\n                <button ion-fab>\n                  <ion-icon ios="ios-heart" md="md-heart" (click)="cambiarIconoLike(fab)"></ion-icon>\n                </button>\n              </ion-fab-list>\n            </ion-fab>\n          </h5>\n        </ion-thumbnail>\n      </ion-col>\n      <ion-col col-6 class="center">\n        <ion-thumbnail item-start col-12>\n          <button (click)="goToInfo(peli2, titulo2)" class="fotoPelicula" no-padding>\n            <img [src]="peli2">\n          </button>\n          <h5 class="center">\n            {{ titulo2 }}\n            <ion-fab top right edge col-4 #fab>\n              <button ion-fab mini class="background">\n                <ion-icon [ios]="iconoIOS" [md]="iconoAndroid"></ion-icon>\n              </button>\n              <ion-fab-list>\n                <button ion-fab>\n                  <ion-icon ios="ios-eye-off" md="md-eye-off" (click)="cambiarIconoSeen(fab)"></ion-icon>\n                </button>\n                <button ion-fab>\n                  <ion-icon ios="ios-heart" md="md-heart" (click)="cambiarIconoLike(fab)"></ion-icon>\n                </button>\n                <button ion-fab>\n                  <ion-icon ios="ios-trash" md="md-trash" (click)="cambiarIconoRemove(fab)"></ion-icon>\n                </button>\n              </ion-fab-list>\n            </ion-fab>\n          </h5>\n        </ion-thumbnail>\n      </ion-col> -->\n      <ion-col col-6 class="center" *ngFor="let p of listMovie">\n        <ion-thumbnail item-start col-12>\n          <button (click)="goToInfo(p)" class="fotoPelicula" no-padding>\n            <img [src]="p.poster">\n          </button>\n          <h5 class="center">\n            {{ p.title }}\n            <ion-fab top right edge col-4 #fab>\n              <button ion-fab mini class="background">\n                <ion-icon [ios]="iconoIOS1" [md]="iconoAndroid1"></ion-icon>\n              </button>\n              <ion-fab-list>\n                <button ion-fab>\n                  <ion-icon ios="ios-eye-off" md="md-eye-off" (click)="cambiarIconoSeen(fab)"></ion-icon>\n                </button>\n                <button ion-fab>\n                  <ion-icon ios="ios-heart" md="md-heart" (click)="cambiarIconoLike(fab)"></ion-icon>\n                </button>\n              </ion-fab-list>\n            </ion-fab>\n          </h5>\n        </ion-thumbnail>\n      </ion-col>\n    </ion-row>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\peliculas\peliculas.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_login_login__["a" /* LoginProvider */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__providers_login_login__["a" /* LoginProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_login_login__["a" /* LoginProvider */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_6__providers_movie_movie_provider__["a" /* MovieProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__providers_movie_movie_provider__["a" /* MovieProvider */]) === "function" && _f || Object])
     ], PeliculasPage);
     return PeliculasPage;
+    var _a, _b, _c, _d, _e, _f;
 }());
 
 //# sourceMappingURL=peliculas.js.map
@@ -1254,7 +1131,7 @@ var PeliculasPage = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PerfilPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_camera__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_camera__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__chat_chat__ = __webpack_require__(162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__peliculas_peliculas__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inicio_inicio__ = __webpack_require__(41);
@@ -1570,68 +1447,12 @@ var PerfilPage = (function () {
 
 /***/ }),
 
-/***/ 707:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(365);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(366);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_firebase__ = __webpack_require__(138);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_home_home__ = __webpack_require__(89);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-var config = {
-    apiKey: "AIzaSyDk2H5Yzy8mp8Q6OOwDQ8gptAFYYbP7x5Y",
-    authDomain: "proyecto-final-cfc6c.firebaseapp.com",
-    databaseURL: "https://proyecto-final-cfc6c.firebaseio.com",
-    projectId: "proyecto-final-cfc6c",
-    storageBucket: "proyecto-final-cfc6c.appspot.com",
-    messagingSenderId: "878191344149"
-};
-var MyApp = (function () {
-    function MyApp(platform, statusBar, splashScreen) {
-        this.rootPage = __WEBPACK_IMPORTED_MODULE_5__pages_home_home__["a" /* HomePage */];
-        platform.ready().then(function () {
-            statusBar.styleDefault();
-            splashScreen.hide();
-        });
-        __WEBPACK_IMPORTED_MODULE_4_firebase___default.a.initializeApp(config);
-    }
-    MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\app\app.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
-    ], MyApp);
-    return MyApp;
-}());
-
-//# sourceMappingURL=app.component.js.map
-
-/***/ }),
-
 /***/ 75:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(123);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1653,10 +1474,20 @@ var LoginProvider = (function () {
         return this.http.get('http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api/pruebas');
     };
     LoginProvider.prototype.loginUsers = function (login) {
-        return this.http.post('http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api/login', { 'emailNick': login[0].emailNick, 'password': login[0].password });
+        return this.http.post('http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api/login', {
+            'emailNick': login[0].emailNick,
+            'password': login[0].password
+        });
     };
     LoginProvider.prototype.registerUsers = function (register) {
-        return this.http.post('http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api/register', { 'name': register[0].name, 'surname': register[0].surname, 'nickname': register[0].nickname, 'email': register[0].email });
+        return this.http.post('http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api/register', {
+            'name': register[0].name,
+            'surname': register[0].surname,
+            'nickname': register[0].nickname,
+            'email': register[0].email,
+            'birthdate': register[0].birthdate,
+            'password': register[0].password
+        });
     };
     LoginProvider.prototype.getAllMovies = function () {
         return this.http.get('http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api//getallmovies/:page?');
@@ -1681,7 +1512,7 @@ var LoginProvider = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_login_login__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__registro_registro__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__registro_registro__ = __webpack_require__(163);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inicio_inicio__ = __webpack_require__(41);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1729,6 +1560,7 @@ var HomePage = (function () {
         this.comprobarLogin.loginUsers(this.login).subscribe(function (datos) {
             var contenedor = datos["user"];
             _this.loginLoading(contenedor);
+            console.log(datos);
         }, function (err) {
             _this.alert();
         });
@@ -1777,7 +1609,288 @@ var HomePage = (function () {
 
 //# sourceMappingURL=home.js.map
 
+/***/ }),
+
+/***/ 90:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export RATING_CONTROL_VALUE_ACCESSOR */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InfoPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_streaming_media__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__perfil_perfil__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inicio_inicio__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__peliculas_peliculas__ = __webpack_require__(47);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var noop = function () {
+};
+var RATING_CONTROL_VALUE_ACCESSOR = {
+    provide: __WEBPACK_IMPORTED_MODULE_3__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
+    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* forwardRef */])(function () { return InfoPage; }),
+    multi: true
+};
+var InfoPage = (function () {
+    function InfoPage(navCtrl, navParams, streamingMedia) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.streamingMedia = streamingMedia;
+        this._max = 5;
+        this._readOnly = false;
+        this._emptyStarIconName = 'star-outline';
+        this._halfStarIconName = 'star-half';
+        this._starIconName = 'star';
+        this._nullable = false;
+        this.onChangeCallback = noop;
+        this.contenido = navParams.data['contenido'];
+        // this.portada = navParams.data['contenido'];
+        // this.titulo = navParams.data['nombre'];
+        this.contenedor = navParams.data['data'];
+        this.nombreUsuario = this.contenedor['nickname'];
+    }
+    Object.defineProperty(InfoPage.prototype, "max", {
+        get: function () {
+            return this._max;
+        },
+        set: function (val) {
+            var newValue = this.getNumberPropertyValue(val);
+            if (newValue !== this._max) {
+                this._max = newValue;
+                this.createStarIndexes();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InfoPage.prototype, "readOnly", {
+        get: function () {
+            return this._readOnly;
+        },
+        set: function (val) {
+            this._readOnly = this.isTrueProperty(val);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InfoPage.prototype, "emptyStarIconName", {
+        get: function () {
+            return this._emptyStarIconName;
+        },
+        set: function (val) {
+            this._emptyStarIconName = val;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InfoPage.prototype, "halfStarIconName", {
+        get: function () {
+            return this._halfStarIconName;
+        },
+        set: function (val) {
+            this._halfStarIconName = val;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InfoPage.prototype, "starIconName", {
+        get: function () {
+            return this._starIconName;
+        },
+        set: function (val) {
+            this._starIconName = val;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InfoPage.prototype, "nullable", {
+        get: function () {
+            return this._nullable;
+        },
+        set: function (val) {
+            this._nullable = this.isTrueProperty(val);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    InfoPage.prototype.ngOnInit = function () {
+        // ngFor needs an array
+        this.createStarIndexes();
+    };
+    InfoPage.prototype.createStarIndexes = function () {
+        this.starIndexes = Array(this.max).fill(1).map(function (x, i) { return i; });
+    };
+    InfoPage.prototype.getStarIconName = function (starIndex) {
+        if (this.value === undefined) {
+            return this.emptyStarIconName;
+        }
+        if (this.value > starIndex) {
+            if (this.value < starIndex + 1) {
+                return this.halfStarIconName;
+            }
+            else {
+                return this.starIconName;
+            }
+        }
+        else {
+            return this.emptyStarIconName;
+        }
+    };
+    Object.defineProperty(InfoPage.prototype, "value", {
+        get: function () {
+            return this.innerValue;
+        },
+        set: function (value) {
+            if (value !== this.innerValue) {
+                this.innerValue = value;
+                this.onChangeCallback(value);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    InfoPage.prototype.writeValue = function (value) {
+        if (value !== this.innerValue) {
+            this.innerValue = value;
+        }
+    };
+    InfoPage.prototype.registerOnChange = function (fn) {
+        this.onChangeCallback = fn;
+    };
+    InfoPage.prototype.registerOnTouched = function (fn) {
+    };
+    InfoPage.prototype.onKeyDown = function (event) {
+        if (/(37|38|39|40)/.test(event.which)) {
+            event.preventDefault();
+            event.stopPropagation();
+            var newValue = this.value + ((event.which == 38 || event.which == 39) ? 1 : -1);
+            return this.rate(newValue);
+        }
+    };
+    InfoPage.prototype.rate = function (value) {
+        if (this.readOnly || value < 0 || value > this.max) {
+            return;
+        }
+        if (value === this.value && this.nullable) {
+            value = null;
+        }
+        this.value = value;
+    };
+    InfoPage.prototype.isTrueProperty = function (val) {
+        if (typeof val === 'string') {
+            val = val.toLowerCase().trim();
+            return (val === 'true' || val === 'on');
+        }
+        return !!val;
+    };
+    InfoPage.prototype.getNumberPropertyValue = function (val) {
+        if (typeof val === 'string') {
+            return parseInt(val.trim());
+        }
+        return val;
+    };
+    InfoPage.prototype.ionViewDidLoad = function () {
+        console.log(this.contenido["description"]);
+        if (this.contenido["description"] == "N/A") {
+            this.contenido["description"] = "Not available";
+        }
+        if (this.contenido["genre"] == "N/A") {
+            this.contenido["genre"] = "Not available";
+        }
+        if (this.contenido["title"] == "N/A") {
+            this.contenido["title"] = "Not available";
+        }
+        if (this.contenido["year"] == "N/A") {
+            this.contenido["year"] = "Not available";
+        }
+        if (this.contenido["poster"] == "N/A") {
+            this.contenido["poster"] = "assets/imgs/notAvailable.png";
+        }
+    };
+    InfoPage.prototype.goToPerfil = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__perfil_perfil__["a" /* PerfilPage */], {
+            data: this.contenedor
+        });
+    };
+    InfoPage.prototype.goToInicio = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__inicio_inicio__["a" /* InicioPage */], {
+            data: this.contenedor
+        });
+    };
+    InfoPage.prototype.goToPeliculas = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__peliculas_peliculas__["a" /* PeliculasPage */], {
+            data: this.contenedor
+        });
+    };
+    InfoPage.prototype.gotoreproductor = function () {
+        var options = {
+            successCallback: function () { console.log('Video played'); },
+            errorCallback: function (e) { console.log('Error streaming'); },
+            orientation: 'portrait'
+        };
+        this.streamingMedia.playVideo('https://www.youtube.com/watch?v=U6VMFwS2mPk', options);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], InfoPage.prototype, "max", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], InfoPage.prototype, "readOnly", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], InfoPage.prototype, "emptyStarIconName", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], InfoPage.prototype, "halfStarIconName", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], InfoPage.prototype, "starIconName", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], InfoPage.prototype, "nullable", null);
+    InfoPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'page-info',
+            styles: ["\n    ul.rating li {\n      display: inline;\n      border: 0px;\n      background: none;\n      padding: 5px 10px;\n    }\n    ul.rating li i {\n      font-size: 30px;\n    }\n  "],template:/*ion-inline-start:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\info\info.html"*/'<ion-header>\n  <ion-navbar hideBackButton="true">\n\n    <ion-grid *ngIf="!isSearchbarOpened">\n      <ion-row>\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToInicio()">\n              Home\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto (click)="goToPeliculas()">\n          <ion-buttons>\n            <button ion-button icon-only>\n              Films\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToSeries()">\n              Series\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-auto>\n          <ion-buttons>\n            <button ion-button icon-only (click)="goToPerfil()">\n              {{ nombreUsuario }}\n              <ion-icon name="md-contact"></ion-icon>\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n        <ion-col col-1>\n          <ion-buttons>\n            <button ion-button icon-only (click)="isSearchbarOpened=true">\n              <ion-icon name="search"></ion-icon>\n            </button>\n          </ion-buttons>\n        </ion-col>\n\n      </ion-row>\n    </ion-grid>\n\n    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">\n    </ion-searchbar>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content>\n  <ion-card>\n    <ion-card-content class="backgroundCard">\n      <ion-row class="center">\n        <ion-col col-8 offset-2>\n          <img [src]="contenido.poster">\n        </ion-col>\n        <ion-col col-6 offset-3 style="text-align: center;">\n          <h1 class="titulo">{{ contenido.title }}</h1>\n        </ion-col>\n        <ion-col col-10>\n          <ul class="rating" (keydown)="onKeyDown($event)">\n            <li *ngFor="let starIndex of starIndexes" tappable (click)="rate(starIndex + 1)">\n              <ion-icon [name]="getStarIconName(starIndex)">\n              </ion-icon>\n            </li>\n          </ul>\n        </ion-col>\n        <ion-col col-6 offset-3>\n          <ion-buttons>\n            <button ion-button icon-only outline col-12 class="center" (click)="gotoreproductor()">\n              Watch Trailer\n            </button>\n          </ion-buttons>\n        </ion-col>\n        <ion-col col-6 style="text-align: center;">\n          <ion-label class="titulo">GENRE: </ion-label>\n          <h3>{{ contenido.genre }}</h3>\n        </ion-col>\n        <ion-col col-6 style="text-align: center;">\n          <ion-label class="titulo">YEAR: </ion-label>\n          <h3>{{ contenido.year }}</h3>\n        </ion-col>\n        <ion-col col-12 style="text-align: center;">\n          <ion-label class="titulo">DESCRIPTION: </ion-label>\n          <h3>{{ contenido.description }}</h3>\n        </ion-col>\n      </ion-row>\n    </ion-card-content>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"C:\Users\Usuario\Desktop\PROYECTO FINAL\Proyecto\src\pages\info\info.html"*/,
+            providers: [RATING_CONTROL_VALUE_ACCESSOR]
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_streaming_media__["a" /* StreamingMedia */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_streaming_media__["a" /* StreamingMedia */]) === "function" && _c || Object])
+    ], InfoPage);
+    return InfoPage;
+    var _a, _b, _c;
+}());
+
+//# sourceMappingURL=info.js.map
+
 /***/ })
 
-},[371]);
+},[370]);
 //# sourceMappingURL=main.js.map

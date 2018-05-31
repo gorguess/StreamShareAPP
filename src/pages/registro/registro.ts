@@ -1,11 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { LoadingController } from 'ionic-angular';
 import { LoginProvider } from '../../providers/login/login';
-import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
-import firebase from 'firebase';
 
 import { HomePage } from '../home/home';
 
@@ -17,21 +15,19 @@ import { HomePage } from '../home/home';
 export class RegistroPage implements OnInit {
 
   formularioUsuario: FormGroup;
-  @ViewChild("emailad") emailAddress;
-  @ViewChild("username") userName;
   @ViewChild("name") nombre;
+  @ViewChild("surname") apellidos;
+  @ViewChild("nickname") username;
+  @ViewChild("birthday") birthday;
+  @ViewChild("emailad") emailAddress;
   @ViewChild("password") currentPassword;
-  arrayDatos = [];
-  emailForm: string = '';
-  nombreForm: string = '';
-  usuarioForm: string = '';
   registro: Array<any>;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
-    private fire: AngularFireAuth,
+    private alertCtrl: AlertController,
     public comprobarLogin: LoginProvider
   ) {
   }
@@ -40,50 +36,17 @@ export class RegistroPage implements OnInit {
 
     this.formularioUsuario = new FormGroup({
       name: new FormControl('', [Validators.required]),
-      user: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
+      nickname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
-      pass: new FormControl('', [Validators.pattern(/^[a-z0-9_-]{10,18}$/)]),
+      pass: new FormControl('', [Validators.pattern(/^[a-z0-9_-]{5,18}$/)]),
       pass2: new FormControl('', [Validators.required, this.equalto('pass')])
     });
   }
 
-  // ionViewDidLoad() {
-  //   console.log('ionViewDidLoad HomePage');
-  // }
-
   gotoHome() {
     this.navCtrl.push(HomePage);
   }
-
-  saveAllData(){
-    var messagesRef = firebase.database().ref().child("datosUsuario");
-    messagesRef.push({ 
-      email: this.emailForm, 
-      nombre: this.nombreForm, 
-      usuario: this.usuarioForm 
-    });
-    this.loginLoading();
-  }
-
-  /**
-   * evento que se ejecuta al enviar la informacion, este solo cumple la funcion de mostrar un mensaje de informacion,
-   * resetea el formulario y sus validaciones y limpia el parametro datosUsuario para el nuevo ingreso de informacion.
-   */
-  saveData() {
-    this.emailForm = this.formularioUsuario.value.email;
-    this.nombreForm = this.formularioUsuario.value.name;
-    this.usuarioForm = this.formularioUsuario.value.user;
-    this.ngOnInit();
-    this.fire.auth.createUserWithEmailAndPassword(this.emailAddress.value, this.currentPassword.value)
-    .then(data => {
-      console.log(data);
-      this.saveAllData();
-    })
-    .catch(error => {
-      console.log('got an error', error);
-    })
-  }
-
 
   equalto(field_name): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
@@ -98,6 +61,36 @@ export class RegistroPage implements OnInit {
     };
   }
 
+  alert() {
+    this.alertCtrl.create({
+      title: 'There was a problem!',
+      subTitle: 'This user alredy exists',
+      buttons: ['OK']
+    }).present();
+  }
+
+  registerUsers() {
+    this.registro = [{ 
+      name: this.nombre.value, 
+      surname: this.apellidos.value, 
+      nickname: this.username.value, 
+      email: this.emailAddress.value, 
+      birthdate: this.birthday.value["day"] +
+       '/' + this.birthday.value["month"] + 
+       '/' + this.birthday.value["year"], 
+      password: this.currentPassword.value
+    }];
+    this.comprobarLogin.registerUsers(this.registro).subscribe((datos) => {
+      console.log('Datos: ', datos);
+      if (datos['message'] == 'Este usuario ya existe') {
+        this.alert();
+      } else {
+        this.loginLoading();
+      }
+    }, (err) => {
+      console.log(err["message"]);
+    });
+  }
 
   loginLoading() {
     this.ngOnInit();
@@ -112,24 +105,6 @@ export class RegistroPage implements OnInit {
       this.gotoHome();
     },
       2000);
-  }
-
-  registerUsers() {
-    this.registro = [{ 
-      name: this.nombre.value, 
-      surname: this.nombre.value, 
-      nickname: this.nombre.value, 
-      email: this.emailAddress.value, 
-      birthdate: '28/10/1997', 
-      password: this.currentPassword.value,
-      user: null,
-      gettoken: true}];
-    this.comprobarLogin.registerUsers(this.registro).subscribe((datos) => {
-      // this.objetoUser = datos;
-      console.log('Datos: ', datos);
-    }, (err) => {
-      console.log(err["message"]);
-    });
   }
 
 }

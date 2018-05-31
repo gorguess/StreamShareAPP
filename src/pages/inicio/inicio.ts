@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController, MenuController } 
 import { PerfilPage } from '../perfil/perfil';
 import { PeliculasPage } from '../peliculas/peliculas';
 import { VerTodoPage } from '../ver-todo/ver-todo';
+import { InfoPage } from '../info/info';
 
 
 @IonicPage()
@@ -46,6 +47,14 @@ export class InicioPage {
     this.titulo5 = "Prison Break";
     this.contenedor = navParams.data['data'];
     this.nombreUsuario = this.contenedor['nickname'];
+  }
+
+  goToInfo(fotoPeli, titulo) {
+    this.navCtrl.push(InfoPage, {
+      foto: fotoPeli,
+      nombre: titulo,
+      data: this.contenedor
+    });
   }
 
   listado() {

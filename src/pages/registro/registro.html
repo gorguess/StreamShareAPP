@@ -1,43 +1,44 @@
-<ion-content class="vertical-align-content">
+<ion-content>
   <ion-grid>
     <ion-row>
       <ion-col col-12>
-        <!-- Creamos una "tarjeta" en la que vendrá diseñado nuestro formulario de inicio de sesión -->
         <ion-card>
-          <!-- Cabecera -->
           <ion-card-header>
             <p class="header">Registration</p>
           </ion-card-header>
-          <!-- Contenido de nuestro formulario -->
           <ion-card-content>
             <ion-list>
-              <!-- Creamos nuestra etiqueta para nuestro formulario, asignándole un nombre de grupo (ID) y una llamada 
-            a una función de carga mientras comprueba las credenciales (loginLoading)-->
-              <form [formGroup]="formularioUsuario" (ngSubmit)="loginLoading()" novalidate>
+              <form [formGroup]="formularioUsuario" novalidate>
                 <ion-item>
-                  <ion-label floating>Name</ion-label>
-                  <ion-input formControlName="name" #name type="text" #name></ion-input>
+                  <ion-label floating>Name *</ion-label>
+                  <ion-input formControlName="name" #name type="text"></ion-input>
                 </ion-item>
                 <ion-item *ngIf="formularioUsuario.get('name').errors && formularioUsuario.get('name').dirty">
                   <p color="danger" ion-text *ngIf="formularioUsuario.get('name').hasError('required')">Your name is required</p>
                 </ion-item>
                 <ion-item>
-                  <ion-label floating>Username</ion-label>
-                  <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido 
-                            de éste-->
-                  <ion-input type="text" #userame formControlName="user"></ion-input>
+                  <ion-label floating>Surname *</ion-label>
+                  <ion-input formControlName="surname" #surname type="text"></ion-input>
                 </ion-item>
-                <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->
-                <ion-item *ngIf="formularioUsuario.get('user').errors && formularioUsuario.get('user').dirty">
-                  <p color="danger" ion-text *ngIf="formularioUsuario.get('user').hasError('required')" class="error">
-                    Username is required.
+                <ion-item *ngIf="formularioUsuario.get('surname').errors && formularioUsuario.get('surname').dirty">
+                  <p color="danger" ion-text *ngIf="formularioUsuario.get('surname').hasError('required')">Your surname is required</p>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Nickname *</ion-label>
+                  <ion-input type="text" #nickname formControlName="nickname"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="formularioUsuario.get('nickname').errors && formularioUsuario.get('nickname').dirty">
+                  <p color="danger" ion-text *ngIf="formularioUsuario.get('nickname').hasError('required')" class="error">
+                    nickname is required.
                   </p>
                 </ion-item>
                 <ion-item>
-                  <ion-label floating>Email address</ion-label>
-                  <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido 
-                de éste-->
-                  <ion-input type="text" #emailad formControlName="email"></ion-input>
+                  <ion-label floating>Birthday</ion-label>
+                  <ion-datetime #birthday displayFormat="MM/DD/YYYY"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Email address *</ion-label>
+                  <ion-input type="email" #emailad formControlName="email"></ion-input>
                 </ion-item>
                 <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->
                 <ion-item *ngIf="formularioUsuario.get('email').errors && formularioUsuario.get('email').dirty">
@@ -48,9 +49,8 @@
                     It is not an email
                   </p>
                 </ion-item>
-
                 <ion-item>
-                  <ion-label floating>Password</ion-label>
+                  <ion-label floating>Password *</ion-label>
                   <!-- Creamos el input para la contraseña -->
                   <ion-input type="password" name="pass" formControlName="pass"></ion-input>
                 </ion-item>
@@ -62,7 +62,7 @@
                 </ion-item>
 
                 <ion-item>
-                  <ion-label floating>Confirm password</ion-label>
+                  <ion-label floating>Confirm password *</ion-label>
                   <!-- Creamos el input para la contraseña -->
                   <ion-input type="password" #password formControlName="pass2"></ion-input>
                 </ion-item>

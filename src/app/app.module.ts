@@ -9,6 +9,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { StreamingMedia } from '@ionic-native/streaming-media';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { HttpClientModule } from '@angular/common/http';
+import { MovieProvider } from '../providers/movie/movie.provider';
 // import { CalendarModule } from 'ionic3-calendar';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -85,7 +86,8 @@ const firebaseAuth = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Camera,
     StreamingMedia,
-    LoginProvider   
+    LoginProvider,
+    MovieProvider
   ]
 })
 export class AppModule {}

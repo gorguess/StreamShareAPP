@@ -29,9 +29,9 @@
 
         <ion-col col-auto>
           <ion-buttons>
-            <button ion-button icon-only (click)="goToPerfil()">
+            <button ion-button icon-only (click)="goToPerfil()" class="nombreUsuario">
               {{ nombreUsuario }}
-              <ion-icon name="md-contact"></ion-icon>
+              <ion-icon name="md-contact" class="usuarioIcono"></ion-icon>
             </button>
           </ion-buttons>
         </ion-col>
@@ -81,19 +81,25 @@
             <ion-grid>
               <ion-row>
                 <ion-col col-4>
-                  <ion-thumbnail item-start>
-                    <img [src]="peli1">
-                  </ion-thumbnail>
+                  <button (click)="goToInfo(peli1, titulo1)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="peli1">
+                    </ion-thumbnail>
+                  </button>
                 </ion-col>
                 <ion-col col-4>
-                  <ion-thumbnail item-start>
-                    <img [src]="peli2">
-                  </ion-thumbnail>
+                  <button (click)="goToInfo(peli2, titulo2)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="peli2">
+                    </ion-thumbnail>
+                  </button>
                 </ion-col>
                 <ion-col col-4>
-                  <ion-thumbnail item-start>
-                    <img [src]="peli3">
-                  </ion-thumbnail>
+                  <button (click)="goToInfo(peli3, titulo3)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="peli3">
+                    </ion-thumbnail>
+                  </button>
                 </ion-col>
               </ion-row>
 
@@ -114,14 +120,47 @@
             <ion-grid>
               <ion-row>
                 <ion-col col-4>
-                  <ion-thumbnail item-start class="slide-image">
-                    <img [src]="serie1">
-                  </ion-thumbnail>
+                  <button (click)="goToInfo(serie1, titulo4)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="serie1">
+                    </ion-thumbnail>
+                  </button>
                 </ion-col>
                 <ion-col col-4>
-                  <ion-thumbnail item-start>
-                    <img [src]="serie2" class="slide-image">
-                  </ion-thumbnail>
+                  <button (click)="goToInfo(serie2, titulo5)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="serie2">
+                    </ion-thumbnail>
+                  </button>
+                </ion-col>
+              </ion-row>
+            
+              <ion-row>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo4 }}</h2>
+                </ion-col>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo5 }}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <h3 class="titulo2">Favourites films and series:</h3>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-4>
+                  <button (click)="goToInfo(serie1, titulo4)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="serie1">
+                    </ion-thumbnail>
+                  </button>
+                </ion-col>
+                <ion-col col-4>
+                  <button (click)="goToInfo(serie2, titulo5)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="serie2">
+                    </ion-thumbnail>
+                  </button>
                 </ion-col>
               </ion-row>
             

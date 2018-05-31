@@ -30,7 +30,7 @@
         <ion-col col-auto>
           <ion-buttons>
             <button ion-button icon-only (click)="goToPerfil()">
-              {{ usuario }}
+              {{ nombreUsuario }}
               <ion-icon name="md-contact"></ion-icon>
             </button>
           </ion-buttons>
@@ -58,10 +58,10 @@
     <ion-card-content class="backgroundCard">
       <ion-row class="center">
         <ion-col col-8 offset-2>
-          <img [src]="portada">
+          <img [src]="contenido.poster">
         </ion-col>
         <ion-col col-6 offset-3 style="text-align: center;">
-          <h1>{{ titulo }}</h1>
+          <h1 class="titulo">{{ contenido.title }}</h1>
         </ion-col>
         <ion-col col-10>
           <ul class="rating" (keydown)="onKeyDown($event)">
@@ -77,6 +77,18 @@
               Watch Trailer
             </button>
           </ion-buttons>
+        </ion-col>
+        <ion-col col-6 style="text-align: center;">
+          <ion-label class="titulo">GENRE: </ion-label>
+          <h3>{{ contenido.genre }}</h3>
+        </ion-col>
+        <ion-col col-6 style="text-align: center;">
+          <ion-label class="titulo">YEAR: </ion-label>
+          <h3>{{ contenido.year }}</h3>
+        </ion-col>
+        <ion-col col-12 style="text-align: center;">
+          <ion-label class="titulo">DESCRIPTION: </ion-label>
+          <h3>{{ contenido.description }}</h3>
         </ion-col>
       </ion-row>
     </ion-card-content>

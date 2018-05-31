@@ -52,7 +52,8 @@ export class HomePage {
     this.login = [{ emailNick: this.emailAddress.value, password: this.currentPassword.value, gettoken:true }];
     this.comprobarLogin.loginUsers(this.login).subscribe((datos) => {
       var contenedor = datos["user"];
-      this.loginLoading(contenedor);    
+      this.loginLoading(contenedor);  
+      console.log(datos);  
     }, (err) => {
       this.alert();
     });
