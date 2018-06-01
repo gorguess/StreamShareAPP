@@ -33600,34 +33600,40 @@ page-registro .vertical-align-content > * {
 }
 
 page-videoplayer #videoplayer:-webkit-full-screen {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0) !important;
 }
 
 page-videoplayer #videoplayer:-moz-full-screen {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0) !important;
 }
 
 page-videoplayer #videoplayer:-ms-fullscreen {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0) !important;
 }
 
 page-videoplayer #videoplayer:fullscreen {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0) !important;
 }
 
 page-videoplayer #videoplayer:-webkit-full-screen {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0) !important;
 }
 
 page-videoplayer #videoplayer:-moz-full-screen {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+page-videoplayer .grid, page-videoplayer .row {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
 }
 
 page-videoplayer #videoplayer {
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
   width: 100% !important;
   position: absolute;
+  padding: 0 !important;
+  margin: 0 !important;
   top: 0;
   left: 0;
   z-index: 0;
@@ -33635,5 +33641,18 @@ page-videoplayer #videoplayer {
 
 page-videoplayer #myBtn {
   position: absolute;
+  bottom: 5%;
+  left: 45%;
   z-index: 10000;
+  padding: 1.35% 2.95% 1.35% 4.45%;
+  border-radius: 44.5%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: 500;
+  text-align: center;
+}
+
+page-videoplayer #myBtn ion-icon {
+  color: #ff9c08;
+  font-size: 5rem;
 }

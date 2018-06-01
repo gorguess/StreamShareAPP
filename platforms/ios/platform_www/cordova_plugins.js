@@ -229,6 +229,14 @@ module.exports = [
     "clobbers": [
       "streamingMedia"
     ]
+  },
+  {
+    "id": "cordova-plugin-screen-orientation.screenorientation",
+    "file": "plugins/cordova-plugin-screen-orientation/www/screenorientation.js",
+    "pluginId": "cordova-plugin-screen-orientation",
+    "clobbers": [
+      "cordova.plugins.screenorientation"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -242,7 +250,8 @@ module.exports.metadata =
   "cordova-plugin-ionic-webview": "1.1.16",
   "cordova-plugin-ionic-keyboard": "2.0.5",
   "com.moust.cordova.videoplayer": "1.0.1",
-  "com.hutchind.cordova.plugins.streamingmedia": "0.1.4"
+  "com.hutchind.cordova.plugins.streamingmedia": "0.1.4",
+  "cordova-plugin-screen-orientation": "3.0.1"
 };
 // BOTTOM OF METADATA
 });

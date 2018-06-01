@@ -83,6 +83,7 @@
 		F87ABCFE3F504D25B98AE783 /* CDVIonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = F365D5D0010243648B13279B /* CDVIonicKeyboard.m */; };
 		2C091F2ED90C4F9EB8FF5B3B /* StreamingMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B5121EA29394441AD59B903 /* StreamingMedia.m */; };
 		F1E0EF1D23CE48F0ADBAB840 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A547039F0674415A74EE36F /* MediaPlayer.framework */; };
+		081E3D07054F49D187A2417A /* CDVOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB1B431DABC48B0BE74B27D /* CDVOrientation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,6 +240,8 @@
 		9B5121EA29394441AD59B903 /* StreamingMedia.m */ = {isa = PBXFileReference; name = "StreamingMedia.m"; path = "com.hutchind.cordova.plugins.streamingmedia/StreamingMedia.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		400A0749185F4BF59DF2FB57 /* StreamingMedia.h */ = {isa = PBXFileReference; name = "StreamingMedia.h"; path = "com.hutchind.cordova.plugins.streamingmedia/StreamingMedia.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		0A547039F0674415A74EE36F /* MediaPlayer.framework */ = {isa = PBXFileReference; name = "MediaPlayer.framework"; path = "System/Library/Frameworks/MediaPlayer.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		FAB1B431DABC48B0BE74B27D /* CDVOrientation.m */ = {isa = PBXFileReference; name = "CDVOrientation.m"; path = "cordova-plugin-screen-orientation/CDVOrientation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		228D7324F2E9491F82522D8E /* CDVOrientation.h */ = {isa = PBXFileReference; name = "CDVOrientation.h"; path = "cordova-plugin-screen-orientation/CDVOrientation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -477,6 +480,8 @@
 				35FCD1C0ECA64D89B4C975D9 /* CDVIonicKeyboard.h */,
 				9B5121EA29394441AD59B903 /* StreamingMedia.m */,
 				400A0749185F4BF59DF2FB57 /* StreamingMedia.h */,
+				FAB1B431DABC48B0BE74B27D /* CDVOrientation.m */,
+				228D7324F2E9491F82522D8E /* CDVOrientation.h */,
 			);
 			name = Plugins;
 			path = "iEsaw/Plugins";
@@ -637,6 +642,7 @@
 				5703CA4053DC49628E673A39 /* GCDWebServerStreamedResponse.m in Sources */,
 				F87ABCFE3F504D25B98AE783 /* CDVIonicKeyboard.m in Sources */,
 				2C091F2ED90C4F9EB8FF5B3B /* StreamingMedia.m in Sources */,
+				081E3D07054F49D187A2417A /* CDVOrientation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

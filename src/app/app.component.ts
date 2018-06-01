@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { InicioPage } from '../pages/inicio/inicio';
 import { ChatPage } from '../pages/chat/chat';
 import { VerTodoPage } from '../pages/ver-todo/ver-todo';
+import { VideoplayerPage } from '../pages/videoplayer/videoplayer';
 
 var config = {
   apiKey: "AIzaSyDk2H5Yzy8mp8Q6OOwDQ8gptAFYYbP7x5Y",
@@ -23,7 +24,7 @@ var config = {
   templateUrl: 'app.html',
 })
 export class MyApp{
-  rootPage: any = HomePage;
+  rootPage: any = VideoplayerPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {

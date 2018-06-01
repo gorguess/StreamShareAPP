@@ -33352,6 +33352,20 @@ ion-navbar.toolbar {
   min-height: calc(46px + env(safe-area-inset-bottom));
 }
 
+.userAvatar {
+  border-radius: 50%;
+  max-height: 32px;
+}
+
+.ion-page > ion-content {
+  position: relative !important;
+}
+
+ion-header {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
 page-home ion-content {
   background: url("../assets/imgs/home.jpg");
   background-attachment: fixed;
@@ -33507,6 +33521,10 @@ page-peliculas .scroll-content {
   background-size: cover;
 }
 
+page-peliculas .has-refresher > .scroll-content {
+  border-top: 0px !important;
+}
+
 page-perfil ion-content {
   background: url("../assets/imgs/fondo.jpg");
   background-attachment: fixed;
@@ -33579,4 +33597,45 @@ page-registro .vertical-align-content > * {
   -webkit-align-items: center !important;
   -ms-flex-align: center !important;
   align-items: center !important;
+}
+
+page-videoplayer {
+  /*#videoplayer{
+        //transform: rotate(-90deg);
+        width: 100% !important;
+        
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }*/
+}
+
+page-videoplayer #videoplayer:-webkit-full-screen {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+page-videoplayer #videoplayer:-moz-full-screen {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+page-videoplayer #videoplayer:-ms-fullscreen {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+page-videoplayer #videoplayer:fullscreen {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+page-videoplayer #videoplayer:-webkit-full-screen {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+page-videoplayer #videoplayer:-moz-full-screen {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+page-videoplayer #myBtn {
+  position: absolute;
+  z-index: 10000;
 }

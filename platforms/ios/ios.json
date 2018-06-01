@@ -87,6 +87,10 @@
             {
               "xml": "<feature name=\"StreamingMedia\"><param name=\"ios-package\" value=\"StreamingMedia\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"CDVOrientation\"><param name=\"ios-package\" value=\"CDVOrientation\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -168,6 +172,9 @@
       "PACKAGE_NAME": "io.ionic.starter"
     },
     "com.hutchind.cordova.plugins.streamingmedia": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-screen-orientation": {
       "PACKAGE_NAME": "io.ionic.starter"
     }
   },
@@ -402,6 +409,14 @@
       "clobbers": [
         "streamingMedia"
       ]
+    },
+    {
+      "id": "cordova-plugin-screen-orientation.screenorientation",
+      "file": "plugins/cordova-plugin-screen-orientation/www/screenorientation.js",
+      "pluginId": "cordova-plugin-screen-orientation",
+      "clobbers": [
+        "cordova.plugins.screenorientation"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -413,6 +428,7 @@
     "cordova-plugin-ionic-webview": "1.1.16",
     "cordova-plugin-ionic-keyboard": "2.0.5",
     "com.moust.cordova.videoplayer": "1.0.1",
-    "com.hutchind.cordova.plugins.streamingmedia": "0.1.4"
+    "com.hutchind.cordova.plugins.streamingmedia": "0.1.4",
+    "cordova-plugin-screen-orientation": "3.0.1"
   }
 }

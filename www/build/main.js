@@ -173,7 +173,7 @@ var VerTodoPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__perfil_perfil__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inicio_inicio__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__peliculas_peliculas__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__videoplayer_videoplayer__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__videoplayer_videoplayer__ = __webpack_require__(90);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -427,9 +427,15 @@ var InfoPage = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VideoplayerPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_login_login__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__registro_registro__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inicio_inicio__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_userLogin__ = __webpack_require__(695);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__ = __webpack_require__(24);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -441,48 +447,142 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var VideoplayerPage = (function () {
-    function VideoplayerPage(navCtrl, navParams) {
+
+
+
+
+
+
+
+var HomePage = (function () {
+    function HomePage(navCtrl, navParams, loadingCtrl, alertCtrl, comprobarLogin, _sanitizer) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.status = 'play';
+        this.loadingCtrl = loadingCtrl;
+        this.alertCtrl = alertCtrl;
+        this.comprobarLogin = comprobarLogin;
+        this._sanitizer = _sanitizer;
+        this.userLogin = new __WEBPACK_IMPORTED_MODULE_6__models_userLogin__["a" /* UserLogin */]('', '', '', '');
     }
-    /*ionViewDidLoad(){
-      if (this.videoplayer.nativeElement.requestFullscreen) {
-        this.videoplayer.nativeElement.requestFullscreen();
-      }
-      else if (this.videoplayer.nativeElement.mozRequestFullScreen) {
-        this.videoplayer.nativeElement.nativeElement.mozRequestFullScreen();
-      }
-      else if (this.videoplayer.nativeElement.webkitRequestFullScreen) {
-        this.videoplayer.nativeElement.webkitRequestFullScreen();
-      }
-    }*/
-    VideoplayerPage.prototype.toggleVideo = function (event) {
-        if (this.status == 'play') {
-            this.videoplayer.nativeElement.play();
-            this.status = 'pause';
-        }
-        else {
-            this.videoplayer.nativeElement.pause();
-            this.status = 'play';
-        }
+    HomePage.prototype.ngOnInit = function () {
+        this.formularioUsuario = new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormGroup */]({
+            email: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
+            pass: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].pattern(/^[a-z0-9_-]{4,18}$/)])
+        });
+        this.avatarUrl = this.comprobarLogin.getImageAvatar();
+        this.trustedUrl = this._sanitizer.bypassSecurityTrustUrl(this.avatarUrl);
+    };
+    HomePage.prototype.goToRegistro = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__registro_registro__["a" /* RegistroPage */]);
+    };
+    HomePage.prototype.alert = function () {
+        this.alertCtrl.create({
+            title: 'There was a problem!',
+            subTitle: 'The email/username or password are not correct',
+            buttons: ['OK']
+        }).present();
+    };
+    HomePage.prototype.goToInicio = function () {
+        var _this = this;
+        this.login = [{ emailNick: this.emailAddress.value, password: this.currentPassword.value, gettoken: null }];
+        this.comprobarLogin.loginUsers(this.login).subscribe(function (datos) {
+            var contenedor = datos["user"];
+            //Modificacion LOGIN Persistencia del usuario y recogida del token Parte I
+            localStorage.setItem('user', JSON.stringify(contenedor));
+            _this.getToken(contenedor, _this.login);
+        }, function (err) {
+            _this.alert();
+        });
+    };
+    //Recogemos las estadisticas en cuanto a seguimientos del usuario y la guardamos en LocalStorage para su uso
+    HomePage.prototype.getCounter = function (contenedor) {
+        var _this = this;
+        this.comprobarLogin.getCounter(localStorage.getItem('token')).subscribe(function (response) {
+            localStorage.setItem('stats', JSON.stringify(response));
+            _this.status = 'Success';
+            _this.errorDetails = 'Login successful, enjoy!!';
+            _this.comprobarLogin.getAvatar(_this.token, contenedor.image).subscribe(function (response) {
+                console.log(response);
+                var file = new Blob([response], { type: 'image/jpeg' });
+                var fileURL = URL.createObjectURL(file);
+                localStorage.setItem('avatar', fileURL);
+                _this.loginLoading(contenedor);
+            }, function (err) {
+                console.log(err);
+            });
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    //Generamos el token del usuario para que pueda ser usado.
+    HomePage.prototype.getToken = function (contenedor, login) {
+        var _this = this;
+        login[0].gettoken = true;
+        console.log(login);
+        this.comprobarLogin.loginUsers(this.login).subscribe(function (response) {
+            console.log(response);
+            _this.token = response["token"];
+            if (_this.token.length <= 0) {
+                _this.status = 'error';
+                _this.errorDetails = 'Error al generar el token';
+            }
+            else {
+                localStorage.setItem('token', _this.token);
+                _this.getCounter(contenedor);
+            }
+        }, function (error) {
+            var errorMessage = error;
+            if (errorMessage != null) {
+                _this.status = 'Error';
+                _this.errorDetails = 'User/email or password incorrect, try again!';
+            }
+        });
+    };
+    HomePage.prototype.loginLoading = function (contenido) {
+        var _this = this;
+        this.ngOnInit();
+        var loading = this.loadingCtrl.create({
+            content: 'Please wait...',
+            duration: 2000,
+            dismissOnPageChange: true
+        });
+        loading.present();
+        setTimeout(function () {
+            _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__inicio_inicio__["a" /* InicioPage */], {
+                // birthday: contenedor["birthdate"],
+                // image: contenedor["image"],
+                // name: contenedor["name"],
+                // nickname: contenedor["nickname"],
+                // role: contenedor["role"],
+                // surname: contenedor["surname"],
+                data: contenido
+            });
+        }, 2000);
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])('videoplayer'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("emailad"),
         __metadata("design:type", Object)
-    ], VideoplayerPage.prototype, "videoplayer", void 0);
-    VideoplayerPage = __decorate([
+    ], HomePage.prototype, "emailAddress", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("password"),
+        __metadata("design:type", Object)
+    ], HomePage.prototype, "currentPassword", void 0);
+    HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-videoplayer',template:/*ion-inline-start:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/pages/videoplayer/videoplayer.html"*/'<ion-content >\n    <ion-grid>\n      <ion-row>\n        <ion-col col-12>\n          <video #videoplayer id="videoplayer">\n            <source src="assets/videos/rain.mp4" type="video/mp4">\n          </video>\n          <button id="myBtn" (click)="toggleVideo()">Pause</button>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n</ion-content>'/*ion-inline-end:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/pages/videoplayer/videoplayer.html"*/,
+            selector: 'page-home',template:/*ion-inline-start:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/pages/home/home.html"*/'<ion-content class="vertical-align-content">\n  <ion-grid>\n  <ion-row>\n    <ion-col col-12>\n      <!-- Creamos una "tarjeta" en la que vendrá diseñado nuestro formulario de inicio de sesión -->\n      <ion-card>\n        <!-- Cabecera -->\n        <ion-card-header>\n          <p class="header">Sign Up</p>\n        </ion-card-header>\n        <!-- Contenido de nuestro formulario -->\n        <ion-card-content>\n          <ion-list>\n            <!-- Creamos nuestra etiqueta para nuestro formulario, asignándole un nombre de grupo (ID) y una llamada \n            a una función de carga mientras comprueba las credenciales (loginLoading)-->\n            <form [formGroup]="formularioUsuario" novalidate>\n              <ion-item>\n                <ion-label floating>Email address</ion-label>\n                <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido \n                de éste-->\n                <ion-input type="text" #emailad [(ngModel)]="userLogin.emailNick" name="emailNick" formControlName="email"></ion-input>\n              </ion-item>\n              <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->\n              <ion-item *ngIf="formularioUsuario.get(\'email\').errors && formularioUsuario.get(\'email\').dirty">\n                <p color="danger" ion-text *ngIf="formularioUsuario.get(\'email\').hasError(\'required\')" class="error">\n                  Email is required.\n                </p>\n                <p color="danger" ion-text *ngIf="formularioUsuario.get(\'email\').hasError(\'pattern\')">\n                  It is not an email\n                </p>\n              </ion-item>\n            \n              <ion-item>\n                <ion-label floating>Password</ion-label>\n                <!-- Creamos el input para la contraseña -->\n                <ion-input type="password" #password [(ngModel)]="userLogin.password" name="password" formControlName="pass"></ion-input>\n              </ion-item>\n              <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->\n              <ion-item *ngIf="formularioUsuario.get(\'pass\').errors && formularioUsuario.get(\'pass\').dirty">\n                <p color="danger" ion-text *ngIf="formularioUsuario.get(\'pass\').hasError(\'pattern\')" class="error">\n                  It is not a strong password.\n                </p>\n              </ion-item>\n\n\n              <br>\n              <!-- Creamos el botón de inicio de sesión, que permanecerá desactivado, hasta que los campos del formulario\n              estén correctamente rellenos superando el control de errores -->\n              <ion-grid padding-top>\n                <ion-row justify-content-center>\n                  <div class="col-1" align-self-center>\n                    <div>\n                      <button ion-button type="submit" [disabled]="!formularioUsuario.valid" (click)="goToInicio()">Submit</button>\n                    </div>\n                  </div>\n                </ion-row>\n              </ion-grid>\n\n              <ion-grid>\n                <ion-row justify-content-center padding-top>\n                  <div align-self-center>\n                    <div>Or</div>\n                  </div>\n                </ion-row>\n                <ion-row justify-content-center padding-top>\n                  <div align-self-center>\n                    <div>\n                      <!-- <a (click)="goToRegistry()"> -->\n                      <a (click)="goToRegistro()">\n                        <strong>Sign Up Now!</strong>\n                      </a>\n                    </div>\n                  </div>\n                </ion-row>\n              </ion-grid>\n            </form>\n          \n          </ion-list>\n        </ion-card-content>\n      </ion-card>\n    </ion-col>\n  </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/pages/home/home.html"*/,
+            providers: [__WEBPACK_IMPORTED_MODULE_3__providers_login_login__["a" /* LoginProvider */]]
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object])
-    ], VideoplayerPage);
-    return VideoplayerPage;
-    var _a, _b;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_login_login__["a" /* LoginProvider */],
+            __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__["c" /* DomSanitizer */]])
+    ], HomePage);
+    return HomePage;
 }());
 
-//# sourceMappingURL=videoplayer.js.map
+//# sourceMappingURL=home.js.map
 
 /***/ }),
 
@@ -498,7 +598,7 @@ var VideoplayerPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__ = __webpack_require__(234);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__home_home__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__home_home__ = __webpack_require__(166);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -692,11 +792,11 @@ var map = {
 		7
 	],
 	"../pages/inicio/inicio.module": [
-		725,
+		724,
 		6
 	],
 	"../pages/menu/menu.module": [
-		724,
+		725,
 		5
 	],
 	"../pages/peliculas/peliculas.module": [
@@ -1048,7 +1148,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__ = __webpack_require__(367);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_http__ = __webpack_require__(716);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_camera__ = __webpack_require__(717);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_home_home__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_home_home__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_registro_registro__ = __webpack_require__(167);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_inicio_inicio__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_menu_menu__ = __webpack_require__(372);
@@ -1061,7 +1161,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_info_info__ = __webpack_require__(165);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__providers_login_login__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_header_header__ = __webpack_require__(371);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_videoplayer_videoplayer__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_videoplayer_videoplayer__ = __webpack_require__(90);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1140,8 +1240,8 @@ var AppModule = (function () {
                         { loadChildren: '../pages/header/header.module#HeaderPageModule', name: 'HeaderPage', segment: 'header', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/home/home.module#HomePageModule', name: 'HomePage', segment: 'home', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/info/info.module#InfoPageModule', name: 'InfoPage', segment: 'info', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/inicio/inicio.module#InicioPageModule', name: 'InicioPage', segment: 'inicio', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/peliculas/peliculas.module#PeliculasPageModule', name: 'PeliculasPage', segment: 'peliculas', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/perfil/perfil.module#PerfilPageModule', name: 'PerfilPage', segment: 'perfil', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/registro/registro.module#RegistroPageModule', name: 'RegistroPage', segment: 'registro', priority: 'low', defaultHistory: [] },
@@ -2055,7 +2155,7 @@ var UserLogin = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(367);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_firebase__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_home_home__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_videoplayer_videoplayer__ = __webpack_require__(90);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2081,7 +2181,7 @@ var config = {
 };
 var MyApp = (function () {
     function MyApp(platform, statusBar, splashScreen) {
-        this.rootPage = __WEBPACK_IMPORTED_MODULE_5__pages_home_home__["a" /* HomePage */];
+        this.rootPage = __WEBPACK_IMPORTED_MODULE_5__pages_videoplayer_videoplayer__["a" /* VideoplayerPage */];
         platform.ready().then(function () {
             statusBar.styleDefault();
             splashScreen.hide();
@@ -2091,9 +2191,10 @@ var MyApp = (function () {
     MyApp = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/app/app.html"*/'<ion-nav [root]="rootPage"></ion-nav>'/*ion-inline-end:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/app/app.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]) === "function" && _c || Object])
     ], MyApp);
     return MyApp;
+    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=app.component.js.map
@@ -2104,15 +2205,9 @@ var MyApp = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VideoplayerPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_login_login__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__registro_registro__ = __webpack_require__(167);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inicio_inicio__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_userLogin__ = __webpack_require__(695);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__ = __webpack_require__(24);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2124,142 +2219,51 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-
-
-
-
-
-
-var HomePage = (function () {
-    function HomePage(navCtrl, navParams, loadingCtrl, alertCtrl, comprobarLogin, _sanitizer) {
+var VideoplayerPage = (function () {
+    function VideoplayerPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.loadingCtrl = loadingCtrl;
-        this.alertCtrl = alertCtrl;
-        this.comprobarLogin = comprobarLogin;
-        this._sanitizer = _sanitizer;
-        this.userLogin = new __WEBPACK_IMPORTED_MODULE_6__models_userLogin__["a" /* UserLogin */]('', '', '', '');
+        this.status = 'play';
+        this.icono = 'ios-play-outline';
     }
-    HomePage.prototype.ngOnInit = function () {
-        this.formularioUsuario = new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormGroup */]({
-            email: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
-            pass: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* Validators */].pattern(/^[a-z0-9_-]{4,18}$/)])
-        });
-        this.avatarUrl = this.comprobarLogin.getImageAvatar();
-        this.trustedUrl = this._sanitizer.bypassSecurityTrustUrl(this.avatarUrl);
+    VideoplayerPage.prototype.ionViewDidLoad = function () {
     };
-    HomePage.prototype.goToRegistro = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__registro_registro__["a" /* RegistroPage */]);
-    };
-    HomePage.prototype.alert = function () {
-        this.alertCtrl.create({
-            title: 'There was a problem!',
-            subTitle: 'The email/username or password are not correct',
-            buttons: ['OK']
-        }).present();
-    };
-    HomePage.prototype.goToInicio = function () {
-        var _this = this;
-        this.login = [{ emailNick: this.emailAddress.value, password: this.currentPassword.value, gettoken: null }];
-        this.comprobarLogin.loginUsers(this.login).subscribe(function (datos) {
-            var contenedor = datos["user"];
-            //Modificacion LOGIN Persistencia del usuario y recogida del token Parte I
-            localStorage.setItem('user', JSON.stringify(contenedor));
-            _this.getToken(contenedor, _this.login);
-        }, function (err) {
-            _this.alert();
-        });
-    };
-    //Recogemos las estadisticas en cuanto a seguimientos del usuario y la guardamos en LocalStorage para su uso
-    HomePage.prototype.getCounter = function (contenedor) {
-        var _this = this;
-        this.comprobarLogin.getCounter(localStorage.getItem('token')).subscribe(function (response) {
-            localStorage.setItem('stats', JSON.stringify(response));
-            _this.status = 'Success';
-            _this.errorDetails = 'Login successful, enjoy!!';
-            _this.comprobarLogin.getAvatar(_this.token, contenedor.image).subscribe(function (response) {
-                console.log(response);
-                var file = new Blob([response], { type: 'image/jpeg' });
-                var fileURL = URL.createObjectURL(file);
-                localStorage.setItem('avatar', fileURL);
-                _this.loginLoading(contenedor);
-            }, function (err) {
-                console.log(err);
-            });
-        }, function (error) {
-            console.log(error);
-        });
-    };
-    //Generamos el token del usuario para que pueda ser usado.
-    HomePage.prototype.getToken = function (contenedor, login) {
-        var _this = this;
-        login[0].gettoken = true;
-        console.log(login);
-        this.comprobarLogin.loginUsers(this.login).subscribe(function (response) {
-            console.log(response);
-            _this.token = response["token"];
-            if (_this.token.length <= 0) {
-                _this.status = 'error';
-                _this.errorDetails = 'Error al generar el token';
+    VideoplayerPage.prototype.toggleVideo = function (event) {
+        if (this.status == 'play') {
+            this.videoplayer.nativeElement.play();
+            /*if (this.videoplayer.nativeElement.requestFullscreen) {
+              this.videoplayer.nativeElement.requestFullscreen();
             }
-            else {
-                localStorage.setItem('token', _this.token);
-                _this.getCounter(contenedor);
+            else if (this.videoplayer.nativeElement.mozRequestFullScreen) {
+              this.videoplayer.nativeElement.nativeElement.mozRequestFullScreen();
             }
-        }, function (error) {
-            var errorMessage = error;
-            if (errorMessage != null) {
-                _this.status = 'Error';
-                _this.errorDetails = 'User/email or password incorrect, try again!';
-            }
-        });
-    };
-    HomePage.prototype.loginLoading = function (contenido) {
-        var _this = this;
-        this.ngOnInit();
-        var loading = this.loadingCtrl.create({
-            content: 'Please wait...',
-            duration: 2000,
-            dismissOnPageChange: true
-        });
-        loading.present();
-        setTimeout(function () {
-            _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__inicio_inicio__["a" /* InicioPage */], {
-                // birthday: contenedor["birthdate"],
-                // image: contenedor["image"],
-                // name: contenedor["name"],
-                // nickname: contenedor["nickname"],
-                // role: contenedor["role"],
-                // surname: contenedor["surname"],
-                data: contenido
-            });
-        }, 2000);
+            else if (this.videoplayer.nativeElement.webkitRequestFullScreen) {
+              this.videoplayer.nativeElement.webkitRequestFullScreen();
+            }*/
+            this.status = 'pause';
+            this.icono = 'ios-pause-outline';
+        }
+        else {
+            this.videoplayer.nativeElement.pause();
+            this.status = 'play';
+            this.icono = 'ios-play-outline';
+        }
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("emailad"),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])('videoplayer'),
         __metadata("design:type", Object)
-    ], HomePage.prototype, "emailAddress", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_9" /* ViewChild */])("password"),
-        __metadata("design:type", Object)
-    ], HomePage.prototype, "currentPassword", void 0);
-    HomePage = __decorate([
+    ], VideoplayerPage.prototype, "videoplayer", void 0);
+    VideoplayerPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/pages/home/home.html"*/'<ion-content class="vertical-align-content">\n  <ion-grid>\n  <ion-row>\n    <ion-col col-12>\n      <!-- Creamos una "tarjeta" en la que vendrá diseñado nuestro formulario de inicio de sesión -->\n      <ion-card>\n        <!-- Cabecera -->\n        <ion-card-header>\n          <p class="header">Sign Up</p>\n        </ion-card-header>\n        <!-- Contenido de nuestro formulario -->\n        <ion-card-content>\n          <ion-list>\n            <!-- Creamos nuestra etiqueta para nuestro formulario, asignándole un nombre de grupo (ID) y una llamada \n            a una función de carga mientras comprueba las credenciales (loginLoading)-->\n            <form [formGroup]="formularioUsuario" novalidate>\n              <ion-item>\n                <ion-label floating>Email address</ion-label>\n                <!-- Creamos el input para añadir el usuario, y poniendo un id de formulario para sacar el contenido \n                de éste-->\n                <ion-input type="text" #emailad [(ngModel)]="userLogin.emailNick" name="emailNick" formControlName="email"></ion-input>\n              </ion-item>\n              <!-- Control de errores de si está rellenando el campo "Password" y el usuario está vacío indique un error -->\n              <ion-item *ngIf="formularioUsuario.get(\'email\').errors && formularioUsuario.get(\'email\').dirty">\n                <p color="danger" ion-text *ngIf="formularioUsuario.get(\'email\').hasError(\'required\')" class="error">\n                  Email is required.\n                </p>\n                <p color="danger" ion-text *ngIf="formularioUsuario.get(\'email\').hasError(\'pattern\')">\n                  It is not an email\n                </p>\n              </ion-item>\n            \n              <ion-item>\n                <ion-label floating>Password</ion-label>\n                <!-- Creamos el input para la contraseña -->\n                <ion-input type="password" #password [(ngModel)]="userLogin.password" name="password" formControlName="pass"></ion-input>\n              </ion-item>\n              <!-- Control de errores de si está vacío, o tiene menos de 10 caracteres, indique un error -->\n              <ion-item *ngIf="formularioUsuario.get(\'pass\').errors && formularioUsuario.get(\'pass\').dirty">\n                <p color="danger" ion-text *ngIf="formularioUsuario.get(\'pass\').hasError(\'pattern\')" class="error">\n                  It is not a strong password.\n                </p>\n              </ion-item>\n\n\n              <br>\n              <!-- Creamos el botón de inicio de sesión, que permanecerá desactivado, hasta que los campos del formulario\n              estén correctamente rellenos superando el control de errores -->\n              <ion-grid padding-top>\n                <ion-row justify-content-center>\n                  <div class="col-1" align-self-center>\n                    <div>\n                      <button ion-button type="submit" [disabled]="!formularioUsuario.valid" (click)="goToInicio()">Submit</button>\n                    </div>\n                  </div>\n                </ion-row>\n              </ion-grid>\n\n              <ion-grid>\n                <ion-row justify-content-center padding-top>\n                  <div align-self-center>\n                    <div>Or</div>\n                  </div>\n                </ion-row>\n                <ion-row justify-content-center padding-top>\n                  <div align-self-center>\n                    <div>\n                      <!-- <a (click)="goToRegistry()"> -->\n                      <a (click)="goToRegistro()">\n                        <strong>Sign Up Now!</strong>\n                      </a>\n                    </div>\n                  </div>\n                </ion-row>\n              </ion-grid>\n            </form>\n          \n          </ion-list>\n        </ion-card-content>\n      </ion-card>\n    </ion-col>\n  </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/pages/home/home.html"*/,
-            providers: [__WEBPACK_IMPORTED_MODULE_3__providers_login_login__["a" /* LoginProvider */]]
+            selector: 'page-videoplayer',template:/*ion-inline-start:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/pages/videoplayer/videoplayer.html"*/'<ion-content >\n    <ion-grid>\n      <ion-row>\n        <ion-col col-12>\n          <video #videoplayer id="videoplayer">\n            <source src="assets/videos/rain.mp4" type="video/mp4">\n          </video>\n          <button id="myBtn" (click)="toggleVideo()"><ion-icon [name]="icono"></ion-icon></button>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n</ion-content>'/*ion-inline-end:"/Users/adriancejudo/Desktop/sharestreamapp/ShareStreamApp/src/pages/videoplayer/videoplayer.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_login_login__["a" /* LoginProvider */],
-            __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__["c" /* DomSanitizer */]])
-    ], HomePage);
-    return HomePage;
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object])
+    ], VideoplayerPage);
+    return VideoplayerPage;
+    var _a, _b;
 }());
 
-//# sourceMappingURL=home.js.map
+//# sourceMappingURL=videoplayer.js.map
 
 /***/ })
 
