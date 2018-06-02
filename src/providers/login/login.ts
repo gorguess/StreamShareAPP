@@ -33,7 +33,7 @@ export class LoginProvider {
   }
 
   getAllMovies() {
-    return this.http.get('http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api//getallmovies/:page?');
+    return this.http.get('http://ec2-18-217-133-241.us-east-2.compute.amazonaws.com:9000/api/getallmovies/2');
   }
 
 }

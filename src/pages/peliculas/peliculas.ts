@@ -18,10 +18,6 @@ export class PeliculasPage {
 
   nombreUsuario;
   contenedor;
-  // peli1;
-  // peli2;
-  // titulo1;
-  // titulo2;
   structure: any = { lower: 1990, upper: 2018 };
   filter = false;
   genre: any = 'Genre: All';
@@ -44,10 +40,6 @@ export class PeliculasPage {
     public contenedorFilms: LoginProvider,
     private _movieProvider: MovieProvider
   ) {
-    // this.peli1 = "assets/imgs/peli1.jpg";
-    // this.peli2 = "assets/imgs/peli2.jpg";
-    // this.titulo1 = 'Deadpool';
-    // this.titulo2 = 'Avengers 2';
     this.iconoIOS1 = 'ios-arrow-dropdown';
     this.iconoAndroid1 = 'md-arrow-dropdown';
     this.iconoIOS = 'ios-arrow-dropdown';
@@ -68,14 +60,6 @@ export class PeliculasPage {
       ''
     )
   }
-
-  // ionViewDidLoad() {
-  //   this.contenedorFilms.getAllMovies().subscribe((datos) => {
-  //     console.log('Peliculas: ', datos);
-  //   }, (err) => {
-  //     console.log(err["message"]);
-  //   });
-  // }
 
   ngOnInit(): void {
     this._movieProvider.getAllMovies(localStorage.getItem('token')).subscribe(response => {
@@ -135,12 +119,14 @@ export class PeliculasPage {
   }
 
   doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
+    this._movieProvider.getAllMovies(localStorage.getItem('token')).subscribe(response => {
+      this.listMovie = [];
+      response.message.forEach(eleMovie => {
+        this.movie = eleMovie;
+        this.listMovie.push(this.movie);
+      });
       refresher.complete();
-    }, 2000);
+    });
   }
 
   cambiarIconoSeen(fab) {
@@ -178,6 +164,17 @@ export class PeliculasPage {
     });
 
     toast.present();
+  }
+
+  cargarMas(infiniteScroll) {
+    this._movieProvider.getAllMovies(localStorage.getItem('token'), pagina).subscribe(response => {
+      this.listMovie = [];
+      response.message.forEach(eleMovie => {
+        this.movie = eleMovie;
+        this.listMovie.push(this.movie);
+        this.listMovie = this.listMovie.concat(eleMovie);
+      });
+    });
   }
 
 }
