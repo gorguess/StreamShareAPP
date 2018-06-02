@@ -77,9 +77,6 @@
     <feature name="StreamingMedia">
         <param name="ios-package" value="StreamingMedia" />
     </feature>
-    <feature name="CDVOrientation">
-        <param name="ios-package" value="CDVOrientation" />
-    </feature>
     <name>iEsaw</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -93,8 +90,6 @@
     <allow-intent href="geo:*" />
     <allow-navigation href="http://192.168.0.158:8100" />
     <allow-navigation href="http://192.168.0.158:8101" />
-    <allow-navigation href="http://192.168.1.139:8100" />
-    <allow-navigation href="http://192.168.1.17:8100" />
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
     <icon height="57" src="resources/ios/icon/icon.png" width="57" />

@@ -26,7 +26,7 @@ export const RATING_CONTROL_VALUE_ACCESSOR: any = {
       display: inline;
       border: 0px;
       background: none;
-      padding: 5px 10px;
+      padding: 5px 1px;
     }
     ul.rating li i {
       font-size: 30px;
@@ -40,14 +40,24 @@ export class InfoPage implements ControlValueAccessor {
   movie: Movie;
   portada;
   titulo;
-  usuario;
+  contenedor;
+  nombreUsuario;
 
-  _max: number = 5;
+  _max: number = 10;
   _readOnly: boolean = false;
   _emptyStarIconName: string = 'star-outline';
   _halfStarIconName: string = 'star-half';
   _starIconName: string = 'star';
   _nullable: boolean = false;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private streamingMedia: StreamingMedia
+  ) {
+    this.movie = navParams.data['contenido'];
+    this.contenedor = navParams.data['data'];
+  }
 
   @Input()
   get max() {
@@ -195,41 +205,37 @@ export class InfoPage implements ControlValueAccessor {
     return val;
   }
 
-  constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams,
-    private streamingMedia: StreamingMedia
-  ) {
-    //this.portada = navParams.data['foto'];
-    //this.titulo = navParams.data['nombre'];
-    //this.usuario = 'Gorguess';
-    this.movie = navParams.data['content'];
-  }
-
-
   ionViewDidLoad() {
-    console.log(this.movie);
+    if (this.movie['genre'] == 'N/A') {
+      this.movie['genre'] = 'Not available';
+    }
+    if (this.movie['year'] == 'N/A') {
+      this.movie['year'] = 'Not available';
+    }
+    if (this.movie['description'] == 'N/A') {
+      this.movie['description'] = 'Not available';
+    }
   }
 
   goToPerfil() {
-    this.navCtrl.push(PerfilPage);
+    this.navCtrl.push(PerfilPage, {
+      data: this.contenedor
+    });
   }
 
   goToInicio() {
-    this.navCtrl.push(InicioPage);
+    this.navCtrl.push(InicioPage, {
+      data: this.contenedor
+    });
   }
 
   goToPeliculas() {
-    this.navCtrl.push(PeliculasPage);
+    this.navCtrl.push(PeliculasPage, {
+      data: this.contenedor
+    });
   }
   
   gotoreproductor(){
-    /*let options: StreamingVideoOptions = {
-      successCallback: () => { console.log('Video played') },
-      errorCallback: (e) => { console.log('Error streaming') },
-      orientation: 'portrait'
-    };
-    this.streamingMedia.playVideo('https://www.youtube.com/watch?v=U6VMFwS2mPk', options);*/
     this.navCtrl.push(VideoplayerPage);
   }
 }

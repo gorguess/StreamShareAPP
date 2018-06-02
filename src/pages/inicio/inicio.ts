@@ -5,7 +5,7 @@ import { PeliculasPage } from '../peliculas/peliculas';
 import { VerTodoPage } from '../ver-todo/ver-todo';
 import { LoginProvider } from '../../providers/login/login';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
+import { InfoPage } from '../info/info';
 
 @IonicPage()
 @Component({
@@ -56,59 +56,12 @@ export class InicioPage implements OnInit, DoCheck {
     this.nombreUsuario = this.contenedor['nickname'];
   }
 
-  listado() {
-    this.items = [
-      'Amsterdam',
-      'Bogota',
-      'Buenos Aires',
-      'Cairo',
-      'Dhaka',
-      'Edinburgh',
-      'Geneva',
-      'Genoa',
-      'Glasglow',
-      'Hanoi',
-      'Hong Kong',
-      'Islamabad',
-      'Istanbul',
-      'Jakarta',
-      'Kiel',
-      'Kyoto',
-      'Le Havre',
-      'Lebanon',
-      'Lhasa',
-      'Lima',
-      'London',
-      'Los Angeles',
-      'Madrid',
-      'Manila',
-      'New York',
-      'Olympia',
-      'Oslo',
-      'Panama City',
-      'Peking',
-      'Philadelphia',
-      'San Francisco',
-      'Seoul',
-      'Taipeh',
-      'Tel Aviv',
-      'Tokio',
-      'Uelzen',
-      'Washington'
-    ];
-  }
-
-  getItems(ev) {
-    var val = ev.target.value;
-
-    if (val && val.trim() != '') {
-      this.listado();
-      this.items = this.items.filter((item) => {
-        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    } else {
-      return;
-    }
+  goToInfo(fotoPeli, titulo) {
+    this.navCtrl.push(InfoPage, {
+      foto: fotoPeli,
+      nombre: titulo,
+      data: this.contenedor
+    });
   }
 
   goToPerfil() {

@@ -1,5 +1,6 @@
 import { Component, ViewChild, OnInit, DoCheck } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ChatPage } from '../chat/chat';
 import { Subject } from 'rxjs';
 import { PeliculasPage } from '../peliculas/peliculas';
@@ -65,20 +66,24 @@ export class PerfilPage implements OnInit {
     private alertCtrl: AlertController,
     private comprobarLogin: LoginProvider,
     private sanitizer: DomSanitizer,
-    private _userProvider: UserProvider
+    private _userProvider: UserProvider,
+    private camera: Camera
   ) {
-    /*this.contenedor = navParams.data['data'];
-    this.nombreUsuario = this.contenedor['nickname'];
-    this.nombre = this.contenedor['name'];
-    this.apellido = this.contenedor['surname'];
-    this.perfilImg = this.contenedor['image'];*/
+    // this.contenedor = navParams.data['data'];
+    // this.nombreUsuario = this.contenedor['nickname'];
+    // this.nombre = this.contenedor['name'];
+    // this.apellido = this.contenedor['surname'];
+    // this.perfilImg = this.contenedor['image'];
   }
 
   ngOnInit(){
     this.identity = this.comprobarLogin.getIdentity();
     this.avatarUrl = this.comprobarLogin.getImageAvatar();
-    this.trustedUrl = this.sanitizer.bypassSecurityTrustUrl(this.avatarUrl)
+    this.trustedUrl = this.sanitizer.bypassSecurityTrustUrl(this.avatarUrl);
+    if(!this.identity['image']){
+      this.identity['image'] = "assets/imgs/profileNull.png";
     }
+  }
   
   
     /*ngDoCheck(){
@@ -86,6 +91,54 @@ export class PerfilPage implements OnInit {
       this.avatarUrl = this.comprobarLogin.getImageAvatar();
       this.trustedUrl = this.sanitizer.bypassSecurityTrustUrl(this.avatarUrl)
     }*/
+
+  actionCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      //la imagen va a estar codificada (base64)
+      this.perfilImg = 'data:image/png;base64,' + imageData;
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  accessGallery() {
+    this.camera.getPicture({
+      sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+      destinationType: this.camera.DestinationType.DATA_URL
+    }).then((imageData) => {
+      this.perfilImg = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  showMethods() {
+    let confirm = this.alertCtrl.create({
+      title: 'Choose one method',
+      message: "Do you want to choose the photo from your mobile's galery or you prefer take a photo?",
+      buttons: [
+        {
+          text: 'Galery',
+          handler: () => {
+            this.accessGallery();
+          }
+        },
+        {
+          text: 'Take a Photo',
+          handler: () => {
+            this.actionCamera();
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
 
   ionViewDidLoad() {
     if (!this.perfilImg) {
@@ -138,64 +191,10 @@ export class PerfilPage implements OnInit {
     });
   }
 
-  listado() {
-    this.items = [
-      'Amsterdam',
-      'Bogota',
-      'Buenos Aires',
-      'Cairo',
-      'Dhaka',
-      'Edinburgh',
-      'Geneva',
-      'Genoa',
-      'Glasglow',
-      'Hanoi',
-      'Hong Kong',
-      'Islamabad',
-      'Istanbul',
-      'Jakarta',
-      'Kiel',
-      'Kyoto',
-      'Le Havre',
-      'Lebanon',
-      'Lhasa',
-      'Lima',
-      'London',
-      'Los Angeles',
-      'Madrid',
-      'Manila',
-      'New York',
-      'Olympia',
-      'Oslo',
-      'Panama City',
-      'Peking',
-      'Philadelphia',
-      'San Francisco',
-      'Seoul',
-      'Taipeh',
-      'Tel Aviv',
-      'Tokio',
-      'Uelzen',
-      'Washington'
-    ];
-  }
-
-  getItems(ev) {
-    var val = ev.target.value;
-
-    if (val && val.trim() != '') {
-      this.listado();
-      this.items = this.items.filter((item) => {
-        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    } else {
-      return;
-    }
-  }
-
   goToChat() {
     this.navCtrl.push(ChatPage);
   }
+
   descriptionType() {
     let prompt = this.alertCtrl.create({
       title: 'Description',

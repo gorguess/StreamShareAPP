@@ -32,7 +32,7 @@
             <button ion-button icon-only (click)="goToPerfil()">
               {{ identity.nickname }}
               <ion-avatar item-start>
-                <img class="userAvatar" [src]="trustedUrl">
+                <img class="userAvatar" [src]="identity.image">
               </ion-avatar>
             </button>
           </ion-buttons>
@@ -51,5 +51,10 @@
 
     <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionCancel)="isSearchbarOpened=false" (ionInput)="getItems($event)">
     </ion-searchbar>
+    <ion-list *ngIf="isSearchbarOpened">
+      <button ion-item *ngFor="let item of items" (click)="showDetail(item)">
+        {{ item }}
+      </button>
+    </ion-list>
   </ion-navbar>
 </ion-header>

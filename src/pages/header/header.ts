@@ -5,13 +5,6 @@ import { LoginProvider } from '../../providers/login/login';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PeliculasPage } from '../peliculas/peliculas';
 
-/**
- * Generated class for the HeaderPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-header',
@@ -26,13 +19,17 @@ export class HeaderPage implements OnInit, DoCheck{
   avatarUrl: any;
   identity: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private comprobarLogin: LoginProvider,
-    private sanitizer: DomSanitizer) {
-  }
+    private sanitizer: DomSanitizer){}
 
   ngOnInit(){
     this.identity = this.comprobarLogin.getIdentity();
-    this.avatarUrl = this.comprobarLogin.getImageAvatar();
-    this.trustedUrl = this.sanitizer.bypassSecurityTrustUrl(this.avatarUrl)
+    // this.avatarUrl = this.comprobarLogin.getImageAvatar();
+    console.log('Primera ', this.identity['image']);
+    if (!this.identity['image']) {
+      this.identity['image'] = "assets/imgs/profileNull.png";
+    }
+    console.log('Segunda ', this.identity['image']);
+    // this.trustedUrl = this.sanitizer.bypassSecurityTrustUrl(this.avatarUrl);
     }
   
   
@@ -43,6 +40,7 @@ export class HeaderPage implements OnInit, DoCheck{
     }
 
     listado() {
+      console.log('Header');
       this.items = [
         'Amsterdam',
         'Bogota',
@@ -82,20 +80,23 @@ export class HeaderPage implements OnInit, DoCheck{
         'Uelzen',
         'Washington'
       ];
+      console.log(this.items);
     }
 
-    getItems(ev) {
-      var val = ev.target.value;
-  
-      if (val && val.trim() != '') {
-        this.listado();
-        this.items = this.items.filter((item) => {
-          return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-        })
-      } else {
-        return;
-      }
+  getItems(ev) {
+    var val = ev.target.value;
+
+    if (val && val.trim() != '') {
+      this.listado();
+      this.items = this.items.filter((item) => {
+        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      },
+      console.log(this.items)
+    )
+    } else {
+      return;
     }
+  }
   
     goToPerfil() {
       this.navCtrl.push(PerfilPage, {

@@ -70,7 +70,6 @@ export class HomePage {
       //Modificacion LOGIN Persistencia del usuario y recogida del token Parte I
       localStorage.setItem('user', JSON.stringify(contenedor));
       this.getToken(contenedor, this.login);
-   
     }, err => {
       this.alert();
     });
@@ -79,16 +78,16 @@ export class HomePage {
   //Recogemos las estadisticas en cuanto a seguimientos del usuario y la guardamos en LocalStorage para su uso
   getCounter(contenedor) {
     this.comprobarLogin.getCounter(localStorage.getItem('token')).subscribe(response => {
-        localStorage.setItem('stats', JSON.stringify(response));
-        this.status = 'Success';
-        this.errorDetails = 'Login successful, enjoy!!';
-        
-        this.comprobarLogin.getAvatar(this.token, contenedor.image).subscribe(response => {
-          console.log(response);
-          var file = new Blob([response], {type: 'image/jpeg'});
-          var fileURL = URL.createObjectURL(file);
-          localStorage.setItem('avatar', fileURL);
-          this.loginLoading(contenedor);
+      localStorage.setItem('stats', JSON.stringify(response));
+      this.status = 'Success';
+      this.errorDetails = 'Login successful, enjoy!!';
+      
+      this.comprobarLogin.getAvatar(this.token, contenedor.image).subscribe(response => {
+        console.log(response);
+        var file = new Blob([response], {type: 'image/jpeg'});
+        var fileURL = URL.createObjectURL(file);
+        localStorage.setItem('avatar', fileURL);
+        this.loginLoading(contenedor);
       },
       err => {
           console.log(err);

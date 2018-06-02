@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, FabContainer,
          ToastController, LoadingController} from 'ionic-angular';
 import { Subject } from 'rxjs';
@@ -6,24 +6,18 @@ import { LoginProvider } from '../../providers/login/login';
 import { PerfilPage } from '../perfil/perfil';
 import { InicioPage } from '../inicio/inicio';
 import { InfoPage } from '../info/info';
-import { MovieProvider } from '../../providers/movies/movie.provider'; 
-import { Movie } from '../../models/movie';
-import { DomSanitizer } from '@angular/platform-browser';
+import { MovieProvider } from '../../providers/movie/movie.provider';
+import { Movie } from '../../providers/movie/movie';
 
 @IonicPage()
 @Component({
   selector: 'page-peliculas',
   templateUrl: 'peliculas.html',
-  providers: [MovieProvider]
 })
 export class PeliculasPage {
 
   nombreUsuario;
   contenedor;
-  peli1;
-  peli2;
-  titulo1;
-  titulo2;
   structure: any = { lower: 1990, upper: 2018 };
   filter = false;
   genre: any = 'Genre: All';
@@ -36,28 +30,24 @@ export class PeliculasPage {
   mensaje;
   movie: Movie;
   listMovie: Array<Movie>;
+  page = 2;
+  contador: Array<any>;
 
   public isSearchbarOpened = false;
   constructor(
     public navCtrl: NavController,
     public loadingCtrl: LoadingController, 
     public navParams: NavParams,
+    public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public contenedorFilms: LoginProvider,
-    private _movieProvider: MovieProvider,
-    private _sanitizer: DomSanitizer,
-  
+    private _movieProvider: MovieProvider
   ) {
-    this.peli1 = "assets/imgs/peli1.jpg";
-    this.peli2 = "assets/imgs/peli2.jpg";
-    this.titulo1 = 'Deadpool';
-    this.titulo2 = 'Avengers 2';
     this.iconoIOS1 = 'ios-arrow-dropdown';
     this.iconoAndroid1 = 'md-arrow-dropdown';
     this.iconoIOS = 'ios-arrow-dropdown';
     this.iconoAndroid = 'md-arrow-dropdown';
     this.contenedor = navParams.data['data'];
-    //this.nombreUsuario = this.contenedor['nickname'];
     this.movie = new Movie(
       '',
       '',
@@ -70,25 +60,21 @@ export class PeliculasPage {
       '',
       '',
       ''
-  );
-  }
-
-  ionViewDidLoad() {
+    )
   }
 
   ngOnInit(): void {
-    this._movieProvider.getAllMovies(localStorage.getItem('token')).subscribe(response => {
-        this.listMovie = [];
-        response.message.forEach(eleMovie => {
-            this.movie = eleMovie;
-            this.listMovie.push(this.movie);
-        });
-        console.log(this.listMovie)
+    this._movieProvider.getAllMovies(localStorage.getItem('token'), this.page).subscribe(response => {
+      this.listMovie = [];
+      response.message.forEach(eleMovie => {
+        this.listMovie.push(eleMovie);
+      });
+      console.log(this.listMovie)
     },
-    error => {
+      error => {
         console.log(error);
-    });
-}
+      });
+  }
 
   goToPerfil() {
     this.navCtrl.push(PerfilPage, {
@@ -102,17 +88,11 @@ export class PeliculasPage {
     });
   }
 
-  goToInfo(fotoPeli, titulo) {
+  goToInfo(p: Array<any>) {
     this.navCtrl.push(InfoPage, {
-      foto: fotoPeli,
-      nombre: titulo,
+      contenido: p,
       data: this.contenedor
     });
-  }
-
-  goToPeli(movie: Movie){
-    this.navCtrl.push(InfoPage, {content: movie});
-    console.log(movie);
   }
 
   filterType() {
@@ -140,12 +120,13 @@ export class PeliculasPage {
   }
 
   doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
+    this._movieProvider.getAllMovies(localStorage.getItem('token'), this.page).subscribe(response => {
+      this.listMovie = [];
+      response.message.forEach(eleMovie => {
+        this.listMovie.push(eleMovie);
+      });
       refresher.complete();
-    }, 2000);
+    });
   }
 
   cambiarIconoSeen(fab) {
@@ -185,4 +166,24 @@ export class PeliculasPage {
     toast.present();
   }
 
+  moreFilms() {
+    this.contador = [];
+    this.page = this.page + 1;
+    this._movieProvider.getAllMovies(localStorage.getItem('token'), this.page).subscribe(response => {
+      response.message.forEach(eleMovie => {
+        this.listMovie.push(eleMovie);
+        this.contador.push(eleMovie);
+      });
+    });
+    console.log('Array de peliculas: ', this.listMovie.length);
+    console.log('Contenido que trae el server: ', this.contador.length);
+  }
+
+  alert() {
+    this.alertCtrl.create({
+      title: 'There was a problem!',
+      subTitle: 'There are not more films iin our Database',
+      buttons: ['OK']
+    }).present();
+  }
 }
