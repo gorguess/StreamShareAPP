@@ -1,0 +1,128 @@
+<page-header></page-header>
+<ion-content>
+  <ion-list *ngIf="isSearchbarOpened">
+    <button ion-item *ngFor="let item of items" (click)="showDetail(item)">
+      {{ item }}
+    </button>
+  </ion-list>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <h1 class="titulo">
+               Welcome, {{ identity.nickname }}!
+            </h1>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <h3 class="titulo">Movies seen:</h3>
+            <a *ngIf="seeAll" class="alinearDerecha" (click)="goToSeeAll('peliculaVista')">see all</a>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-4>
+                  <button (click)="goToInfo(peli1, titulo1)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="peli1">
+                    </ion-thumbnail>
+                  </button>
+                </ion-col>
+                <ion-col col-4>
+                  <button (click)="goToInfo(peli2, titulo2)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="peli2">
+                    </ion-thumbnail>
+                  </button>
+                </ion-col>
+                <ion-col col-4>
+                  <button (click)="goToInfo(peli3, titulo3)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="peli3">
+                    </ion-thumbnail>
+                  </button>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo1 }}</h2>
+                </ion-col>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo2 }}</h2>
+                </ion-col>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo3 }}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <h3 class="titulo2">Series seen:</h3>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-4>
+                  <button (click)="goToInfo(serie1, titulo4)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="serie1">
+                    </ion-thumbnail>
+                  </button>
+                </ion-col>
+                <ion-col col-4>
+                  <button (click)="goToInfo(serie2, titulo5)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="serie2">
+                    </ion-thumbnail>
+                  </button>
+                </ion-col>
+              </ion-row>
+            
+              <ion-row>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo4 }}</h2>
+                </ion-col>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo5 }}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <h3 class="titulo2">Favourites films and series:</h3>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-4>
+                  <button (click)="goToInfo(serie1, titulo4)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="serie1">
+                    </ion-thumbnail>
+                  </button>
+                </ion-col>
+                <ion-col col-4>
+                  <button (click)="goToInfo(serie2, titulo5)" class="fotoPelicula" no-padding>
+                    <ion-thumbnail item-start>
+                      <img [src]="serie2">
+                    </ion-thumbnail>
+                  </button>
+                </ion-col>
+              </ion-row>
+            
+              <ion-row>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo4 }}</h2>
+                </ion-col>
+                <ion-col col-4>
+                  <h2 class="center">{{ titulo5 }}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
