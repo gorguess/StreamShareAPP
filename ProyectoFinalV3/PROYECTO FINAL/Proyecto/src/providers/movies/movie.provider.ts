@@ -19,4 +19,10 @@ export class MovieProvider {
 
         return this._http.get(this.url + 'getallmovies',  {headers: headers});
     }
+
+    getAllView(token: any): Observable<any> {
+        let headers = new HttpHeaders().set('Content-type', 'application/json').set('Authorization', token);
+
+        return this._http.get(this.url + 'getviewing', { headers: headers });
+    }
 }

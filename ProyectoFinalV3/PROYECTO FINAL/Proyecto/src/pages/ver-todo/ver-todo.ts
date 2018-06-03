@@ -17,6 +17,7 @@ export class VerTodoPage {
   contenedor;
   movie: Movie;
   listMovie: Array<Movie>;
+  allViews: any;
   iconoIOS;
   iconoAndroid;
   constructor(
@@ -54,6 +55,12 @@ export class VerTodoPage {
       });
       this.iconoIOS ='ios-eye-off';
       this.iconoAndroid = 'md-eye-off';
+      // this._movieProvider.getAllView(localStorage.getItem('token')).subscribe(response => {
+      //   response.message.forEach(all => {
+      //     this.allViews.push(all);
+      //   });
+      // });
+      // console.log(this.allViews);
     } else if (this.tipoContenido === 'serieVista') {
       this.iconoIOS = 'ios-eye-off';
       this.iconoAndroid = 'md-eye-off';

@@ -28,6 +28,7 @@ import { ChatPage } from '../pages/chat/chat';
 import { AddEventPage } from '../pages/add-event/add-event';
 import { EditEventPage } from '../pages/edit-event/edit-event';
 import { InfoPage } from '../pages/info/info';
+import { SeriesPage } from '../pages/series/series';
 import { LoginProvider } from '../providers/login/login';
 import { HeaderPage } from '../pages/header/header';
 import { VideoplayerPage } from '../pages/videoplayer/videoplayer';
@@ -49,6 +50,7 @@ const firebaseAuth = {
     InicioPage,
     MenuPage,
     PeliculasPage,
+    SeriesPage,
     PerfilPage,
     ChatPage,
     AddEventPage,
@@ -77,6 +79,7 @@ const firebaseAuth = {
     InicioPage,
     MenuPage,
     PeliculasPage,
+    SeriesPage,
     PerfilPage,
     ChatPage,
     AddEventPage,

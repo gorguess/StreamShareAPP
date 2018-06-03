@@ -4,6 +4,7 @@ import { PerfilPage } from '../perfil/perfil';
 import { LoginProvider } from '../../providers/login/login';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PeliculasPage } from '../peliculas/peliculas';
+import { SeriesPage } from '../series/series';
 import { InicioPage } from '../inicio/inicio';
 
 @IonicPage()
@@ -109,6 +110,10 @@ export class HeaderPage implements OnInit, DoCheck{
 
   goToInicio() {
     this.navCtrl.push(InicioPage);
+  }
+
+  goToSeries() {
+    this.navCtrl.push(SeriesPage);
   }
 
 }
