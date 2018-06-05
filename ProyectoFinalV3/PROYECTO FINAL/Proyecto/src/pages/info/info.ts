@@ -8,6 +8,9 @@ import { PeliculasPage } from '../peliculas/peliculas';
 import { Movie } from '../../models/movie';
 import { VideoplayerPage } from '../videoplayer/videoplayer';
 import { LinkProvider } from '../../providers/links/link.provider'; 
+import{ MovieProvider } from '../../providers/movie/movie.provider';
+import{ SerieProvider } from '../../providers/serie/serie.provider';
+import { Serie } from '../../providers/serie/serie';
 
 
 const noop = () => {
@@ -34,17 +37,21 @@ export const RATING_CONTROL_VALUE_ACCESSOR: any = {
     }
   `],
   templateUrl: 'info.html',
-  providers: [RATING_CONTROL_VALUE_ACCESSOR, LinkProvider]
+  providers: [RATING_CONTROL_VALUE_ACCESSOR, LinkProvider, MovieProvider, SerieProvider]
 })
 export class InfoPage implements ControlValueAccessor, OnInit {
 
+  content: any;
   file: Blob;
   fileURL: string;
   movie: Movie;
+  serie: Serie;
   portada;
   titulo;
   nombreUsuario;
   token;
+  video;
+  type;
 
   _max: number = 10;
   _readOnly: boolean = false;
@@ -57,9 +64,19 @@ export class InfoPage implements ControlValueAccessor, OnInit {
     public navCtrl: NavController,
     public navParams: NavParams,
     private streamingMedia: StreamingMedia,
-    private _linkProvider: LinkProvider
+    private _linkProvider: LinkProvider,
+    private _movieProvider: MovieProvider,
+    private _serieProvider: SerieProvider
   ) {
     this.movie = navParams.data['contenido'];
+    this.type = navParams.data['tipo'];
+    if(this.type==='movie'){
+      this.movie = navParams.data['contenido'];
+      this.content = this.movie;
+    }else if(this.type==='serie'){
+      this.serie = navParams.data['contenido'];
+      this.content = this.serie;
+    }
     this.token = localStorage.getItem('token');
   }
 
@@ -125,14 +142,7 @@ export class InfoPage implements ControlValueAccessor, OnInit {
     this.createStarIndexes();
 
     this._linkProvider.getLinks(this.token, this.movie["_id"]).subscribe(response=>{
-      this._linkProvider.getContent(this.token, response.link[0].url).subscribe(res=>{
-        this.file = new Blob([res], {type: 'video/mp4'});
-        this.fileURL = URL.createObjectURL(this.file);
-        console.log(this.fileURL);
-      },
-      err=>{
-        console.log(err);
-      });
+      this.video = response.link[0].url;
     },
     err =>{
       console.log(err);
@@ -254,6 +264,21 @@ export class InfoPage implements ControlValueAccessor, OnInit {
   // }
   
   gotoreproductor(){
-    this.navCtrl.push(VideoplayerPage,{movie: this.movie, video: this.fileURL});
+   /*if(this.type==='movie'){
+      this._movieProvider.viewMovie(this.token, this.content["_id"]).subscribe(response=>{
+      console.log(response);
+      },
+      err => {
+        console.log(err);
+      });
+    }else if(this.type==='serie'){
+      this._serieProvider.viewSerie(this.token, this.content["_id"]).subscribe(response=>{
+        console.log(response);
+      },
+      err => {
+        console.log(err);
+      });
+    }*/
+    this.navCtrl.push(VideoplayerPage,{movie: this.content, video: this.video});
   }
 }

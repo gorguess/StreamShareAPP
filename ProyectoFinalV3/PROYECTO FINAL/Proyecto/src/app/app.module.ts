@@ -6,7 +6,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { StreamingMedia } from '@ionic-native/streaming-media';
+import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { HttpClientModule } from '@angular/common/http';
 import { MovieProvider } from '../providers/movie/movie.provider';

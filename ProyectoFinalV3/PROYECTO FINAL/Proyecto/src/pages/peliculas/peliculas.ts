@@ -96,7 +96,8 @@ export class PeliculasPage {
 
   goToInfo(p: Array<any>) {
     this.navCtrl.push(InfoPage, {
-      contenido: p
+      contenido: p,
+      tipo: 'movie'
     });
   }
 

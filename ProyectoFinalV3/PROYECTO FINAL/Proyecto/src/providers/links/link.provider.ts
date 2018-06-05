@@ -17,7 +17,7 @@ constructor(private http: HttpClient) {
 
     getContent(token, contentURI): Observable<Blob>{
         let headers = new HttpHeaders().set('Authorization', token).set('Content-type', 'application/json');
-
+        console.log(this.http.get(this.url + 'get-content/' + contentURI, {headers: headers, responseType: 'blob'}))
         return this.http.get(this.url + 'get-content/' + contentURI, {headers: headers, responseType: 'blob'});
     }
 }
