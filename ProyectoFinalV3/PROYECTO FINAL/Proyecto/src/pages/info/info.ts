@@ -68,11 +68,12 @@ export class InfoPage implements ControlValueAccessor, OnInit {
     private _movieProvider: MovieProvider,
     private _serieProvider: SerieProvider
   ) {
-    this.movie = navParams.data['contenido'];
+    //this.movie = navParams.data['contenido'];
     this.type = navParams.data['tipo'];
     if(this.type==='movie'){
       this.movie = navParams.data['contenido'];
       this.content = this.movie;
+      console.log('hola')
     }else if(this.type==='serie'){
       this.serie = navParams.data['contenido'];
       this.content = this.serie;
