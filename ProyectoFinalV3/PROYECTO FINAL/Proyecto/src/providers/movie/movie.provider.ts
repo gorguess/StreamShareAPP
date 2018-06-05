@@ -14,21 +14,26 @@ export class MovieProvider {
         this.url = GLOBAL.url;
     }
 
-    getAllMovies(token: any, page: any): Observable<any> {
+    getAllMovies(token: any, pagina = null): Observable<any> {
         let headers = new HttpHeaders().set('Content-type', 'application/json').set('Authorization', token);
 
-        return this._http.get(this.url + 'getallmovies/' + page,  {headers: headers});
+        return this._http.get(this.url + 'getallmovies/'+pagina,  {headers: headers});
+    }
+    viewMovie(token: any, movieId): Observable<any> {
+        console.log(token);
+        let headers = new HttpHeaders().set('Content-type', 'application/json').set('Authorization', token);
+
+        return this._http.post(this.url + 'viewing/movie/' + movieId, null, {headers: headers});
     }
 
-    // getAllView(token: any): Observable<any> {
-    //     let headers = new HttpHeaders().set('Content-type', 'application/json').set('Authorization', token);
-
-    //     return this._http.get(this.url + 'getallviewing/', { headers: headers });
-    // }
-
-    getAllSeries(token: any, page: any): Observable<any> {
+    getViewedMovie(token:any): Observable<any>{
         let headers = new HttpHeaders().set('Content-type', 'application/json').set('Authorization', token);
 
-        return this._http.get(this.url + 'getallseries/' + page, { headers: headers });
+        return this._http.get(this.url + 'getallviewing/movie',  {headers: headers});
+    }
+    getMovieViewing(token: any, movieId): Observable<any>{
+        let headers = new HttpHeaders().set('Content-type', 'application/json').set('Authorization', token);
+
+        return this._http.get(this.url + 'getallviewing/movie' + movieId,  {headers: headers});
     }
 }

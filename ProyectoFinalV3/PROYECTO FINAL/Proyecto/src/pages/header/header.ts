@@ -2,7 +2,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PerfilPage } from '../perfil/perfil';
 import { LoginProvider } from '../../providers/login/login';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { PeliculasPage } from '../peliculas/peliculas';
 import { SeriesPage } from '../series/series';
 import { InicioPage } from '../inicio/inicio';
@@ -38,7 +38,7 @@ export class HeaderPage implements OnInit, DoCheck{
     ngDoCheck(){
       this.identity = this.comprobarLogin.getIdentity();
       this.avatarUrl = this.comprobarLogin.getImageAvatar();
-      this.trustedUrl = this.sanitizer.bypassSecurityTrustUrl(this.avatarUrl)
+      this.trustedUrl = this.sanitizer.bypassSecurityTrustUrl(this.avatarUrl);
     }
 
     listado() {

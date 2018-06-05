@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -7,6 +7,7 @@ import { InicioPage } from '../inicio/inicio';
 import { PeliculasPage } from '../peliculas/peliculas';
 import { Movie } from '../../models/movie';
 import { VideoplayerPage } from '../videoplayer/videoplayer';
+import { LinkProvider } from '../../providers/links/link.provider'; 
 
 
 const noop = () => {
@@ -33,14 +34,17 @@ export const RATING_CONTROL_VALUE_ACCESSOR: any = {
     }
   `],
   templateUrl: 'info.html',
-  providers: [RATING_CONTROL_VALUE_ACCESSOR]
+  providers: [RATING_CONTROL_VALUE_ACCESSOR, LinkProvider]
 })
-export class InfoPage implements ControlValueAccessor {
+export class InfoPage implements ControlValueAccessor, OnInit {
 
+  file: Blob;
+  fileURL: string;
   movie: Movie;
   portada;
   titulo;
   nombreUsuario;
+  token;
 
   _max: number = 10;
   _readOnly: boolean = false;
@@ -52,9 +56,11 @@ export class InfoPage implements ControlValueAccessor {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private streamingMedia: StreamingMedia
+    private streamingMedia: StreamingMedia,
+    private _linkProvider: LinkProvider
   ) {
     this.movie = navParams.data['contenido'];
+    this.token = localStorage.getItem('token');
   }
 
   @Input()
@@ -117,6 +123,20 @@ export class InfoPage implements ControlValueAccessor {
   ngOnInit() {
     // ngFor needs an array
     this.createStarIndexes();
+
+    this._linkProvider.getLinks(this.token, this.movie["_id"]).subscribe(response=>{
+      this._linkProvider.getContent(this.token, response.link[0].url).subscribe(res=>{
+        this.file = new Blob([res], {type: 'video/mp4'});
+        this.fileURL = URL.createObjectURL(this.file);
+        console.log(this.fileURL);
+      },
+      err=>{
+        console.log(err);
+      });
+    },
+    err =>{
+      console.log(err);
+    });
   }
 
   createStarIndexes() {
@@ -234,6 +254,6 @@ export class InfoPage implements ControlValueAccessor {
   // }
   
   gotoreproductor(){
-    this.navCtrl.push(VideoplayerPage);
+    this.navCtrl.push(VideoplayerPage,{movie: this.movie, video: this.fileURL});
   }
 }

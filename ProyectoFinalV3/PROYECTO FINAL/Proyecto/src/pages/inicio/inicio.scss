@@ -3,7 +3,7 @@ page-inicio {
 		background: url("../assets/imgs/fondo.jpg");
 		background-attachment: fixed;
 		background-repeat: no-repeat;
-		background-size: cover;
+        background-size: cover;
 	}
     ion-card-header {
         margin-left: 0px;
@@ -29,5 +29,9 @@ page-inicio {
     }
     .usuarioIcono{
         color: white;
+    }
+    ion-card {
+        height: 100% !important;
+        margin-bottom: 15% !important;
     }
 }

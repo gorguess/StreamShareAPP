@@ -5,16 +5,17 @@ import {
 } from 'ionic-angular';
 import { Subject } from 'rxjs';
 import { LoginProvider } from '../../providers/login/login';
-import { PerfilPage } from '../perfil/perfil';
-import { InicioPage } from '../inicio/inicio';
+//import { PerfilPage } from '../perfil/perfil';
+//import { InicioPage } from '../inicio/inicio';
 import { InfoPage } from '../info/info';
-import { MovieProvider } from '../../providers/movie/movie.provider';
-import { Movie } from '../../providers/movie/movie';
+import { SerieProvider } from '../../providers/serie/serie.provider';
+import { Serie } from '../../providers/serie/serie';
 
 @IonicPage()
 @Component({
   selector: 'page-peliculas',
   templateUrl: 'series.html',
+  providers: [SerieProvider]
 })
 export class SeriesPage {
 
@@ -28,10 +29,12 @@ export class SeriesPage {
   iconoIOS;
   iconoAndroid;
   mensaje;
-  movie: Movie;
-  listSerie: Array<Movie>;
+  serie: Serie;
+  listSerie: Array<Serie>;
   page = 1;
   contador: any;
+  mensajeVacio: any;
+  token;
 
   public isSearchbarOpened = false;
   constructor(
@@ -41,13 +44,13 @@ export class SeriesPage {
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public contenedorFilms: LoginProvider,
-    private _movieProvider: MovieProvider
+    private _serieProvider: SerieProvider
   ) {
     this.iconoIOS1 = 'ios-arrow-dropdown';
     this.iconoAndroid1 = 'md-arrow-dropdown';
     this.iconoIOS = 'ios-arrow-dropdown';
     this.iconoAndroid = 'md-arrow-dropdown';
-    this.movie = new Movie(
+    this.serie = new Serie(
       '',
       '',
       '',
@@ -59,16 +62,21 @@ export class SeriesPage {
       '',
       '',
       ''
-    )
+    );
+    this.token=localStorage.getItem('token');
   }
 
   ngOnInit(): void {
-    this._movieProvider.getAllSeries(localStorage.getItem('token'), this.page).subscribe(response => {
+    this._serieProvider.getAllSeries(localStorage.getItem('token'), this.page).subscribe(response => {
       this.listSerie = [];
-      response.message.forEach(eleMovie => {
-        this.listSerie.push(eleMovie);
+      if(this.page===1 && response.message.length===0){
+        this.mensajeVacio = 'Aún no hay series';
+      }else{
+        response.message.forEach(eleSerie => {
+        this.listSerie.push(eleSerie);
       });
       console.log(this.listSerie)
+      }
     },
       error => {
         console.log(error);
@@ -118,21 +126,26 @@ export class SeriesPage {
   }
 
   doRefresh(refresher) {
-    this._movieProvider.getAllMovies(localStorage.getItem('token'), this.page).subscribe(response => {
+    this._serieProvider.getAllSeries(localStorage.getItem('token'), this.page).subscribe(response => {
       this.listSerie = [];
-      response.message.forEach(eleMovie => {
-        this.listSerie.push(eleMovie);
+      response.message.forEach(eleSerie => {
+        this.listSerie.push(eleSerie);
       });
       refresher.complete();
     });
   }
 
-  cambiarIconoSeen(fab) {
-    this.iconoIOS = 'ios-eye-off';
-    this.iconoAndroid = 'md-eye-off';
-    fab.close();
-    this.mensaje = 'This film has been added to "Seen Group"';
-    this.presentToast(this.mensaje);
+  cambiarIconoSeen(fab, serieId) {
+    this._serieProvider.viewSerie(this.token, serieId).subscribe(response=>{
+      this.iconoIOS = 'ios-eye-off';
+      this.iconoAndroid = 'md-eye-off';
+      fab.close();
+      this.mensaje = 'This film has been added to "Seen Group"';
+      this.presentToast(this.mensaje);
+    },
+    err => {
+      console.log(err);
+    });
   }
 
   cambiarIconoLike(fab: FabContainer) {
@@ -164,26 +177,31 @@ export class SeriesPage {
     toast.present();
   }
 
-  moreFilms() {
+  moreSeries() {
     console.log('Array de peliculas1: ', this.listSerie.length);
     this.contador = this.listSerie.length;
     this.page = this.page + 1;
-    this._movieProvider.getAllMovies(localStorage.getItem('token'), this.page).subscribe(response => {
-      response.message.forEach(eleMovie => {
-        this.listSerie.push(eleMovie);
-      });
+    this._serieProvider.getAllSeries(localStorage.getItem('token'), this.page).subscribe(response => {
+      
+        response.message.forEach(eleMovie => {
+          this.listSerie.push(eleMovie);
+        });
+        if(response.message.length===0){
+          this.alert();
+        }
+      
     });
     console.log('Array de peliculas2: ', this.listSerie.length);
     console.log('Contenido que trae el server: ', this.contador);
-    if (this.listSerie.length == this.contador) {
+    /*if (this.listSerie.length == this.contador) {
       this.alert();
-    }
+    }*/
   }
 
   alert() {
     this.alertCtrl.create({
       title: 'There was a problem!',
-      subTitle: 'There are not more films in our Database',
+      subTitle: 'There are not more series in our Database',
       buttons: ['OK']
     }).present();
   }

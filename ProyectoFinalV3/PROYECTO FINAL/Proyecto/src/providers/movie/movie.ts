@@ -1,5 +1,6 @@
 export class Movie {
     constructor (
+        _id: String,
         title: String,
         description: String,
         genre: String,

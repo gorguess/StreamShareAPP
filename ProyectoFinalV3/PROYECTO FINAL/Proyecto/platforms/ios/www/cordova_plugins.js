@@ -1,6 +1,62 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
   {
+    "id": "com.hutchind.cordova.plugins.streamingmedia.StreamingMedia",
+    "file": "plugins/com.hutchind.cordova.plugins.streamingmedia/www/StreamingMedia.js",
+    "pluginId": "com.hutchind.cordova.plugins.streamingmedia",
+    "clobbers": [
+      "streamingMedia"
+    ]
+  },
+  {
+    "id": "com.moust.cordova.videoplayer.VideoPlayer",
+    "file": "plugins/com.moust.cordova.videoplayer/www/videoplayer.js",
+    "pluginId": "com.moust.cordova.videoplayer",
+    "clobbers": [
+      "VideoPlayer"
+    ]
+  },
+  {
+    "id": "cordova-plugin-camera.Camera",
+    "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+    "pluginId": "cordova-plugin-camera",
+    "clobbers": [
+      "Camera"
+    ]
+  },
+  {
+    "id": "cordova-plugin-camera.CameraPopoverOptions",
+    "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+    "pluginId": "cordova-plugin-camera",
+    "clobbers": [
+      "CameraPopoverOptions"
+    ]
+  },
+  {
+    "id": "cordova-plugin-camera.camera",
+    "file": "plugins/cordova-plugin-camera/www/Camera.js",
+    "pluginId": "cordova-plugin-camera",
+    "clobbers": [
+      "navigator.camera"
+    ]
+  },
+  {
+    "id": "cordova-plugin-camera.CameraPopoverHandle",
+    "file": "plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js",
+    "pluginId": "cordova-plugin-camera",
+    "clobbers": [
+      "CameraPopoverHandle"
+    ]
+  },
+  {
+    "id": "cordova-plugin-device.device",
+    "file": "plugins/cordova-plugin-device/www/device.js",
+    "pluginId": "cordova-plugin-device",
+    "clobbers": [
+      "device"
+    ]
+  },
+  {
     "id": "cordova-plugin-googlemaps.BaseClass",
     "file": "plugins/cordova-plugin-googlemaps/www/BaseClass.js",
     "pluginId": "cordova-plugin-googlemaps",
@@ -183,19 +239,11 @@ module.exports = [
     ]
   },
   {
-    "id": "cordova-plugin-device.device",
-    "file": "plugins/cordova-plugin-device/www/device.js",
-    "pluginId": "cordova-plugin-device",
+    "id": "cordova-plugin-ionic-keyboard.keyboard",
+    "file": "plugins/cordova-plugin-ionic-keyboard/www/ios/keyboard.js",
+    "pluginId": "cordova-plugin-ionic-keyboard",
     "clobbers": [
-      "device"
-    ]
-  },
-  {
-    "id": "cordova-plugin-splashscreen.SplashScreen",
-    "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-    "pluginId": "cordova-plugin-splashscreen",
-    "clobbers": [
-      "navigator.splashscreen"
+      "window.Keyboard"
     ]
   },
   {
@@ -207,42 +255,43 @@ module.exports = [
     ]
   },
   {
-    "id": "cordova-plugin-ionic-keyboard.keyboard",
-    "file": "plugins/cordova-plugin-ionic-keyboard/www/ios/keyboard.js",
-    "pluginId": "cordova-plugin-ionic-keyboard",
+    "id": "cordova-plugin-screen-orientation.screenorientation",
+    "file": "plugins/cordova-plugin-screen-orientation/www/screenorientation.js",
+    "pluginId": "cordova-plugin-screen-orientation",
     "clobbers": [
-      "window.Keyboard"
+      "cordova.plugins.screenorientation"
     ]
   },
   {
-    "id": "com.moust.cordova.videoplayer.VideoPlayer",
-    "file": "plugins/com.moust.cordova.videoplayer/www/videoplayer.js",
-    "pluginId": "com.moust.cordova.videoplayer",
+    "id": "cordova-plugin-splashscreen.SplashScreen",
+    "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+    "pluginId": "cordova-plugin-splashscreen",
     "clobbers": [
-      "VideoPlayer"
+      "navigator.splashscreen"
     ]
   },
   {
-    "id": "com.hutchind.cordova.plugins.streamingmedia.StreamingMedia",
-    "file": "plugins/com.hutchind.cordova.plugins.streamingmedia/www/StreamingMedia.js",
-    "pluginId": "com.hutchind.cordova.plugins.streamingmedia",
-    "clobbers": [
-      "streamingMedia"
-    ]
+    "id": "es6-promise-plugin.Promise",
+    "file": "plugins/es6-promise-plugin/www/promise.js",
+    "pluginId": "es6-promise-plugin",
+    "runs": true
   }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
   "com.googlemaps.ios": "2.6.0",
-  "cordova-plugin-googlemaps": "2.2.5",
-  "cordova-plugin-whitelist": "1.3.3",
-  "cordova-plugin-device": "2.0.1",
-  "cordova-plugin-splashscreen": "5.0.2",
-  "cordova-plugin-ionic-webview": "1.1.16",
-  "cordova-plugin-ionic-keyboard": "2.0.5",
+  "com.hutchind.cordova.plugins.streamingmedia": "0.1.4",
   "com.moust.cordova.videoplayer": "1.0.1",
-  "com.hutchind.cordova.plugins.streamingmedia": "0.1.4"
+  "cordova-plugin-camera": "4.0.2",
+  "cordova-plugin-device": "2.0.1",
+  "cordova-plugin-googlemaps": "2.2.5",
+  "cordova-plugin-ionic-keyboard": "2.0.5",
+  "cordova-plugin-ionic-webview": "1.1.16",
+  "cordova-plugin-screen-orientation": "3.0.1",
+  "cordova-plugin-splashscreen": "5.0.2",
+  "cordova-plugin-whitelist": "1.3.3",
+  "es6-promise-plugin": "4.2.2"
 };
 // BOTTOM OF METADATA
 });

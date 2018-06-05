@@ -12,7 +12,6 @@ export class LoginProvider {
     stats: any;
     url: any;
 constructor(private http: HttpClient) {
-    console.log('Hello LoginProvider Provider');
     this.url = GLOBAL.url;
 }
 

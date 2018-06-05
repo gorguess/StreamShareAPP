@@ -30,6 +30,8 @@ export class PeliculasPage {
   listMovie: Array<Movie>;
   page = 1;
   contador: any;
+  mensajeVacio: any;
+  token;
 
   public isSearchbarOpened = false;
   constructor(
@@ -56,17 +58,24 @@ export class PeliculasPage {
       '',
       '',
       '',
+      '',
       ''
-    )
+    );
+    this.token=localStorage.getItem('token');
   }
 
   ngOnInit(): void {
     this._movieProvider.getAllMovies(localStorage.getItem('token'), this.page).subscribe(response => {
       this.listMovie = [];
-      response.message.forEach(eleMovie => {
+      if(response.message.length===0){
+        this.mensajeVacio = 'No hay peliculas aún';
+      }else{
+        response.message.forEach(eleMovie => {
         this.listMovie.push(eleMovie);
-      });
-      console.log(this.listMovie)
+        });
+        console.log(this.listMovie);
+      }
+      
     },
       error => {
         console.log(error);
@@ -125,12 +134,18 @@ export class PeliculasPage {
     });
   }
 
-  cambiarIconoSeen(fab) {
-    this.iconoIOS = 'ios-eye-off';
-    this.iconoAndroid = 'md-eye-off';
-    fab.close();
-    this.mensaje = 'This film has been added to "Seen Group"';
-    this.presentToast(this.mensaje);
+  cambiarIconoSeen(fab, movieId) {
+    this._movieProvider.viewMovie(this.token, movieId).subscribe(response=>{
+      console.log(response);
+      this.iconoIOS = 'ios-eye-off';
+      this.iconoAndroid = 'md-eye-off';
+      fab.close();
+      this.mensaje = 'This film has been added to "Seen Group"';
+      this.presentToast(this.mensaje);
+    },
+    err => {
+      console.log(err);
+    });
   }
 
   cambiarIconoLike(fab: FabContainer) {
@@ -164,18 +179,21 @@ export class PeliculasPage {
 
   moreFilms() {
     console.log('Array de peliculas1: ', this.listMovie.length);
-    this.contador = this.listMovie.length;
     this.page = this.page + 1;
     this._movieProvider.getAllMovies(localStorage.getItem('token'), this.page).subscribe(response => {
       response.message.forEach(eleMovie => {
         this.listMovie.push(eleMovie);
       });
+      
+      if(response.message.length===0){
+        this.alert();
+      }
     });
     console.log('Array de peliculas2: ', this.listMovie.length);
     console.log('Contenido que trae el server: ', this.contador);
-    if(this.listMovie.length == this.contador){
+    /*if(this.listMovie.length == this.contador){
       this.alert();
-    }
+    }*/
   }
 
   alert() {

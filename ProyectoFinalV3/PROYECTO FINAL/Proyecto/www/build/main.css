@@ -33480,6 +33480,11 @@ page-inicio .usuarioIcono {
   color: white;
 }
 
+page-inicio ion-card {
+  height: 100% !important;
+  margin-bottom: 15% !important;
+}
+
 page-peliculas ion-content {
   background: url("../assets/imgs/fondo.jpg");
   background-attachment: fixed;
@@ -33537,11 +33542,16 @@ page-peliculas .has-refresher > .scroll-content {
   border-top: 0px !important;
 }
 
+page-peliculas #moreButton {
+  padding-bottom: 19% !important;
+}
+
 page-perfil ion-content {
   background: url("../assets/imgs/fondo.jpg");
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  margin-bottom: 20% !important;
 }
 
 page-perfil .center {
@@ -33613,6 +33623,10 @@ page-registro .vertical-align-content > * {
   -webkit-align-items: center !important;
   -ms-flex-align: center !important;
   align-items: center !important;
+}
+
+page-series #moreButton {
+  padding-bottom: 19% !important;
 }
 
 page-ver-todo ion-content {
@@ -33714,18 +33728,58 @@ page-videoplayer #videoplayer {
 
 page-videoplayer #myBtn {
   position: absolute;
-  bottom: 5%;
-  left: 45%;
+  top: 50%;
   z-index: 10000;
-  padding: 1.35% 2.95% 1.35% 4.45%;
-  border-radius: 44.5%;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  font-weight: 500;
+  left: 37.5%;
   text-align: center;
+  background: transparent;
+  width: 25%;
 }
 
-page-videoplayer #myBtn ion-icon {
-  color: #ff9c08;
-  font-size: 5rem;
+page-videoplayer #backPoster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: calc(100vh);
+  width: 100%;
+  z-index: -1;
+}
+
+page-videoplayer #coverPoster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: calc(100vh);
+  width: 100%;
+  z-index: 1;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,1+60 */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(55%, rgba(0, 0, 0, 0.8)), to(black));
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 55%, black 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 );
+  /* IE6-9 */
+}
+
+page-videoplayer #infoPelicula {
+  z-index: 2;
+}
+
+page-videoplayer h2 {
+  color: #2eff98;
+}
+
+page-videoplayer hr {
+  background-color: #2eff98 !important;
+  width: 85% !important;
+  float: left;
+}
+
+page-videoplayer p {
+  color: white;
 }
